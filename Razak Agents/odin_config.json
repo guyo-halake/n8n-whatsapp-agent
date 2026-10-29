@@ -1,0 +1,122 @@
+{
+  "business_profile": {
+    "business_name": "P3l Developers",
+    "company_tagline": "Code with P3l",
+    "industry": "AI Automations & Software Development Startup",
+    "agent_name": "Odin",
+    "persona": "Sharp, technically astute, highly practical software & AI automation consultant from P3l Developers. Direct, helpful, speaks naturally like a senior engineer/founder, no cheesy corporate buzzwords. Fast, clear, and focused on building real solutions that solve customer problems.",
+    "waha_endpoint": "https://september-newspaper-default-alabama.trycloudflare.com",
+    "welcome_intros": {
+      "tiktok": "Hey! Welcome to P3l Developers. Saw our builds on TikTok? What project, bot, or workflow are you looking to build?",
+      "instagram": "Hey there! Thanks for reaching out to P3l Developers. Are you looking to build an AI agent, automate business operations, or develop custom software?",
+      "website": "Hey, welcome to P3l Developers! What software or automation challenge can we help you solve today?",
+      "direct": "Hello! I am Odin from P3l Developers (Code with P3l). How can we help automate or build your software systems today?"
+    },
+    "knowledge_base": {
+      "website": "https://p3ldevelopers.com",
+      "hours": "Monday - Saturday: 8:00 AM - 8:00 PM (EAT / UTC+3). Emergency support available 24/7.",
+      "location": "Nairobi, Kenya & Remote Global Engineering.",
+      "policies": "All custom software and AI bots include a 30-day post-launch warranty, full source code ownership, and video walkthrough documentation.",
+      "faqs": [
+        {
+          "question": "How long does it take to build an AI bot?",
+          "answer": "A standard WhatsApp or Web AI agent takes 3 to 7 business days from scoping to live deployment."
+        },
+        {
+          "question": "Can the bot connect to our existing Google Sheets, CRM, or database?",
+          "answer": "Yes! We integrate with Google Sheets, Airtable, HubSpot, Salesforce, Supabase, PostgreSQL, Shopify, and custom REST APIs."
+        },
+        {
+          "question": "What happens if a customer asks something the AI doesn't know?",
+          "answer": "Odin never invents facts. He gracefully informs the client, tags the question, and can immediately notify a human team member via email/WhatsApp."
+        },
+        {
+          "question": "Can Odin work for other industries like salons, clinics, or real estate?",
+          "answer": "Absolutely! The entire brain is white-labeled. We configure it with your specific services, appointment slots, photo portfolio, and qualification rules in under 48 hours."
+        }
+      ]
+    },
+    "media_gallery": [
+      {
+        "id": "media_01",
+        "title": "AI Agent Dashboard Preview",
+        "category": "ai_agent",
+        "type": "image",
+        "url": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=80",
+        "caption": "Here is a preview of our autonomous AI Agent analytics & live chat dashboard! 🚀"
+      },
+      {
+        "id": "media_02",
+        "title": "Custom Workflow Architecture Diagram",
+        "category": "workflow",
+        "type": "image",
+        "url": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1000&q=80",
+        "caption": "Here is an example architecture showing how we connect CRMs, WhatsApp, and automated payments into an autonomous engine. ⚙️"
+      },
+      {
+        "id": "media_03",
+        "title": "Company Capabilities Deck",
+        "category": "brochure",
+        "type": "document",
+        "url": "https://p3ldevelopers.com/docs/p3l_capabilities_deck.pdf",
+        "caption": "Here is our official P3l Developers capabilities overview and package breakdown. 📄"
+      }
+    ],
+    "products_services": [
+      {
+        "id": "prod_01",
+        "name": "Autonomous WhatsApp & AI Chatbots",
+        "base_price": "$500 - $1,500 setup (or monthly tier)",
+        "deliverables": "24/7 custom AI agent connected to WhatsApp or Web, customer qualification, FAQ answering, Calendly booking, CRM sync, 30 days support.",
+        "description": "Full autonomous conversational agents tailored to your business, answering leads in seconds and booking meetings automatically.",
+        "link": "https://p3ldevelopers.com/ai-agents"
+      },
+      {
+        "id": "prod_02",
+        "name": "End-to-End Business Automation (n8n & APIs)",
+        "base_price": "$800 - $2,500 one-time",
+        "deliverables": "Custom n8n workflows connecting Stripe/M-Pesa, CRM, Google Sheets, email alerts, customer onboarding, and invoicing into an automated engine.",
+        "description": "Eliminate manual data entry and repetitive operations by connecting your existing tools into one autonomous pipeline.",
+        "link": "https://p3ldevelopers.com/automations"
+      },
+      {
+        "id": "prod_03",
+        "name": "Custom Full-Stack Web & Software Development",
+        "base_price": "$1,500 - $5,000",
+        "deliverables": "Modern responsive web applications, client portals, SaaS MVPs, and dashboards built with React, Node/FastAPI, and cloud databases.",
+        "description": "Production-ready software applications engineered for speed, clean UX, and high scalability.",
+        "link": "https://p3ldevelopers.com/software"
+      },
+      {
+        "id": "prod_04",
+        "name": "1-on-1 Architecture & Automation Consultation",
+        "base_price": "$100",
+        "deliverables": "60-minute technical roadmap call with lead developer, system architecture diagram, exact tool stack recommendation, and ROI estimate.",
+        "description": "A deep dive consultation to plan your automations, select the right tech stack, and map your build steps before investing.",
+        "link": "https://p3ldevelopers.com/consultation"
+      }
+    ],
+    "qualification_rules": {
+      "ideal_customer": "Founders, business owners, and growing teams looking to automate repetitive operations, scale customer conversions, or build custom software.",
+      "budget_range": "Starting at $100 for strategy sessions, $500+ for AI bots, $800+ for enterprise workflows.",
+      "timeline": "Ready to build immediately or within 1-3 weeks."
+    },
+    "booking_link": "https://calendly.com/p3ldevelopers/consultation",
+    "payment_info": {
+      "payment_link": "https://buy.stripe.com/p3l_developers_checkout",
+      "mpesa_till": "P3l Developers Till #884920",
+      "bank_transfer": "P3l Developers Ltd, Account #1092837465"
+    },
+    "sales_rep_alert": {
+      "notification_email": "devs@p3ldevelopers.com",
+      "notification_phone": "+254141888585",
+      "escalation_reasons": [
+        "explicit human request",
+        "budget > $3,000",
+        "frustrated customer",
+        "custom complex software contract",
+        "request for code audit or legacy system overhaul"
+      ]
+    }
+  }
+}

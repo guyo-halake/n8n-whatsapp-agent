@@ -1,0 +1,476 @@
+{
+  "id": "Fi2WdhIJRIynNHN7",
+  "name": "Odin - All-in-One WhatsApp Sales & Care Agent",
+  "active": true,
+  "isArchived": false,
+  "versionId": "3ede826a-f874-44d9-ada1-d05309a9c730",
+  "activeVersionId": "3ede826a-f874-44d9-ada1-d05309a9c730",
+  "triggerCount": 1,
+  "nodeCount": 16,
+  "createdAt": "2026-10-29T08:15:04.285Z",
+  "updatedAt": "2026-10-29T11:29:17.155Z",
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true,
+    "saveExecutionProgress": true,
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "all"
+  },
+  "tags": [],
+  "parentFolderId": "beibx8enmyvvnhDa",
+  "description": "Odin All-in-One WhatsApp Sales & Customer Care Agent powered by Gemini 1.5 with BANT qualification, dynamic catalog search, calendar booking, payment prompts, and human escalation.",
+  "scopes": [
+    "execution:delete",
+    "execution:list",
+    "execution:read",
+    "execution:reveal",
+    "workflow:create",
+    "workflow:delete",
+    "workflow:disableRedaction",
+    "workflow:enableRedaction",
+    "workflow:execute",
+    "workflow:execute-chat",
+    "workflow:export",
+    "workflow:import",
+    "workflow:list",
+    "workflow:move",
+    "workflow:publish",
+    "workflow:read",
+    "workflow:share",
+    "workflow:unpublish",
+    "workflow:unshare",
+    "workflow:update"
+  ],
+  "canExecute": true,
+  "connections": {
+    "WhatsApp Inbound Webhook": {
+      "main": [
+        [
+          {
+            "node": "Universal WhatsApp Normalizer & Guard",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Universal WhatsApp Normalizer & Guard": {
+      "main": [
+        [
+          {
+            "node": "Load White-Label Business DNA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Load White-Label Business DNA": {
+      "main": [
+        [
+          {
+            "node": "Odin All-in-One Sales & Care Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Odin All-in-One Sales & Care Agent": {
+      "main": [
+        [
+          {
+            "node": "Format Outbound Dispatch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini 1.5 Flash Brain": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Odin All-in-One Sales & Care Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Odin WhatsApp Session Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Odin All-in-One Sales & Care Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "search_catalog": {
+      "ai_tool": [
+        [
+          {
+            "node": "Odin All-in-One Sales & Care Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "record_lead_bant": {
+      "ai_tool": [
+        [
+          {
+            "node": "Odin All-in-One Sales & Care Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "generate_payment_link": {
+      "ai_tool": [
+        [
+          {
+            "node": "Odin All-in-One Sales & Care Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "book_discovery_meeting": {
+      "ai_tool": [
+        [
+          {
+            "node": "Odin All-in-One Sales & Care Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "escalate_to_human": {
+      "ai_tool": [
+        [
+          {
+            "node": "Odin All-in-One Sales & Care Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Outbound Dispatch": {
+      "main": [
+        [
+          {
+            "node": "WAHA Send WhatsApp Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "query_knowledge_base": {
+      "ai_tool": [
+        [
+          {
+            "node": "Odin All-in-One Sales & Care Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "send_media_showcase": {
+      "ai_tool": [
+        [
+          {
+            "node": "Odin All-in-One Sales & Care Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "send_email_notification": {
+      "ai_tool": [
+        [
+          {
+            "node": "Odin All-in-One Sales & Care Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "nodes": [
+    {
+      "id": "930094b5-8ddb-45cb-aa5e-bcc35fc44c33",
+      "name": "WhatsApp Inbound Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        112
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "whatsapp-odin-inbound",
+        "options": {}
+      },
+      "webhookId": "9652ba47-a05c-4386-95e4-d6c5f2b4a77d"
+    },
+    {
+      "id": "984ca56e-76a8-4640-9ad9-ab972fd40c39",
+      "name": "Universal WhatsApp Normalizer & Guard",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        112
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "\nconst inputItem = $input.first().json;\nconst body = inputItem.body || inputItem;\n\nlet senderPhone = '';\nlet senderName = 'Valued Customer';\nlet messageText = '';\nlet messageId = 'msg_' + Date.now();\nlet referralSource = 'direct';\n\nif (body.entry && body.entry[0]?.changes && body.entry[0].changes[0]?.value) {\n  const val = body.entry[0].changes[0].value;\n  if (val.statuses) {\n    return [];\n  }\n  if (val.contacts && val.contacts[0]) {\n    senderName = val.contacts[0].profile?.name || senderName;\n    senderPhone = val.contacts[0].wa_id || '';\n  }\n  if (val.messages && val.messages[0]) {\n    const msg = val.messages[0];\n    messageId = msg.id || messageId;\n    senderPhone = senderPhone || msg.from || '';\n    if (msg.type === 'text') {\n      messageText = msg.text?.body || '';\n    } else if (msg.type === 'button') {\n      messageText = msg.button?.text || '';\n    } else if (msg.type === 'interactive') {\n      messageText = msg.interactive?.button_reply?.title || msg.interactive?.list_reply?.title || '';\n    }\n    if (msg.referral) {\n      referralSource = msg.referral.source_type || msg.referral.headline || 'ad_campaign';\n    }\n  }\n} else if (body.payload && body.event === 'message') {\n  senderPhone = (body.payload.from || '').replace('@c.us', '').replace('+', '');\n  senderName = body.payload._data?.notifyName || body.payload.notifyName || senderName;\n  messageText = body.payload.body || '';\n  messageId = body.payload.id || messageId;\n} else {\n  senderPhone = String(body.phone || body.from || body.sender || '254700000000').replace(/[^0-9]/g, '');\n  senderName = body.name || body.customer_name || senderName;\n  messageText = body.message || body.text || body.query || 'Hello';\n  referralSource = body.source || body.referral || 'direct';\n}\n\nif (!messageText || !senderPhone) {\n  return [];\n}\n\nreturn [{\n  json: {\n    sender_phone: senderPhone,\n    sender_name: senderName,\n    message_text: messageText,\n    message_id: messageId,\n    referral_source: referralSource,\n    timestamp: new Date().toISOString()\n  }\n}];\n"
+      }
+    },
+    {
+      "id": "1179e85a-e63d-44ac-97e2-37bef335241f",
+      "name": "Load White-Label Business DNA",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        112
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const normalized = $input.first().json;\n\nconst businessProfile = {\n  \"business_name\": \"P3l Developers\",\n  \"company_tagline\": \"Code with P3l\",\n  \"industry\": \"AI Automations & Software Development Startup\",\n  \"agent_name\": \"Odin\",\n  \"persona\": \"Sharp, technically astute, highly practical software & AI automation consultant from P3l Developers. Direct, helpful, speaks naturally like a senior engineer/founder, no cheesy corporate buzzwords. Fast, clear, and focused on building real solutions that solve customer problems.\",\n  \"waha_endpoint\": \"https://september-newspaper-default-alabama.trycloudflare.com\",\n  \"welcome_intros\": {\n    \"tiktok\": \"Hey! Welcome to P3l Developers. Saw our builds on TikTok? What project, bot, or workflow are you looking to build?\",\n    \"instagram\": \"Hey there! Thanks for reaching out to P3l Developers. Are you looking to build an AI agent, automate business operations, or develop custom software?\",\n    \"website\": \"Hey, welcome to P3l Developers! What software or automation challenge can we help you solve today?\",\n    \"direct\": \"Hello! I am Odin from P3l Developers (Code with P3l). How can we help automate or build your software systems today?\"\n  },\n  \"knowledge_base\": {\n    \"website\": \"https://p3ldevelopers.com\",\n    \"hours\": \"Monday - Saturday: 8:00 AM - 8:00 PM (EAT / UTC+3). Emergency support available 24/7.\",\n    \"location\": \"Nairobi, Kenya & Remote Global Engineering.\",\n    \"policies\": \"All custom software and AI bots include a 30-day post-launch warranty, full source code ownership, and video walkthrough documentation.\",\n    \"faqs\": [\n      {\n        \"question\": \"How long does it take to build an AI bot?\",\n        \"answer\": \"A standard WhatsApp or Web AI agent takes 3 to 7 business days from scoping to live deployment.\"\n      },\n      {\n        \"question\": \"Can the bot connect to our existing Google Sheets, CRM, or database?\",\n        \"answer\": \"Yes! We integrate with Google Sheets, Airtable, HubSpot, Salesforce, Supabase, PostgreSQL, Shopify, and custom REST APIs.\"\n      },\n      {\n        \"question\": \"What happens if a customer asks something the AI doesn't know?\",\n        \"answer\": \"Odin never invents facts. He gracefully informs the client, tags the question, and can immediately notify a human team member via email/WhatsApp.\"\n      },\n      {\n        \"question\": \"Can Odin work for other industries like salons, clinics, or real estate?\",\n        \"answer\": \"Absolutely! The entire brain is white-labeled. We configure it with your specific services, appointment slots, photo portfolio, and qualification rules in under 48 hours.\"\n      }\n    ]\n  },\n  \"media_gallery\": [\n    {\n      \"id\": \"media_01\",\n      \"title\": \"AI Agent Dashboard Preview\",\n      \"category\": \"ai_agent\",\n      \"type\": \"image\",\n      \"url\": \"https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=80\",\n      \"caption\": \"Here is a preview of our autonomous AI Agent analytics & live chat dashboard! \ud83d\ude80\"\n    },\n    {\n      \"id\": \"media_02\",\n      \"title\": \"Custom Workflow Architecture Diagram\",\n      \"category\": \"workflow\",\n      \"type\": \"image\",\n      \"url\": \"https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1000&q=80\",\n      \"caption\": \"Here is an example architecture showing how we connect CRMs, WhatsApp, and automated payments into an autonomous engine. \u2699\ufe0f\"\n    },\n    {\n      \"id\": \"media_03\",\n      \"title\": \"Company Capabilities Deck\",\n      \"category\": \"brochure\",\n      \"type\": \"document\",\n      \"url\": \"https://p3ldevelopers.com/docs/p3l_capabilities_deck.pdf\",\n      \"caption\": \"Here is our official P3l Developers capabilities overview and package breakdown. \ud83d\udcc4\"\n    }\n  ],\n  \"products_services\": [\n    {\n      \"id\": \"prod_01\",\n      \"name\": \"Autonomous WhatsApp & AI Chatbots\",\n      \"base_price\": \"$500 - $1,500 setup (or monthly tier)\",\n      \"deliverables\": \"24/7 custom AI agent connected to WhatsApp or Web, customer qualification, FAQ answering, Calendly booking, CRM sync, 30 days support.\",\n      \"description\": \"Full autonomous conversational agents tailored to your business, answering leads in seconds and booking meetings automatically.\",\n      \"link\": \"https://p3ldevelopers.com/ai-agents\"\n    },\n    {\n      \"id\": \"prod_02\",\n      \"name\": \"End-to-End Business Automation (n8n & APIs)\",\n      \"base_price\": \"$800 - $2,500 one-time\",\n      \"deliverables\": \"Custom n8n workflows connecting Stripe/M-Pesa, CRM, Google Sheets, email alerts, customer onboarding, and invoicing into an automated engine.\",\n      \"description\": \"Eliminate manual data entry and repetitive operations by connecting your existing tools into one autonomous pipeline.\",\n      \"link\": \"https://p3ldevelopers.com/automations\"\n    },\n    {\n      \"id\": \"prod_03\",\n      \"name\": \"Custom Full-Stack Web & Software Development\",\n      \"base_price\": \"$1,500 - $5,000\",\n      \"deliverables\": \"Modern responsive web applications, client portals, SaaS MVPs, and dashboards built with React, Node/FastAPI, and cloud databases.\",\n      \"description\": \"Production-ready software applications engineered for speed, clean UX, and high scalability.\",\n      \"link\": \"https://p3ldevelopers.com/software\"\n    },\n    {\n      \"id\": \"prod_04\",\n      \"name\": \"1-on-1 Architecture & Automation Consultation\",\n      \"base_price\": \"$100\",\n      \"deliverables\": \"60-minute technical roadmap call with lead developer, system architecture diagram, exact tool stack recommendation, and ROI estimate.\",\n      \"description\": \"A deep dive consultation to plan your automations, select the right tech stack, and map your build steps before investing.\",\n      \"link\": \"https://p3ldevelopers.com/consultation\"\n    }\n  ],\n  \"qualification_rules\": {\n    \"ideal_customer\": \"Founders, business owners, and growing teams looking to automate repetitive operations, scale customer conversions, or build custom software.\",\n    \"budget_range\": \"Starting at $100 for strategy sessions, $500+ for AI bots, $800+ for enterprise workflows.\",\n    \"timeline\": \"Ready to build immediately or within 1-3 weeks.\"\n  },\n  \"booking_link\": \"https://calendly.com/p3ldevelopers/consultation\",\n  \"payment_info\": {\n    \"payment_link\": \"https://buy.stripe.com/p3l_developers_checkout\",\n    \"mpesa_till\": \"P3l Developers Till #884920\",\n    \"bank_transfer\": \"P3l Developers Ltd, Account #1092837465\"\n  },\n  \"sales_rep_alert\": {\n    \"notification_email\": \"devs@p3ldevelopers.com\",\n    \"notification_phone\": \"+254141888585\",\n    \"escalation_reasons\": [\n      \"explicit human request\",\n      \"budget > $3,000\",\n      \"frustrated customer\",\n      \"custom complex software contract\",\n      \"request for code audit or legacy system overhaul\"\n    ]\n  }\n};\n\nconst introHint = businessProfile.welcome_intros[normalized.referral_source] || businessProfile.welcome_intros.direct;\n\nreturn [{\n  json: {\n    ...normalized,\n    business: businessProfile,\n    agent_input_prompt: \"Customer Name: \" + normalized.sender_name + \"\\nCustomer Phone: \" + normalized.sender_phone + \"\\nReferral Source: \" + normalized.referral_source + \"\\nSuggested Source Greeting: \" + introHint + \"\\nLatest Message from Customer: \\\"\" + normalized.message_text + \"\\\"\"\n  }\n}];"
+      }
+    },
+    {
+      "id": "f1bdbbb7-1629-42c7-974b-b18f8f4aa072",
+      "name": "Odin All-in-One Sales & Care Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        992,
+        112
+      ],
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.agent_input_prompt }}",
+        "options": {
+          "systemMessage": "You are ODIN, the elite consultative Sales & Customer Care AI Specialist for P3l Developers (Code with P3l) or the business configured in the context.\nYour goal is to be conversational, empathetic, technically sharp, and commercially decisive on WhatsApp.\n\nYOUR COMPLETE ACTION TOOLSET:\n1. search_catalog: Query verified packages, base pricing, deliverables, and shop/website URLs. Never invent pricing outside of this.\n2. query_knowledge_base: Look up business FAQs, working hours, remote/physical location, policies, and operational details.\n3. send_media_showcase: Send relevant portfolio screenshots, product photos, hairstyle previews, or PDF capabilities decks directly on WhatsApp when a customer asks to see examples, proof, or visuals.\n4. record_lead_bant: Automatically extract and score lead qualification (Need, Budget range, Authority, Urgency, Cold/Warm/Hot).\n5. book_discovery_meeting: Propose meeting times and share the Calendly/calendar booking link when customer is ready to talk.\n6. generate_payment_link: Provide Stripe checkout link, M-Pesa till details, or bank transfer instructions when a customer wants to pay or start.\n7. send_email_notification: Dispatch confirmation emails to clients or urgent lead alerts to the internal team.\n8. escalate_to_human: Hand over the chat to a human manager if the user is frustrated, requests human assistance, or has enterprise requirements (> $3,000).\n\nWHATSAPP STYLE:\n- Keep responses concise (2 to 4 short paragraphs max).\n- Use natural spacing and helpful emojis (\u2728, \ud83d\ude80, \ud83d\udcbc, \ud83d\udcf2).\n- Never sound like a robotic questionnaire; flow naturally like an executive consultant."
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 3000
+    },
+    {
+      "id": "1bdc5e81-4e5a-4c8a-a2f1-c9996974e0e2",
+      "name": "Gemini 1.5 Flash Brain",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.2,
+      "position": [
+        672,
+        336
+      ],
+      "parameters": {
+        "modelName": "models/gemini-3-flash-preview"
+      },
+      "credentials": {
+        "googlePalmApi": {
+          "id": "31jTUxTlQfLgQhqA",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "id": "97daacbb-c946-4897-b2d7-c072f12e6d60",
+      "name": "Odin WhatsApp Session Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        800,
+        336
+      ],
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.sender_phone }}",
+        "contextWindowLength": 15
+      }
+    },
+    {
+      "id": "a2cb2e27-88ef-4575-b1ab-ffa1392a07d2",
+      "name": "search_catalog",
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.3,
+      "position": [
+        928,
+        336
+      ],
+      "parameters": {
+        "description": "Search products, packages, pricing tiers, deliverables, and shop/website links from our verified business catalog.",
+        "language": "javaScript",
+        "jsCode": "\nconst businessData = $('Load White-Label Business DNA').first().json.business;\nconst catalog = businessData.products_services || [];\nconst query = (query || '').toLowerCase();\nconst matches = catalog.filter(p => !query || p.name.toLowerCase().includes(query) || p.description.toLowerCase().includes(query));\nreturn JSON.stringify({\n  business: businessData.business_name,\n  matched_products: matches.length > 0 ? matches : catalog\n});\n"
+      }
+    },
+    {
+      "id": "89bc74c1-b2e6-49d4-b73d-64776381eca5",
+      "name": "record_lead_bant",
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.3,
+      "position": [
+        1056,
+        336
+      ],
+      "parameters": {
+        "description": "Record or update lead qualification details (Name, Need, Budget estimate, Authority/Decision maker, Urgency/Timeline, and Lead Score: Cold/Warm/Hot).",
+        "language": "javaScript",
+        "jsCode": "\nreturn JSON.stringify({\n  status: \"recorded\",\n  lead_payload: query,\n  message: \"Lead qualification logged successfully.\"\n});\n"
+      }
+    },
+    {
+      "id": "904abaf3-f921-49ba-b9f6-9a1e5a5ff002",
+      "name": "generate_payment_link",
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.3,
+      "position": [
+        1184,
+        336
+      ],
+      "parameters": {
+        "description": "Generate payment prompt, checkout URL, M-Pesa till, or invoice instructions when the customer is ready to buy.",
+        "language": "javaScript",
+        "jsCode": "\nconst businessData = $('Load White-Label Business DNA').first().json.business;\nreturn JSON.stringify({\n  business_name: businessData.business_name,\n  payment_info: businessData.payment_info,\n  instructions: \"Share these payment methods and ask customer to confirm once transaction is completed.\"\n});\n"
+      }
+    },
+    {
+      "id": "8ea292d4-da0e-4e1f-8f1a-31fd077d9f6f",
+      "name": "book_discovery_meeting",
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.3,
+      "position": [
+        1312,
+        336
+      ],
+      "parameters": {
+        "description": "Provide calendar booking link or schedule a discovery appointment with a sales specialist.",
+        "language": "javaScript",
+        "jsCode": "\nconst businessData = $('Load White-Label Business DNA').first().json.business;\nreturn JSON.stringify({\n  booking_link: businessData.booking_link,\n  message: \"Share this booking link with the prospect so they can pick a convenient 15-30 minute time slot.\"\n});\n"
+      }
+    },
+    {
+      "id": "904a7f5a-da30-4a32-b024-70ac9cc206b2",
+      "name": "escalate_to_human",
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.3,
+      "position": [
+        1440,
+        336
+      ],
+      "parameters": {
+        "description": "Immediately escalate conversation to a human sales manager. Call this if customer explicitly asks for a human, has complex custom enterprise requirements, or is frustrated.",
+        "language": "javaScript",
+        "jsCode": "\nconst businessData = $('Load White-Label Business DNA').first().json.business;\nreturn JSON.stringify({\n  escalation_triggered: true,\n  sales_contact: businessData.sales_rep_alert,\n  message: \"Human escalation triggered. Inform the customer that a human senior specialist has been alerted and will join shortly.\"\n});\n"
+      }
+    },
+    {
+      "id": "18aa78c0-75a6-4b66-99cd-d82413278c95",
+      "name": "Format Outbound Dispatch",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1648,
+        112
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "\nconst agentOutput = $input.first().json.output || \"Thank you for reaching out! A specialist will assist you shortly.\";\nconst originalContext = $('Universal WhatsApp Normalizer & Guard').first().json;\nconst businessData = $('Load White-Label Business DNA').first().json.business;\n\nreturn [{\n  json: {\n    recipient_phone: originalContext.sender_phone,\n    recipient_name: originalContext.sender_name,\n    reply_message: agentOutput,\n    business_name: businessData.business_name,\n    timestamp: new Date().toISOString()\n  }\n}];\n"
+      }
+    },
+    {
+      "id": "d48b992e-2e0b-44d0-9d45-827d3d8933ad",
+      "name": "WAHA Send WhatsApp Reply",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1500,
+        112
+      ],
+      "parameters": {
+        "jsonBody": "={{ JSON.stringify({ chatId: ($json.recipient_phone.includes('@') ? $json.recipient_phone : $json.recipient_phone + '@c.us'), text: $json.reply_message, session: 'default' }) }}",
+        "method": "POST",
+        "options": {},
+        "sendBody": true,
+        "sendHeaders": false,
+        "specifyBody": "json",
+        "url": "={{ $('Load White-Label Business DNA').first().json.business.waha_endpoint || 'https://september-newspaper-default-alabama.trycloudflare.com' }}/api/sendText"
+      }
+    },
+    {
+      "id": "adccb08f-81a5-4503-ae49-8b7995b3e258",
+      "name": "query_knowledge_base",
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.3,
+      "position": [
+        928,
+        480
+      ],
+      "parameters": {
+        "description": "Query business knowledge base, FAQs, policies, location, working hours, and operational details.",
+        "jsCode": "const businessData = $('Load White-Label Business DNA').first().json.business;\nconst kb = businessData.knowledge_base || {};\nconst queryStr = (query || '').toLowerCase();\n\nconst faqs = kb.faqs || [];\nconst matchedFaqs = faqs.filter(f => \n  f.question.toLowerCase().includes(queryStr) || \n  f.answer.toLowerCase().includes(queryStr)\n);\n\nreturn JSON.stringify({\n  business: businessData.business_name,\n  website: kb.website || \"https://p3ldevelopers.com\",\n  hours: kb.hours || \"Mon - Sat: 8:00 AM - 8:00 PM (EAT)\",\n  location: kb.location || \"Nairobi, Kenya & Remote Global Engineering\",\n  policies: kb.policies || \"30-day warranty & full source code ownership on all custom systems.\",\n  matching_faqs: matchedFaqs.length > 0 ? matchedFaqs : faqs\n});",
+        "language": "javaScript"
+      }
+    },
+    {
+      "id": "ce78ff3a-f312-4d64-b397-2c8d6330c7ac",
+      "name": "send_media_showcase",
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.3,
+      "position": [
+        1120,
+        480
+      ],
+      "parameters": {
+        "description": "Send a portfolio image, screenshot, hairstyle photo, or PDF capabilities deck directly to customer on WhatsApp.",
+        "jsCode": "const businessData = $('Load White-Label Business DNA').first().json.business;\nconst customer = $('Universal WhatsApp Normalizer & Guard').first().json;\nconst mediaGallery = businessData.media_gallery || [];\nconst categoryStr = (category || 'general').toLowerCase();\n\nconst item = mediaGallery.find(m => m.category.toLowerCase().includes(categoryStr) || m.title.toLowerCase().includes(categoryStr)) || mediaGallery[0];\n\nreturn JSON.stringify({\n  status: \"dispatched\",\n  media_type: item ? item.type : \"image\",\n  media_url: item ? item.url : \"https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=80\",\n  caption: caption || (item ? item.caption : \"Here is a preview of our work! \ud83d\ude80\"),\n  recipient: customer.sender_phone\n});",
+        "language": "javaScript"
+      }
+    },
+    {
+      "id": "e06f92f0-5fb0-42fc-895e-754f885337ed",
+      "name": "send_email_notification",
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.3,
+      "position": [
+        1312,
+        480
+      ],
+      "parameters": {
+        "description": "Send an email alert to the sales team about a new qualified lead or dispatch appointment confirmation email to client.",
+        "jsCode": "const businessData = $('Load White-Label Business DNA').first().json.business;\nconst customer = $('Universal WhatsApp Normalizer & Guard').first().json;\nconst alertConfig = businessData.sales_rep_alert || {};\n\nreturn JSON.stringify({\n  status: \"dispatched\",\n  to: recipient_email || alertConfig.notification_email || \"devs@p3ldevelopers.com\",\n  subject: subject || `New WhatsApp Lead: ${customer.sender_name || 'Customer'} (${customer.sender_phone})`,\n  summary: message || \"Lead qualified via Odin WhatsApp Agent.\"\n});",
+        "language": "javaScript"
+      }
+    }
+  ],
+  "nodeGroups": [],
+  "activeVersion": {
+    "sameAsDraft": true
+  },
+  "meta": {
+    "aiBuilderAssisted": true,
+    "builderVariant": "mcp"
+  }
+}
