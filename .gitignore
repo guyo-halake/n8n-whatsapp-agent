@@ -1,16 +1,25 @@
-# OS generated files
+# Dependencies
+node_modules/
+package-lock.json
+
+# Environment and Secrets (CRITICAL: Never commit secrets)
+.env
+.env.*
+*.env
+**/.env
+**/.env.*
+
+# Auth Sessions & WhatsApp State
+**/auth_sessions/**
+auth_sessions/
+.waha/
+
+# Logs & Runtime telemetry
+*.log
+logs/
+**/*.log
+.pm2/
+
+# OS Artifacts
 .DS_Store
 Thumbs.db
-desktop.ini
-
-# Logs
-*.log
-npm-debug.log*
-
-# Environment files
-.env
-.env.local
-
-# Temp files
-*.tmp
-*.bak

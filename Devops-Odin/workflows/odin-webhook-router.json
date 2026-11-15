@@ -1,0 +1,87 @@
+{
+  "name": "Odin - Webhook Ingress & Secret Sanitizer",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "odin-devops-ingress",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "1",
+      "name": "Ingress Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [200, 300],
+      "webhookId": "odin-ingress-webhook-id"
+    },
+    {
+      "parameters": {
+        "jsCode": "const payload = $input.first().json.body || $input.first().json;\nconst headers = $input.first().json.headers || {};\nlet source = 'generic';\nlet eventType = 'unknown';\nlet service = 'default-service';\nlet environment = 'production';\nlet rawLogs = '';\n\nif (headers['x-github-event']) {\n  source = 'github';\n  eventType = headers['x-github-event'];\n  service = payload.repository?.name || 'unknown-repo';\n  rawLogs = JSON.stringify(payload);\n} else if (payload.schemaId === 'azureMonitorCommonAlertSchema') {\n  source = 'azure';\n  eventType = payload.data?.essentials?.monitoringService || 'metric_alert';\n  service = payload.data?.essentials?.alertTargetIDs?.[0]?.split('/').pop() || 'azure-resource';\n  rawLogs = JSON.stringify(payload.data);\n} else if (payload.containerId || payload.service) {\n  source = 'docker';\n  eventType = payload.event || 'container_crash';\n  service = payload.service || payload.containerName || 'docker-service';\n  rawLogs = payload.logs || JSON.stringify(payload);\n} else {\n  rawLogs = JSON.stringify(payload);\n}\n\nconst SENSITIVE_PATTERNS = [\n  /bearer\\s+[A-Za-z0-9._~+/-]{8,}/gi,\n  /(api[_-]?key|token|secret|password|passwd|authorization)\\s*[:=]\\s*['\"]?[^\\s,;'\"}]+['\"]?/gi,\n  /-----BEGIN [A-Z ]+ PRIVATE KEY-----[\\s\\S]*?-----END [A-Z ]+ PRIVATE KEY-----/g,\n  /ghp_[A-Za-z0-9]{36}/g,\n  /github_pat_[A-Za-z0-9_]{82}/g,\n  /DefaultEndpointsProtocol=https;AccountName=[^;]+;AccountKey=[^;]+;/gi\n];\n\nlet cleanLogs = String(rawLogs);\nfor (const pattern of SENSITIVE_PATTERNS) {\n  cleanLogs = cleanLogs.replace(pattern, (match) => {\n    if (match.startsWith('-----BEGIN')) return '[REDACTED_PRIVATE_KEY]';\n    if (/^bearer\\s+/i.test(match)) return 'Bearer [REDACTED]';\n    const idx = match.search(/[:=]/);\n    if (idx !== -1) return `${match.slice(0, idx + 1)} [REDACTED]`;\n    return '[REDACTED]';\n  });\n}\n\nconst eventId = `evt_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;\n\nreturn [{\n  json: {\n    eventId,\n    timestamp: new Date().toISOString(),\n    source,\n    eventType,\n    service,\n    environment,\n    sanitizedLogs: cleanLogs.slice(0, 15000),\n    clientIp: headers['x-forwarded-for'] || 'internal'\n  }\n}];"
+      },
+      "id": "2",
+      "name": "Normalize & Scrub Secrets",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [420, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"status\": \"ACCEPTED\",\n  \"eventId\": \"{{ $json.eventId }}\",\n  \"source\": \"{{ $json.source }}\",\n  \"service\": \"{{ $json.service }}\"\n}",
+        "options": {
+          "responseCode": 202
+        }
+      },
+      "id": "3",
+      "name": "Respond Accepted",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [420, 480]
+    },
+    {
+      "parameters": {
+        "workflowId": "odin-sre-engine-workflow-id",
+        "mode": "each",
+        "options": {}
+      },
+      "id": "4",
+      "name": "Dispatch to AI SRE Engine",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1,
+      "position": [660, 300]
+    }
+  ],
+  "connections": {
+    "Ingress Webhook": {
+      "main": [
+        [
+          {
+            "node": "Normalize & Scrub Secrets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize & Scrub Secrets": {
+      "main": [
+        [
+          {
+            "node": "Respond Accepted",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Dispatch to AI SRE Engine",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

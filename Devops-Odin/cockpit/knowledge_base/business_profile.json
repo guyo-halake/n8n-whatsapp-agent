@@ -1,0 +1,38 @@
+{
+  "company": {
+    "name": "P3L Developers & Tech Shop",
+    "founder": "Razak Guyo",
+    "location": "Nairobi, Kenya (Westlands / CBD Operations)",
+    "phone": "+254768141129",
+    "email": "info@p3ldevelopers.co.ke",
+    "engineering_email": "guyoh@p3ldevelopers.co.ke",
+    "website": "https://p3ldevelopers.co.ke",
+    "business_domains": [
+      "Enterprise Cloud Architecture & DevOps (Azure, Docker, Linux)",
+      "Full-Stack Web & Backend Engineering (FastAPI, React, Vite, Node.js)",
+      "Legal Practice Systems & Remuneration Engines (Nyagah & Co Advocates)",
+      "M-Pesa Daraja Payment Gateways (Paybill, Pochi La Biashara, STK Push)",
+      "AI Automation & Autonomous Agents (n8n Cloud, LangChain, Gemini, OpenAI)",
+      "Hardware Engineering, Micro-Soldering & Apple Device Diagnostics"
+    ]
+  },
+  "payment_methods": {
+    "paybill": {
+      "name": "Lipa na M-Pesa Paybill",
+      "business_number": "255255",
+      "account_format": "<Client Name> / <Service Code>",
+      "instructions": "Go to M-Pesa -> Lipa na M-Pesa -> Paybill -> Enter 255255 -> Account Name -> Amount -> PIN."
+    },
+    "pochi_la_biashara": {
+      "name": "M-Pesa Pochi La Biashara",
+      "phone_number": "+254768141129",
+      "instructions": "Go to M-Pesa -> Lipa na M-Pesa -> Pochi La Biashara -> Enter 0768141129 -> Amount -> PIN."
+    }
+  },
+  "sla_and_policies": {
+    "devops_oncall_sla": "15 minutes response for SEV-1 production outages.",
+    "software_warranty": "90 days complimentary bug fixes and regression patch warranty on delivered systems.",
+    "hardware_warranty": "90 days warranty on display assemblies and motherboard chip-level micro-soldering."
+  }
+}
+

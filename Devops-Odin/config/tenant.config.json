@@ -1,0 +1,56 @@
+{
+  "tenant": {
+    "id": "p3l-developers",
+    "displayName": "Odin SRE Bot (P3L Developers)",
+    "brandColor": "#0284c7",
+    "logoUrl": "https://assets.p3ldevelopers.co.ke/logo.png",
+    "supportEmail": "guyoh@p3ldevelopers.co.ke",
+    "documentationUrl": "https://docs.p3ldevelopers.co.ke"
+  },
+  "security": {
+    "requireHmacApproval": true,
+    "approvalTokenTtlMinutes": 15,
+    "maxAutoRemediationRisk": "LOW"
+  },
+  "notifications": {
+    "defaultChannel": "email",
+    "email": {
+      "enabled": true,
+      "from": "Odin SRE <guyoh@p3ldevelopers.co.ke>",
+      "to": ["guyohalakeofficial@gmail.com"]
+    },
+    "slack": {
+      "enabled": false,
+      "webhookUrl": ""
+    },
+    "teams": {
+      "enabled": false,
+      "webhookUrl": ""
+    }
+  },
+  "integrations": {
+    "github": {
+      "enabled": true,
+      "owner": "guyo-halake",
+      "defaultRepo": "nyagahK_azure_backend"
+    },
+    "docker": {
+      "enabled": true,
+      "allowedHosts": ["localhost"]
+    },
+    "azure": {
+      "enabled": true,
+      "subscriptionId": "f933e58c-9e82-47fe-849c-40e95a63650a",
+      "tenantId": "fb952c0d-3932-434a-9309-d9eb8d8b0a0e",
+      "resourceGroup": "rg-nyagah-fee",
+      "appServices": [
+        "nyagah-b-fee-notes",
+        "nyagahkithinji-advocates",
+        "guyohalake"
+      ],
+      "containerRegistries": [
+        "acrnyagahfee.azurecr.io"
+      ]
+    }
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "name": "Odin - AI SRE Diagnostic Core",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "id": "1",
+      "name": "When Executed by Router",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1,
+      "position": [200, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const event = $input.first().json;\nconst logs = String(event.sanitizedLogs || '').toLowerCase();\nconst incidentId = `inc_${Date.now().toString(36)}_${Math.random().toString(36).substring(2, 6)}`;\n\nlet severity = 'SEV-2';\nlet rootCause = 'Unspecified runtime exception detected in service stream.';\nlet actionType = 'inspect_logs';\nlet requiresApproval = false;\nlet actionParameters = { service: event.service };\n\nif (logs.includes('exit code 137') || logs.includes('out of memory') || logs.includes('oomkilled')) {\n  severity = 'SEV-1';\n  rootCause = 'Process terminated with Exit Code 137 (OOM Killer). Memory limit exceeded.';\n  actionType = 'docker_restart_container';\n  requiresApproval = true;\n  actionParameters = { service: event.service, adjustMemory: true };\n} else if (logs.includes('exit code 139') || logs.includes('segmentation fault')) {\n  severity = 'SEV-1';\n  rootCause = 'Segmentation fault (Exit Code 139). Native binary memory corruption.';\n  actionType = 'notify_team';\n  requiresApproval = false;\n} else if (logs.includes('401') || logs.includes('unauthorized') || logs.includes('bad credentials')) {\n  severity = 'SEV-2';\n  rootCause = 'Authentication failure: Service credentials expired or invalid token scope.';\n  actionType = 'verify_credentials';\n  requiresApproval = false;\n} else if (logs.includes('econnrefused') || logs.includes('502 bad gateway') || logs.includes('no route to host')) {\n  severity = 'SEV-2';\n  rootCause = 'Network unreachable: Downstream port closed or container process not bound.';\n  actionType = 'docker_restart_container';\n  requiresApproval = true;\n  actionParameters = { service: event.service };\n} else {\n  severity = 'SEV-3';\n  rootCause = 'Telemetry warning or unclassified application error trace.';\n  actionType = 'collect_diagnostics';\n  requiresApproval = false;\n}\n\nreturn [{\n  json: {\n    incidentId,\n    timestamp: new Date().toISOString(),\n    service: event.service,\n    environment: event.environment,\n    source: event.source,\n    severity,\n    summary: `[${severity}] Incident on ${event.service} (${event.source})`,\n    rootCause,\n    recommendedAction: {\n      type: actionType,\n      parameters: actionParameters,\n      requiresApproval\n    },\n    originalEvent: event\n  }\n}];"
+      },
+      "id": "2",
+      "name": "Deterministic Triage",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [440, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.recommendedAction.requiresApproval }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "3",
+      "name": "Requires Approval?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "workflowId": "odin-hitl-approval-workflow-id",
+        "mode": "each",
+        "options": {}
+      },
+      "id": "4",
+      "name": "Dispatch to HITL Gate",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1,
+      "position": [940, 200]
+    },
+    {
+      "parameters": {
+        "workflowId": "odin-remediation-executor-workflow-id",
+        "mode": "each",
+        "options": {}
+      },
+      "id": "5",
+      "name": "Autonomous Remediation",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1,
+      "position": [940, 420]
+    }
+  ],
+  "connections": {
+    "When Executed by Router": {
+      "main": [
+        [
+          {
+            "node": "Deterministic Triage",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Deterministic Triage": {
+      "main": [
+        [
+          {
+            "node": "Requires Approval?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Requires Approval?": {
+      "main": [
+        [
+          {
+            "node": "Dispatch to HITL Gate",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Autonomous Remediation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

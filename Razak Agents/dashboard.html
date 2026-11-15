@@ -1,0 +1,2419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Odin AI Agent Platform — P3L Developers</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <style>
+    body {
+      background-color: #f8fafc;
+      color: #0f172a;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    code, pre, .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+  </style>
+</head>
+<body class="min-h-screen flex bg-slate-50 text-slate-800">
+
+  <!-- LEFT SIDEBAR -->
+  <aside class="w-64 bg-white border-r border-slate-200 h-screen flex flex-col justify-between shrink-0">
+    <div class="p-5 space-y-5 overflow-y-auto flex-1">
+      
+      <!-- Brand & Identity -->
+      <div class="space-y-1">
+        <div class="flex items-center space-x-2">
+          <div class="w-7 h-7 rounded bg-slate-900 flex items-center justify-center text-white text-xs font-bold tracking-tight">
+            P3L
+          </div>
+          <span class="text-xs font-bold text-slate-900 tracking-tight">Odin Agent Platform</span>
+        </div>
+        <p class="text-[11px] text-slate-500">P3L Developers · Nairobi, KE</p>
+      </div>
+
+      <!-- Navigation -->
+      <nav class="space-y-1 text-xs font-medium">
+        <button onclick="switchTab('overview-tab')" id="nav-overview" class="nav-btn w-full flex items-center space-x-2.5 px-3 py-2 rounded bg-slate-100 text-slate-900 font-semibold transition">
+          <i class="fa-solid fa-chart-simple w-4 text-slate-500"></i>
+          <span>Overview</span>
+        </button>
+
+        <button onclick="switchTab('agent-tab')" id="nav-agent" class="nav-btn w-full flex items-center space-x-2.5 px-3 py-2 rounded text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
+          <i class="fa-solid fa-robot w-4 text-slate-500"></i>
+          <span>Agent (Odin-P3L)</span>
+        </button>
+
+        <button onclick="switchTab('chat-tab')" id="nav-chat" class="nav-btn w-full flex items-center space-x-2.5 px-3 py-2 rounded text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
+          <i class="fa-solid fa-comments w-4 text-slate-500"></i>
+          <span>Test Chat</span>
+          <span id="nav-sessions-count" class="ml-auto text-[10px] bg-slate-100 text-slate-600 px-1 rounded font-mono">0</span>
+        </button>
+
+        <button onclick="switchTab('workflows-tab')" id="nav-workflows" class="nav-btn w-full flex items-center space-x-2.5 px-3 py-2 rounded text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
+          <i class="fa-solid fa-diagram-project w-4 text-slate-500"></i>
+          <span>Workflows</span>
+          <span class="ml-auto text-[10px] bg-emerald-50 text-emerald-700 px-1 rounded font-mono">1</span>
+        </button>
+
+        <button onclick="switchTab('history-tab')" id="nav-history" class="nav-btn w-full flex items-center space-x-2.5 px-3 py-2 rounded text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
+          <i class="fa-solid fa-clock-rotate-left w-4 text-slate-500"></i>
+          <span>Run History</span>
+          <span id="nav-history-count" class="ml-auto text-[10px] text-slate-500 font-mono">0</span>
+        </button>
+
+        <button onclick="switchTab('tests-tab')" id="nav-tests" class="nav-btn w-full flex items-center space-x-2.5 px-3 py-2 rounded text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
+          <i class="fa-solid fa-vial-circle-check w-4 text-slate-500"></i>
+          <span>Codebase Tests</span>
+        </button>
+
+        <button onclick="switchTab('whatsapp-tab')" id="nav-whatsapp" class="nav-btn w-full flex items-center space-x-2.5 px-3 py-2 rounded text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
+          <i class="fa-brands fa-whatsapp w-4 text-slate-500"></i>
+          <span>WhatsApp Line</span>
+        </button>
+
+        <!-- COMMERCIAL ONBOARDING & CLIENT PORTAL SECTION -->
+        <div class="pt-3 pb-1 px-3 text-[10px] font-semibold text-slate-400 uppercase tracking-wider border-t border-slate-100">
+          Client Onboarding Portal
+        </div>
+
+        <button onclick="switchTab('portal-onboarding-tab')" id="nav-portal-onboarding" class="nav-btn w-full flex items-center space-x-2.5 px-3 py-2 rounded text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
+          <i class="fa-solid fa-qrcode w-4 text-slate-500"></i>
+          <span>1. QR Onboarding</span>
+          <span class="ml-auto text-[10px] bg-slate-100 text-slate-600 px-1 rounded font-mono">2 min</span>
+        </button>
+
+        <button onclick="switchTab('portal-inbox-tab')" id="nav-portal-inbox" class="nav-btn w-full flex items-center space-x-2.5 px-3 py-2 rounded text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
+          <i class="fa-solid fa-inbox w-4 text-slate-500"></i>
+          <span>2. Operator Inbox</span>
+          <span id="nav-inbox-badge" class="ml-auto text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-200 px-1.5 py-0.5 rounded font-medium">Live</span>
+        </button>
+
+        <button onclick="switchTab('portal-billing-tab')" id="nav-portal-billing" class="nav-btn w-full flex items-center space-x-2.5 px-3 py-2 rounded text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
+          <i class="fa-solid fa-credit-card w-4 text-slate-500"></i>
+          <span>3. Tiers & M-Pesa</span>
+        </button>
+
+        <button onclick="switchTab('portal-kb-tab')" id="nav-portal-kb" class="nav-btn w-full flex items-center space-x-2.5 px-3 py-2 rounded text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
+          <i class="fa-solid fa-file-arrow-up w-4 text-slate-500"></i>
+          <span>4. Knowledge & Verticals</span>
+        </button>
+
+        <button onclick="switchTab('portal-settings-tab')" id="nav-portal-settings" class="nav-btn w-full flex items-center space-x-2.5 px-3 py-2 rounded text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
+          <i class="fa-solid fa-sliders w-4 text-slate-500"></i>
+          <span>5. Dialect, Hours & SLA</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- Live System Footer -->
+    <div class="p-4 border-t border-slate-200 text-[11px] text-slate-500 space-y-1">
+      <div class="flex items-center justify-between">
+        <span>Engine</span>
+        <span class="text-emerald-700 font-medium">● Connected</span>
+      </div>
+      <div class="text-[10px] text-slate-500 font-mono">
+        Port: 3300 · Gemini 3.5 Live
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN VIEW -->
+  <main class="flex-1 flex flex-col h-screen overflow-y-auto bg-slate-50">
+    
+    <!-- TOP BAR -->
+    <header class="bg-white border-b border-slate-200 px-8 py-3.5 flex items-center justify-between sticky top-0 z-20">
+      <div>
+        <h2 id="top-title" class="text-sm font-semibold text-slate-900">System Overview</h2>
+        <p id="top-sub" class="text-xs text-slate-500">Real-time status of Odin-P3L, Gemini 3.5, Supabase Cloud RAG, and n8n workflows.</p>
+      </div>
+
+      <div class="flex items-center space-x-3 text-xs">
+        <a href="https://p3lautomate.app.n8n.cloud/workflow/CsBJMQmxtWDWqpyq" target="_blank" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded border border-slate-200 text-slate-700 font-mono text-[11px] flex items-center space-x-1 transition" title="Open N8N Cloud Dashboard">
+          <span>N8N Cloud: <strong class="text-slate-900">CsBJMQmxtWDWqpyq</strong></span>
+          <i class="fa-solid fa-arrow-up-right-from-square text-[9px] text-slate-500"></i>
+        </a>
+        <div class="flex items-center space-x-1.5 px-2.5 py-1 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-medium">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span>
+          <span>Live Production</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- CONTENT WRAPPER -->
+    <div class="p-8 max-w-6xl w-full mx-auto space-y-6">
+
+      <!-- ============================================== -->
+      <!-- 1. OVERVIEW TAB                                -->
+      <!-- ============================================== -->
+      <section id="overview-tab" class="space-y-6">
+        
+        <!-- Key Metrics Strip -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 bg-white border border-slate-200 rounded p-5">
+          <!-- Active Agent Card (Clickable to N8N Dashboard) -->
+          <a href="https://p3lautomate.app.n8n.cloud/workflow/CsBJMQmxtWDWqpyq" target="_blank" class="block space-y-1 hover:bg-slate-50 p-2.5 -m-2.5 rounded border border-transparent hover:border-slate-200 transition group cursor-pointer" title="Click to open N8N Cloud Workflow Dashboard">
+            <div class="flex items-center justify-between text-[11px] font-medium text-slate-500 uppercase tracking-wide">
+              <span>Active Agent</span>
+              <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400 group-hover:text-slate-900 transition"></i>
+            </div>
+            <div class="text-2xl font-semibold text-slate-900" id="ov-agents">1</div>
+            <div class="text-[11px] text-emerald-700 font-medium flex items-center space-x-1">
+              <span>Odin-P3L Online</span>
+              <span class="text-slate-400 text-[10px]">(n8n ↗)</span>
+            </div>
+          </a>
+
+          <div class="space-y-1 sm:border-l sm:border-slate-100 sm:pl-4">
+            <div class="text-[11px] font-medium text-slate-500 uppercase tracking-wide">Session Requests</div>
+            <div class="text-2xl font-semibold text-slate-900" id="ov-runs">0</div>
+            <div class="text-[11px] text-slate-500">Live requests recorded</div>
+          </div>
+          <div class="space-y-1 sm:border-l sm:border-slate-100 sm:pl-4">
+            <div class="text-[11px] font-medium text-slate-500 uppercase tracking-wide">Avg Response Time</div>
+            <div class="text-2xl font-semibold text-slate-900" id="ov-latency">0 ms</div>
+            <div class="text-[11px] text-slate-500">Measured from Gemini API</div>
+          </div>
+          <div class="space-y-1 sm:border-l sm:border-slate-100 sm:pl-4">
+            <div class="text-[11px] font-medium text-slate-500 uppercase tracking-wide">Tokens Used</div>
+            <div class="text-2xl font-semibold text-slate-900" id="ov-tokens">0</div>
+            <div class="text-[11px] text-slate-500" id="ov-cost">Cost: $0.00000</div>
+          </div>
+        </div>
+
+        <!-- Infrastructure Strip -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          <!-- 1. Gemini AI -->
+          <div class="bg-white border border-slate-200 rounded p-4 space-y-2">
+            <div class="flex items-center justify-between text-xs font-semibold text-slate-900 border-b border-slate-100 pb-2">
+              <span>Google Gemini AI</span>
+              <span class="text-emerald-700 font-medium">● Verified</span>
+            </div>
+            <div class="text-xs space-y-1 text-slate-600">
+              <div>Model: <span class="font-mono text-slate-900 font-medium">gemini-3.5-flash-lite</span></div>
+              <div>Tone: <span class="text-slate-900 font-medium">Clean English Only</span></div>
+              <div>Endpoint: <span class="font-mono text-[10px] text-slate-500">generativelanguage.googleapis.com</span></div>
+            </div>
+          </div>
+
+          <!-- 2. Database RAG (Supabase Cloud PostgreSQL) -->
+          <div class="bg-white border border-slate-200 rounded p-4 space-y-2">
+            <div class="flex items-center justify-between text-xs font-semibold text-slate-900 border-b border-slate-100 pb-2">
+              <span>Database RAG (Cloud)</span>
+              <span class="text-emerald-700 font-medium">● Connected</span>
+            </div>
+            <div class="text-xs space-y-1 text-slate-600">
+              <div>Engine: <span class="text-slate-900 font-medium">Supabase PostgreSQL</span></div>
+              <div>Host: <span class="font-mono text-[10px] text-slate-500">muratasgegqmbkhmsevt</span></div>
+              <div>Tables: <span class="font-mono text-[10px] text-slate-800 font-semibold">tenants, chats, msgs</span></div>
+            </div>
+          </div>
+
+          <!-- 3. Local RAG Knowledge -->
+          <div class="bg-white border border-slate-200 rounded p-4 space-y-2">
+            <div class="flex items-center justify-between text-xs font-semibold text-slate-900 border-b border-slate-100 pb-2">
+              <span>Local RAG Knowledge</span>
+              <span class="text-emerald-700 font-medium">● Loaded</span>
+            </div>
+            <div class="text-xs space-y-1 text-slate-600">
+              <div>Catalog: <span class="font-mono text-[10px] text-slate-800">83 Hardware Items</span></div>
+              <div>Policies: <span class="font-mono text-[10px] text-slate-800">12mo Warranty & SLA</span></div>
+              <div>Services: <span class="font-mono text-[10px] text-slate-800">P3L Web Apps & Repair</span></div>
+            </div>
+          </div>
+
+          <!-- 4. WhatsApp Gateway -->
+          <div class="bg-white border border-slate-200 rounded p-4 space-y-2">
+            <div class="flex items-center justify-between text-xs font-semibold text-slate-900 border-b border-slate-100 pb-2">
+              <span>WhatsApp Gateway</span>
+              <span class="text-slate-600 font-medium" id="ov-wa-status">Checking...</span>
+            </div>
+            <div class="text-xs space-y-1 text-slate-600">
+              <div>Line: <span class="font-mono text-slate-900 font-medium" id="ov-wa-phone">None (Awaiting Pairing)</span></div>
+              <div>Engine: <span class="text-slate-800">WAHA Core (Port 5000)</span></div>
+              <div>Status: <span class="text-slate-800" id="ov-wa-user">-</span></div>
+            </div>
+          </div>
+
+          <!-- 5. Telegram Channel -->
+          <div class="bg-white border border-slate-200 rounded p-4 space-y-2">
+            <div class="flex items-center justify-between text-xs font-semibold text-slate-900 border-b border-slate-100 pb-2">
+              <span>Telegram Channel</span>
+              <span class="text-emerald-700 font-medium" id="ov-tg-status">● Live</span>
+            </div>
+            <div class="text-xs space-y-1 text-slate-600">
+              <div>Bot: <span class="font-mono text-slate-900 font-medium">@fv_rzkbot</span></div>
+              <div>Daemon: <span class="text-slate-800">Active Polling</span></div>
+              <div>Action: <a href="https://t.me/fv_rzkbot" target="_blank" class="text-blue-600 hover:underline font-medium text-xs">Open Bot ↗</a></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- EMBEDDED LIVE AI TESTING WINDOW (DIRECTLY ON OVERVIEW) -->
+        <div class="bg-white border border-slate-200 rounded p-5 space-y-4">
+          <div class="flex flex-wrap items-center justify-between border-b border-slate-100 pb-3 gap-3">
+            <div class="space-y-0.5">
+              <div class="flex items-center space-x-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <h3 class="text-xs font-semibold text-slate-900" id="ov-agent-header-title">Live Agent Testing Sandbox</h3>
+                <span class="text-[10px] bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-mono">Gemini 3.5 ReAct · Multi-Tenant</span>
+              </div>
+              <p class="text-[11px] text-slate-500" id="ov-agent-header-sub">Test live autonomous reasoning, Supabase catalog RAG, and strict tenant isolation.</p>
+            </div>
+            <div class="flex items-center space-x-3">
+              <div class="flex items-center space-x-1.5 bg-slate-50 border border-slate-200 rounded px-2.5 py-1">
+                <span class="text-[11px] font-medium text-slate-600">Business:</span>
+                <select id="ov-tenant-select" onchange="switchBusinessTenant(this.value)" class="bg-transparent text-xs font-semibold text-slate-800 focus:outline-none cursor-pointer">
+                  <option value="11111111-1111-1111-1111-111111111111" selected>P3L Developers (Hardware)</option>
+                  <option value="22222222-2222-2222-2222-222222222222">Luxe Nails & Spa (Services)</option>
+                </select>
+              </div>
+              <span id="ov-chat-latency-badge" class="text-[11px] font-mono text-slate-500">Ready</span>
+              <button onclick="clearOverviewChat()" class="text-xs text-slate-400 hover:text-slate-700">Clear</button>
+            </div>
+          </div>
+
+          <!-- Quick Prompts (Clean Professional English Only - No Emojis) -->
+          <div id="ov-quick-prompts-container" class="flex flex-wrap gap-2 text-xs">
+            <span class="text-slate-400 py-1 text-[11px]">Quick Tests:</span>
+            <button onclick="sendOverviewPrompt('What coding laptops do you have in stock and what are their prices in KES?')" class="px-2.5 py-1 bg-slate-50 border border-slate-200 hover:border-slate-400 rounded text-slate-700 transition">
+              Laptop Catalog
+            </button>
+            <button onclick="sendOverviewPrompt('What is your warranty policy if the seal is broken?')" class="px-2.5 py-1 bg-slate-50 border border-slate-200 hover:border-slate-400 rounded text-slate-700 transition">
+              Warranty & Returns
+            </button>
+            <button onclick="sendOverviewPrompt('I want to pay KES 50,000 via M-Pesa STK push for the HP Victus.')" class="px-2.5 py-1 bg-slate-50 border border-slate-200 hover:border-slate-400 rounded text-slate-700 transition">
+              M-Pesa STK Push
+            </button>
+            <button onclick="sendOverviewPrompt('Can I book an appointment for acrylic nails and Russian manicure?')" class="px-2.5 py-1 bg-amber-50 border border-amber-300 hover:border-amber-500 rounded text-amber-900 transition font-medium">
+              Isolation Test (Ask for Nails)
+            </button>
+            <button onclick="sendOverviewPrompt('Please escalate my request to founder Razak Guyo regarding an enterprise contract.')" class="px-2.5 py-1 bg-slate-50 border border-slate-200 hover:border-slate-400 rounded text-slate-700 transition">
+              Founder Escalation
+            </button>
+          </div>
+
+          <!-- Live Chat Stream Box -->
+          <div id="ov-chat-stream" class="h-64 overflow-y-auto bg-slate-50 border border-slate-200 rounded p-4 space-y-3 text-xs">
+            <div class="p-3 bg-white border border-slate-200 rounded text-slate-600 max-w-xl">
+              Hello, welcome to P3L Developers and Tech Shop. I am Odin. Are you looking for a laptop, workstation, or technical support today?
+            </div>
+          </div>
+          </div>
+
+          <!-- Input Bar -->
+          <form onsubmit="handleOverviewChatSubmit(event)" class="flex items-center space-x-2">
+            <input type="text" id="ov-chat-input" placeholder="Ask Odin about laptops, specs, M-Pesa, warranty, or browse the web..." class="flex-1 bg-white border border-slate-200 rounded px-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-slate-400">
+            <button type="submit" id="ov-chat-btn" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded text-xs font-medium transition flex items-center space-x-1.5">
+              <i class="fa-solid fa-paper-plane text-[10px]"></i>
+              <span>Send Prompt</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Recent Live Activity Feed -->
+        <div class="bg-white border border-slate-200 rounded p-5 space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-2.5">
+            <h3 class="text-xs font-semibold text-slate-900">Recent Live Requests</h3>
+            <span class="text-[11px] text-slate-500">Real execution events</span>
+          </div>
+
+          <div id="ov-activity-container" class="divide-y divide-slate-100 text-xs">
+            <div class="py-6 text-center text-slate-400">
+              No requests recorded yet. Type a question in the sandbox above to see real live execution.
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ============================================== -->
+      <!-- 2. AGENT DETAILS TAB                           -->
+      <!-- ============================================== -->
+      <section id="agent-tab" class="hidden space-y-6">
+        <div class="bg-white border border-slate-200 rounded p-6 space-y-6">
+          <div class="flex items-start justify-between border-b border-slate-100 pb-4">
+            <div class="space-y-1">
+              <div class="flex items-center space-x-2">
+                <h3 class="text-base font-semibold text-slate-900">Odin-P3L</h3>
+                <span class="px-2 py-0.5 rounded text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-200 font-medium">Online</span>
+              </div>
+              <p class="text-xs text-slate-500">Autonomous Sales & Technical Consultant for P3L Developers (Nairobi, Kenya)</p>
+            </div>
+            <a href="https://p3lautomate.app.n8n.cloud/workflow/CsBJMQmxtWDWqpyq" target="_blank" class="px-3 py-1.5 bg-slate-900 text-white rounded text-xs font-medium hover:bg-slate-800 transition flex items-center space-x-1.5">
+              <span>Open in n8n Cloud</span>
+              <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+            </a>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
+            <div class="space-y-3">
+              <div class="font-medium text-slate-900 border-b border-slate-100 pb-1">Agent Configuration</div>
+              <div>
+                <span class="text-slate-500 block text-[11px]">Primary Business</span>
+                <span class="text-slate-800 font-medium">P3L Developers & Tech Shop</span>
+              </div>
+              <div>
+                <span class="text-slate-500 block text-[11px]">AI Model</span>
+                <span class="text-slate-800 font-mono">gemini-3.5-flash-lite (Google Gemini API)</span>
+              </div>
+              <div>
+                <span class="text-slate-500 block text-[11px]">Communication Language</span>
+                <span class="text-emerald-700 font-semibold">Strict Clean Professional English Only</span>
+              </div>
+              <div>
+                <span class="text-slate-500 block text-[11px]">Connected n8n Workflow</span>
+                <a href="https://p3lautomate.app.n8n.cloud/workflow/CsBJMQmxtWDWqpyq" target="_blank" class="text-blue-600 hover:underline font-mono">CsBJMQmxtWDWqpyq (Multi-Tenant Gateway Router) ↗</a>
+              </div>
+            </div>
+
+            <div class="space-y-3">
+              <div class="font-medium text-slate-900 border-b border-slate-100 pb-1">RAG Knowledge Sources</div>
+              <div>
+                <span class="text-slate-500 block text-[11px]">Cloud Database</span>
+                <span class="text-slate-800 font-mono text-[11px]">Supabase PostgreSQL (muratasgegqmbkhmsevt)</span>
+              </div>
+              <div>
+                <span class="text-slate-500 block text-[11px]">Hardware Catalog</span>
+                <span class="text-slate-800 font-mono text-[11px]">Razak Agents/knowledge_base/hardware_specs.json (83 items)</span>
+              </div>
+              <div>
+                <span class="text-slate-500 block text-[11px]">Company Policies & Warranty</span>
+                <span class="text-slate-800 font-mono text-[11px]">Razak Agents/knowledge_base/company_policies.json</span>
+              </div>
+              <div>
+                <span class="text-slate-500 block text-[11px]">Online Web Search</span>
+                <span class="text-slate-800 font-mono text-[11px]">DuckDuckGo / Live Search Tool (browse_web_information)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tools Table -->
+          <div class="space-y-3 pt-4 border-t border-slate-100 text-xs">
+            <div class="font-medium text-slate-900">Autonomous Tools & Functions (Gemini Function Calling)</div>
+            <div class="border border-slate-200 rounded overflow-hidden">
+              <table class="w-full text-left">
+                <thead class="bg-slate-50 text-[11px] text-slate-500 border-b border-slate-200">
+                  <tr>
+                    <th class="p-2.5">Tool Name</th>
+                    <th class="p-2.5">Purpose</th>
+                    <th class="p-2.5">Status</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                  <tr>
+                    <td class="p-2.5 font-mono text-slate-900 font-medium">search_inventory / search_catalog</td>
+                    <td class="p-2.5 text-slate-600">Retrieves exact laptop specs, pricing (KES), and real-time stock status</td>
+                    <td class="p-2.5 text-emerald-700 font-medium">Ready</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2.5 font-mono text-slate-900 font-medium">initiate_mpesa_payment</td>
+                    <td class="p-2.5 text-slate-600">Triggers Safaricom Daraja M-Pesa STK push for orders and 50% project deposits</td>
+                    <td class="p-2.5 text-emerald-700 font-medium">Ready</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2.5 font-mono text-slate-900 font-medium">browse_web_information</td>
+                    <td class="p-2.5 text-slate-600">Live internet search for tech benchmarks, chip comparisons, and real-time pricing</td>
+                    <td class="p-2.5 text-emerald-700 font-medium">Ready</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2.5 font-mono text-slate-900 font-medium">query_company_policy</td>
+                    <td class="p-2.5 text-slate-600">Answers warranty (12 months), broken seal 48-hour return window, and delivery rules</td>
+                    <td class="p-2.5 text-emerald-700 font-medium">Ready</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2.5 font-mono text-slate-900 font-medium">escalate_to_human_operator</td>
+                    <td class="p-2.5 text-slate-600">Dispatches priority notification directly to founder Razak Guyo (+254768141129)</td>
+                    <td class="p-2.5 text-emerald-700 font-medium">Ready</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- 3. TEST CHAT TAB (WITH SAVED CHAT SESSIONS)    -->
+      <!-- ============================================== -->
+      <section id="chat-tab" class="hidden space-y-4">
+        
+        <!-- Controls & Toggles Bar -->
+        <div class="bg-white border border-slate-200 rounded p-3 flex flex-wrap items-center justify-between text-xs gap-3">
+          <div class="flex items-center space-x-3">
+            <span class="font-semibold text-slate-800">Target Business:</span>
+            <select id="test-tenant-select" onchange="switchBusinessTenant(this.value)" class="bg-slate-50 border border-slate-200 rounded px-2.5 py-1 text-xs font-semibold text-slate-800 focus:outline-none cursor-pointer">
+              <option value="11111111-1111-1111-1111-111111111111" selected>P3L Developers (Odin-P3L · Hardware & IT)</option>
+              <option value="22222222-2222-2222-2222-222222222222">Luxe Nails & Spa Lounge (Bella-Luxe · Nail Services)</option>
+            </select>
+          </div>
+          <div class="flex items-center space-x-5 text-xs text-slate-700">
+            <label class="flex items-center space-x-1.5 cursor-pointer">
+              <input type="checkbox" id="test-rag-toggle" checked class="rounded border-slate-300 text-slate-900">
+              <span>Read Local & Database RAG</span>
+            </label>
+            <label class="flex items-center space-x-1.5 cursor-pointer">
+              <input type="checkbox" id="test-media-toggle" checked class="rounded border-slate-300 text-slate-900">
+              <span>Attach Spec Photos</span>
+            </label>
+            <span class="text-slate-400">|</span>
+            <span class="text-emerald-700 font-medium">Language: Clean English Only</span>
+          </div>
+        </div>
+
+        <!-- 2-COLUMN CHAT LAYOUT: Saved Sessions Sidebar + Interactive Chat Window -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+          
+          <!-- LEFT: Saved Chat History / Sessions Sidebar (3 Cols) -->
+          <div class="lg:col-span-3 bg-white border border-slate-200 rounded flex flex-col h-[560px]">
+            <div class="p-3 border-b border-slate-100 flex items-center justify-between">
+              <span class="font-semibold text-xs text-slate-900">Chat History</span>
+              <button onclick="startNewTestChat()" class="px-2 py-1 bg-slate-900 hover:bg-slate-800 text-white rounded text-[11px] font-medium transition flex items-center space-x-1">
+                <i class="fa-solid fa-plus text-[9px]"></i>
+                <span>New Chat</span>
+              </button>
+            </div>
+
+            <!-- List of Previous Sessions -->
+            <div id="chat-sessions-list" class="flex-1 overflow-y-auto divide-y divide-slate-100 text-xs">
+              <div class="p-4 text-center text-slate-400">Loading sessions...</div>
+            </div>
+
+            <div class="p-2.5 border-t border-slate-100 text-[10px] text-slate-400 flex items-center justify-between">
+              <span>Database: Supabase</span>
+              <button onclick="loadChatSessions()" class="text-blue-600 hover:underline">Refresh</button>
+            </div>
+          </div>
+
+          <!-- RIGHT: Chat Window & Inspector (9 Cols) -->
+          <div class="lg:col-span-9 grid grid-cols-1 lg:grid-cols-12 gap-5">
+            
+            <!-- Chat Window (7 Cols of the 9) -->
+            <div class="lg:col-span-7 bg-white border border-slate-200 rounded flex flex-col h-[560px]">
+              <div class="p-3 border-b border-slate-100 flex items-center justify-between text-xs">
+                <div class="space-y-0.5">
+                  <div class="font-semibold text-slate-900" id="chat-active-session-title">Current Test Session</div>
+                  <div class="text-[10px] text-slate-500 font-mono" id="chat-active-session-id">Active: New Conversation</div>
+                </div>
+                <button onclick="clearChat()" class="text-slate-400 hover:text-slate-700 transition">
+                  Clear
+                </button>
+              </div>
+
+              <!-- Chat Stream -->
+              <div id="chat-stream" class="flex-1 p-4 overflow-y-auto space-y-3 text-xs">
+                <div class="bg-slate-50 border border-slate-100 rounded p-3 text-slate-600">
+                  Send a question below. Each turn calls the live <strong>Google Gemini 3.5</strong> model with local RAG context and online web search in <strong>Clean English</strong>.
+                </div>
+              </div>
+
+              <!-- Input Form -->
+              <form onsubmit="handleChatSubmit(event)" class="p-3 border-t border-slate-100 flex items-center space-x-2 bg-slate-50">
+                <input type="text" id="chat-input" placeholder="Ask Odin about laptops, specs, policies, or web info..." class="flex-1 bg-white border border-slate-200 rounded px-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-slate-400">
+                <button type="submit" id="chat-submit-btn" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded text-xs font-medium transition">
+                  Send
+                </button>
+              </form>
+            </div>
+
+            <!-- Step Inspector (5 Cols of the 9) -->
+            <div class="lg:col-span-5 bg-white border border-slate-200 rounded p-4 flex flex-col h-[560px] overflow-y-auto space-y-3 text-xs">
+              <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+                <span class="font-semibold text-slate-900">Execution Steps</span>
+                <span id="chat-status-pill" class="text-[10px] text-slate-500 font-mono">Idle</span>
+              </div>
+
+              <div id="chat-steps-container" class="space-y-2 text-xs flex-1">
+                <p class="text-slate-400">Execution steps, latency, autonomous tool decisions, and tokens will appear here.</p>
+              </div>
+
+              <div id="chat-sources-box" class="hidden p-3 bg-slate-50 border border-slate-200 rounded text-xs space-y-1">
+                <span class="font-medium text-slate-700 block">Knowledge Sources Used:</span>
+                <div id="chat-sources-text" class="text-slate-600 font-mono text-[11px]"></div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- ============================================== -->
+      <!-- 4. WORKFLOWS TAB (ONLY 1 REAL ACTIVE WORKFLOW)  -->
+      <!-- ============================================== -->
+      <section id="workflows-tab" class="hidden space-y-4">
+        <div class="bg-white border border-slate-200 rounded p-5 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-2.5">
+            <div>
+              <h3 class="text-xs font-semibold text-slate-900">n8n Automation Workflows (1 Active Production Workflow)</h3>
+              <p class="text-[11px] text-slate-500">The actual workflow deployed in production. Click to open its full dashboard in n8n Cloud.</p>
+            </div>
+            <a href="https://p3lautomate.app.n8n.cloud/workflow/CsBJMQmxtWDWqpyq" target="_blank" class="px-3 py-1.5 bg-slate-900 text-white rounded text-xs font-medium hover:bg-slate-800 transition flex items-center space-x-1.5">
+              <span>Open in n8n Cloud</span>
+              <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+            </a>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-50 text-[11px] text-slate-500 border-b border-slate-200">
+                <tr>
+                  <th class="p-3">Workflow Name</th>
+                  <th class="p-3">Workflow ID</th>
+                  <th class="p-3">Trigger</th>
+                  <th class="p-3">Nodes</th>
+                  <th class="p-3">Status</th>
+                  <th class="p-3">Action</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                <tr class="hover:bg-slate-50 cursor-pointer transition" onclick="window.open('https://p3lautomate.app.n8n.cloud/workflow/CsBJMQmxtWDWqpyq', '_blank')">
+                  <td class="p-3 font-semibold text-slate-900 flex items-center space-x-2">
+                    <i class="fa-solid fa-diagram-project text-blue-600"></i>
+                    <span>Odin Multi-Tenant Gateway Router</span>
+                  </td>
+                  <td class="p-3 font-mono text-[11px] text-slate-600">CsBJMQmxtWDWqpyq</td>
+                  <td class="p-3 font-mono text-[11px] text-slate-500">Webhook (/webhook/odin-gateway-router)</td>
+                  <td class="p-3 text-slate-700 font-mono">28 nodes</td>
+                  <td class="p-3">
+                    <span class="px-2 py-0.5 rounded text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-200 font-medium">● Active Production</span>
+                  </td>
+                  <td class="p-3">
+                    <a href="https://p3lautomate.app.n8n.cloud/workflow/CsBJMQmxtWDWqpyq" target="_blank" class="text-blue-600 hover:underline font-medium text-xs flex items-center space-x-1" onclick="event.stopPropagation()">
+                      <span>Open n8n Dashboard</span>
+                      <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- 5. RUN HISTORY TAB                             -->
+      <!-- ============================================== -->
+      <section id="history-tab" class="hidden space-y-4">
+        <div class="bg-white border border-slate-200 rounded p-5 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-2.5">
+            <div>
+              <h3 class="text-xs font-semibold text-slate-900">Execution & Customer Interaction History</h3>
+              <p class="text-[11px] text-slate-500">All prompts, customer queries, and AI responses recorded in Supabase PostgreSQL.</p>
+            </div>
+            <button onclick="loadHistory()" class="px-2.5 py-1 text-xs border border-slate-200 rounded hover:bg-slate-50 transition text-slate-700">
+              <i class="fa-solid fa-rotate-right mr-1"></i> Refresh History
+            </button>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-50 text-[11px] text-slate-500 border-b border-slate-200">
+                <tr>
+                  <th class="p-2.5">Channel</th>
+                  <th class="p-2.5">Time</th>
+                  <th class="p-2.5">Customer Inquiry / Prompt</th>
+                  <th class="p-2.5">Odin-P3L AI Response</th>
+                  <th class="p-2.5">Status</th>
+                </tr>
+              </thead>
+              <tbody id="history-tbody" class="divide-y divide-slate-100">
+                <!-- Populated via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- 6. CODEBASE TESTS TAB                          -->
+      <!-- ============================================== -->
+      <section id="tests-tab" class="hidden space-y-4">
+        <div class="bg-white border border-slate-200 rounded p-5 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-2.5">
+            <div>
+              <h3 class="text-xs font-semibold text-slate-900">Codebase Test Suite (Zero Mocks)</h3>
+              <p class="text-[11px] text-slate-500">Run the actual verification scripts in your repository against the live Gemini 3.5 API.</p>
+            </div>
+            <button onclick="runAllTests()" id="btn-run-all" class="px-3 py-1.5 bg-slate-900 text-white rounded text-xs font-medium hover:bg-slate-800 transition">
+              Run All Tests
+            </button>
+          </div>
+
+          <div id="tests-container" class="divide-y divide-slate-100">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- 7. WHATSAPP GATEWAY TAB                        -->
+      <!-- ============================================== -->
+      <section id="whatsapp-tab" class="hidden space-y-4">
+        <div class="bg-white border border-slate-200 rounded p-5 space-y-4">
+          <div class="border-b border-slate-100 pb-2.5 flex items-center justify-between">
+            <div>
+              <h3 class="text-xs font-semibold text-slate-900">WhatsApp Mobile Gateway</h3>
+              <p class="text-[11px] text-slate-500">Status of the WAHA Core WhatsApp HTTP Engine powering Odin-P3L.</p>
+            </div>
+            <button onclick="refreshWhatsappTab()" class="px-2.5 py-1 text-xs border border-slate-200 rounded hover:bg-slate-50 transition text-slate-700">
+              <i class="fa-solid fa-rotate-right mr-1"></i> Refresh
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+            <div class="p-4 bg-slate-50 border border-slate-100 rounded space-y-2">
+              <div class="font-medium text-slate-900">Connection Details</div>
+              <div><span class="text-slate-500 block text-[11px]">Assigned Line</span><span class="font-mono text-slate-800 font-semibold" id="wa-tab-phone">None (Awaiting Pairing)</span></div>
+              <div><span class="text-slate-500 block text-[11px]">Engine Type</span><span class="text-slate-800">WAHA Core WhatsApp HTTP Engine (Port 5000)</span></div>
+              <div><span class="text-slate-500 block text-[11px]">Inbound Webhook</span><span class="font-mono text-[10px] text-slate-600">/api/whatsapp-inbound</span></div>
+              <div><span class="text-slate-500 block text-[11px]">Primary Tenant</span><span class="text-slate-800 font-mono">P3L Developers (11111111-1111-1111-1111-111111111111)</span></div>
+            </div>
+
+            <div class="p-4 bg-slate-50 border border-slate-100 rounded space-y-2">
+              <div class="font-medium text-slate-900">Inbound Routing & Safety</div>
+              <div><span class="text-slate-500 block text-[11px]">Human Takeover Switch</span><span class="text-emerald-700 font-medium">Supported (Auto-pauses on operator takeover)</span></div>
+              <div><span class="text-slate-500 block text-[11px]">Message Deduplication</span><span class="text-slate-800">In-memory message ID cache active</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- 8. COMMERCIAL PORTAL: 1. QR ONBOARDING         -->
+      <!-- ============================================== -->
+      <section id="portal-onboarding-tab" class="hidden space-y-6">
+        
+        <!-- EXISTING BUSINESSES IN DATABASE -->
+        <div class="bg-white border border-slate-200 rounded p-6 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div>
+              <h3 class="text-sm font-semibold text-slate-900">Existing Businesses in Database</h3>
+              <p class="text-xs text-slate-500">Real tenant records retrieved from Supabase PostgreSQL (<span class="font-mono">muratasgegqmbkhmsevt</span>).</p>
+            </div>
+            <button onclick="loadExistingBusinesses()" class="px-2.5 py-1 text-xs border border-slate-200 rounded hover:bg-slate-50 transition text-slate-700">
+              <i class="fa-solid fa-rotate-right mr-1"></i> Refresh Businesses
+            </button>
+          </div>
+
+          <div id="businesses-container" class="space-y-3">
+            <div class="p-4 text-center text-slate-400 text-xs">Loading registered businesses...</div>
+          </div>
+        </div>
+
+        <!-- NEW CLIENT ONBOARDING WIZARD -->
+        <div class="bg-white border border-slate-200 rounded p-6 space-y-6">
+          <div class="border-b border-slate-100 pb-3 flex items-start justify-between">
+            <div>
+              <h3 class="text-sm font-semibold text-slate-900">Self-Serve WhatsApp Business Onboarding Wizard</h3>
+              <p class="text-xs text-slate-500">Link your business WhatsApp number in under 2 minutes without coding or server setup.</p>
+            </div>
+            <span class="px-2.5 py-1 rounded text-[11px] bg-emerald-50 text-emerald-700 border border-emerald-200 font-medium">
+              ● Ready to Pair
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Left: Client Business Registration -->
+            <div class="space-y-4">
+              <div class="font-medium text-xs text-slate-900 border-b border-slate-100 pb-1.5">
+                Step 1: Business Identity
+              </div>
+              <div class="space-y-3 text-xs">
+                <div>
+                  <label class="block text-slate-500 mb-1">Business / Company Name</label>
+                  <input type="text" id="ob-biz-name" placeholder="e.g. Acme Tech Solutions" class="w-full px-3 py-2 border border-slate-200 rounded text-xs focus:outline-none focus:border-slate-400">
+                </div>
+                <div>
+                  <label class="block text-slate-500 mb-1">Client WhatsApp Line (Safaricom / Airtel / International)</label>
+                  <input type="text" id="ob-biz-phone" placeholder="e.g. +254 7XX XXX XXX (populated on scan)" class="w-full px-3 py-2 border border-slate-200 rounded text-xs font-mono focus:outline-none focus:border-slate-400">
+                </div>
+                <div>
+                  <label class="block text-slate-500 mb-1">Primary Operating City</label>
+                  <input type="text" id="ob-biz-city" placeholder="e.g. Nairobi, Mombasa, Kisumu" class="w-full px-3 py-2 border border-slate-200 rounded text-xs focus:outline-none focus:border-slate-400">
+                </div>
+                <div>
+                  <label class="block text-slate-500 mb-1">Industry Vertical</label>
+                  <select id="ob-biz-vertical" class="w-full px-3 py-2 border border-slate-200 rounded text-xs focus:outline-none focus:border-slate-400" onchange="updateVerticalFromSelect(this.value)">
+                    <option value="electronics_laptop">Electronics, Laptops & Tech Repairs (P3L Default)</option>
+                    <option value="boutique_fashion">Boutique Fashion & Luxury Streetwear</option>
+                    <option value="pharmacy_health">Pharmacies & Healthcare Supplies</option>
+                    <option value="car_dealership">Car Dealerships & Asset Financing</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-slate-500 mb-1">Choose Business Template</label>
+                  <select id="ob-biz-template" class="w-full px-3 py-2 border border-slate-200 rounded text-xs focus:outline-none focus:border-slate-400">
+                    <option value="Bitreal" selected>Bitreal (Retail, Hardware & Commercial WhatsApp Commerce)</option>
+                    <option value="Enterprise_Services">Enterprise Services & B2B Solutions</option>
+                    <option value="Custom_Direct">Custom Blank Business</option>
+                  </select>
+                </div>
+                <button onclick="saveOnboardingIdentity()" class="px-4 py-2 bg-slate-900 text-white rounded text-xs font-medium hover:bg-slate-800 transition">
+                  Save Client to Database
+                </button>
+                <span id="ob-save-status" class="text-xs text-emerald-700 ml-2 font-medium"></span>
+              </div>
+            </div>
+
+            <!-- Right: QR Code Pairing & Instructions -->
+            <div class="p-5 bg-slate-50 border border-slate-200 rounded space-y-4 text-xs">
+              <div class="font-medium text-slate-900 border-b border-slate-200 pb-1.5 flex items-center justify-between">
+                <span>Step 2: WhatsApp Device Link & Live QR</span>
+                <span class="text-slate-500 font-medium" id="ob-session-status">Checking connection...</span>
+              </div>
+
+              <!-- Connection Status Pill -->
+              <div class="p-3 bg-white border border-slate-200 rounded space-y-1">
+                <div class="flex items-center justify-between">
+                  <span class="font-medium text-slate-800">Linked WhatsApp Line</span>
+                  <span class="font-mono text-slate-600 font-semibold" id="ob-connected-phone">Checking...</span>
+                </div>
+                <div class="text-[11px] text-slate-500">
+                  Account Name: <span class="text-slate-800 font-medium" id="ob-connected-user">Checking...</span> · Engine: <span class="font-mono">WAHA Core (Port 5000)</span>
+                </div>
+                <div class="text-[11px] text-slate-500">
+                  Inbound Webhook: <span class="font-mono text-[10px] text-slate-600">/api/whatsapp-inbound</span>
+                </div>
+              </div>
+
+              <!-- Live QR Box (Shown when awaiting QR scan) -->
+              <div id="ob-qr-display-box" class="p-4 bg-white border border-slate-200 rounded text-center space-y-2">
+                <div class="font-medium text-xs text-slate-900">Scan QR Code with WhatsApp:</div>
+                <img id="ob-qr-img" src="/api/waha/qr" class="w-48 h-48 mx-auto border rounded p-1.5 bg-white shadow-sm" alt="WhatsApp QR Code" onerror="this.style.display='none'; document.getElementById('ob-qr-fallback-msg').classList.remove('hidden');" onload="this.style.display='block'; document.getElementById('ob-qr-fallback-msg').classList.add('hidden');" />
+                <div id="ob-qr-fallback-msg" class="hidden text-[11px] text-slate-500 py-4">
+                  Session already paired or generating code...
+                </div>
+                <div class="text-[11px] text-slate-500">
+                  Open WhatsApp > <strong>Settings</strong> (or 3 dots) > <strong>Linked Devices</strong> > <strong>Link a Device</strong>
+                </div>
+              </div>
+
+              <!-- Connected Success Banner (Shown when already paired) -->
+              <div id="ob-connected-box" class="hidden p-4 bg-emerald-50 border border-emerald-200 rounded text-center space-y-2">
+                <div class="inline-flex items-center justify-center w-8 h-8 bg-emerald-600 text-white rounded-full text-sm">
+                  <i class="fa-solid fa-check"></i>
+                </div>
+                <div class="font-semibold text-emerald-900 text-xs">WhatsApp Device Successfully Linked</div>
+                <p class="text-[11px] text-emerald-700">This line is live and responding to incoming customer inquiries with Gemini 3.5 Native ReAct.</p>
+              </div>
+
+              <div class="pt-2 flex items-center space-x-3">
+                <button onclick="refreshOnboardingQr()" class="px-3 py-1.5 bg-white border border-slate-300 text-slate-800 rounded text-xs font-medium hover:bg-slate-100 transition">
+                  <i class="fa-solid fa-rotate-right mr-1"></i> Check Status
+                </button>
+                <button onclick="pairNewWhatsAppDevice()" id="ob-btn-pair-new" class="px-3 py-1.5 bg-slate-900 text-white rounded text-xs font-medium hover:bg-slate-800 transition">
+                  <i class="fa-solid fa-qrcode mr-1"></i> Link New Client Phone (Show QR)
+                </button>
+                <a href="http://localhost:5000/" target="_blank" class="text-blue-600 hover:underline text-xs font-medium">
+                  WAHA Dashboard ↗
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ============================================== -->
+      <!-- 9. COMMERCIAL PORTAL: 2. OPERATOR INBOX        -->
+      <!-- ============================================== -->
+      <section id="portal-inbox-tab" class="hidden space-y-4">
+        <div class="bg-white border border-slate-200 rounded p-5 space-y-4">
+          <div class="border-b border-slate-100 pb-3 flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h3 class="text-sm font-semibold text-slate-900">Shared Human Operator Inbox</h3>
+              <p class="text-xs text-slate-500">Monitor live WhatsApp customer conversations in real time and click "Take Over" to chat directly.</p>
+            </div>
+            <div class="flex items-center space-x-3">
+              <div class="flex items-center space-x-1.5 bg-slate-50 border border-slate-200 rounded px-2.5 py-1">
+                <span class="text-[11px] font-medium text-slate-600">Business:</span>
+                <select id="inbox-tenant-select" onchange="switchBusinessTenant(this.value)" class="bg-transparent text-xs font-semibold text-slate-800 focus:outline-none cursor-pointer">
+                  <option value="11111111-1111-1111-1111-111111111111" selected>P3L Developers (Hardware)</option>
+                  <option value="22222222-2222-2222-2222-222222222222">Luxe Nails & Spa (Services)</option>
+                </select>
+              </div>
+              <button onclick="loadInbox()" class="px-2.5 py-1 text-xs border border-slate-200 rounded hover:bg-slate-50 transition text-slate-700">
+                <i class="fa-solid fa-rotate-right mr-1"></i> Refresh Inbox
+              </button>
+            </div>
+          </div>
+
+          <!-- Split Inbox Layout -->
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 border border-slate-200 rounded min-h-[480px] overflow-hidden">
+            <!-- Left: Conversation List -->
+            <div class="border-r border-slate-200 bg-slate-50 divide-y divide-slate-100 overflow-y-auto max-h-[520px]" id="inbox-conv-list">
+              <!-- Populated via JS -->
+            </div>
+
+            <!-- Right: Active Chat View -->
+            <div class="lg:col-span-2 flex flex-col justify-between bg-white h-[520px]">
+              <!-- Chat Header -->
+              <div class="p-3.5 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+                <div class="space-y-0.5">
+                  <div class="text-xs font-semibold text-slate-900" id="inbox-active-title">Select a conversation</div>
+                  <div class="text-[11px] text-slate-500 font-mono" id="inbox-active-phone">-</div>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <button id="inbox-takeover-btn" onclick="toggleTakeover()" class="hidden px-3 py-1 rounded text-xs font-medium transition">
+                    Take Over
+                  </button>
+                </div>
+              </div>
+
+              <!-- Message History Bubble Area -->
+              <div class="p-4 space-y-3 overflow-y-auto flex-1 bg-slate-50/50" id="inbox-messages-container">
+                <div class="text-center text-xs text-slate-400 py-16">
+                  Select a customer thread from the left to view the live transcript.
+                </div>
+              </div>
+
+              <!-- Staff Reply Composer -->
+              <div class="p-3 border-t border-slate-200 bg-white space-y-2">
+                <div class="flex items-center space-x-2">
+                  <input type="text" id="inbox-reply-input" placeholder="Type a message as a human operator..." class="flex-1 px-3 py-2 border border-slate-200 rounded text-xs focus:outline-none focus:border-slate-400">
+                  <button onclick="sendStaffReply()" class="px-4 py-2 bg-slate-900 text-white rounded text-xs font-medium hover:bg-slate-800 transition">
+                    Send WhatsApp
+                  </button>
+                </div>
+                <div class="flex items-center space-x-2 text-[10px] text-slate-400">
+                  <span>Quick templates:</span>
+                  <button onclick="setStaffPrompt('Checking our physical store stock in Nairobi right now, please give me 1 minute!')" class="underline hover:text-slate-700">Stock Check</button>
+                  <span>·</span>
+                  <button onclick="setStaffPrompt('Here is our Safaricom M-Pesa Pochi La Biashara number: 0768141129 (Razak Guyo).')" class="underline hover:text-slate-700">M-Pesa Pochi</button>
+                  <span>·</span>
+                  <button onclick="setStaffPrompt('Hi! I am Razak Guyo, founder of P3L Developers. How can I help you personally?')" class="underline hover:text-slate-700">Founder Intro</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- 10. COMMERCIAL PORTAL: 3. TIERS & M-PESA       -->
+      <!-- ============================================== -->
+      <section id="portal-billing-tab" class="hidden space-y-5">
+        <div class="bg-white border border-slate-200 rounded p-6 space-y-6">
+          <div class="border-b border-slate-100 pb-3">
+            <h3 class="text-sm font-semibold text-slate-900">Standardized Pricing Packages & Automated M-Pesa Subscription</h3>
+            <p class="text-xs text-slate-500">Pick a monthly package and trigger instant billing via Safaricom Daraja STK Push.</p>
+          </div>
+
+          <!-- 3-Tier Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <!-- Starter -->
+            <div class="border border-slate-200 rounded p-5 space-y-4 hover:border-slate-300 transition">
+              <div class="space-y-1">
+                <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Starter</span>
+                <div class="text-2xl font-bold text-slate-900">KES 4,500 <span class="text-xs font-normal text-slate-500">/mo</span></div>
+                <p class="text-[11px] text-slate-500">For solo merchants and single-product catalog shops.</p>
+              </div>
+              <ul class="space-y-2 text-xs text-slate-600 border-t border-slate-100 pt-3">
+                <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-emerald-600 text-[10px]"></i><span>1 WhatsApp Business Number</span></li>
+                <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-emerald-600 text-[10px]"></i><span>1,000 automated chats / month</span></li>
+                <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-emerald-600 text-[10px]"></i><span>Standard Catalog RAG Search</span></li>
+                <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-emerald-600 text-[10px]"></i><span>Manual M-Pesa Instructions</span></li>
+                <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-emerald-600 text-[10px]"></i><span>99.5% Uptime SLA</span></li>
+              </ul>
+              <button onclick="selectPlan('starter', 'Starter Package', 4500)" class="w-full py-2 bg-slate-100 text-slate-800 rounded text-xs font-medium hover:bg-slate-200 transition">
+                Select Starter
+              </button>
+            </div>
+
+            <!-- Pro (Featured) -->
+            <div class="border-2 border-slate-900 rounded p-5 space-y-4 bg-slate-50/30 relative">
+              <span class="absolute -top-2.5 right-4 bg-slate-900 text-white text-[10px] font-semibold px-2 py-0.5 rounded">
+                MOST POPULAR
+              </span>
+              <div class="space-y-1">
+                <span class="text-xs font-semibold uppercase tracking-wider text-slate-900">Pro Package</span>
+                <div class="text-2xl font-bold text-slate-900">KES 12,000 <span class="text-xs font-normal text-slate-500">/mo</span></div>
+                <p class="text-[11px] text-slate-600">High-converting engine for active retail, hardware, and service shops.</p>
+              </div>
+              <ul class="space-y-2 text-xs text-slate-700 border-t border-slate-200 pt-3 font-medium">
+                <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-emerald-600 text-[10px]"></i><span>1-2 WhatsApp Business Numbers</span></li>
+                <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-emerald-600 text-[10px]"></i><span>5,000 automated chats / month</span></li>
+                <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-emerald-600 text-[10px]"></i><span>Shared Human Operator Inbox</span></li>
+                <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-emerald-600 text-[10px]"></i><span>Safaricom Daraja STK Push Integration</span></li>
+                <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-emerald-600 text-[10px]"></i><span>Clean English System Lock</span></li>
+                <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-emerald-600 text-[10px]"></i><span>Weekly Automated ROI Reports</span></li>
+                <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-emerald-600 text-[10px]"></i><span>99.9% Production SLA</span></li>
+              </ul>
+              <button onclick="selectPlan('pro', 'Pro Package', 12000)" class="w-full py-2 bg-slate-900 text-white rounded text-xs font-medium hover:bg-slate-800 transition">
+                Select Pro Package
+              </button>
+            </div>
+
+            <!-- Enterprise -->
+            <div class="border border-slate-200 rounded p-5 space-y-4 hover:border-slate-300 transition">
+              <div class="space-y-1">
+                <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Enterprise</span>
+                <div class="text-2xl font-bold text-slate-900">KES 35,000 <span class="text-xs font-normal text-slate-500">/mo</span></div>
+                <p class="text-[11px] text-slate-500">Full custom omnichannel automation for scaling companies.</p>
+              </div>
+              <ul class="space-y-2 text-xs text-slate-600 border-t border-slate-100 pt-3">
+                <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-emerald-600 text-[10px]"></i><span>Unlimited WhatsApp Conversations</span></li>
+                <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-emerald-600 text-[10px]"></i><span>Multi-Tenant Supabase / CRM Sync</span></li>
+                <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-emerald-600 text-[10px]"></i><span>Custom Multi-Doc RAG Pipelines</span></li>
+                <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-emerald-600 text-[10px]"></i><span>Dedicated 15-Minute Response SLA</span></li>
+                <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-emerald-600 text-[10px]"></i><span>Founder Architecture Advisory</span></li>
+              </ul>
+              <button onclick="selectPlan('enterprise', 'Enterprise Package', 35000)" class="w-full py-2 bg-slate-100 text-slate-800 rounded text-xs font-medium hover:bg-slate-200 transition">
+                Select Enterprise
+              </button>
+            </div>
+          </div>
+
+          <!-- Automated M-Pesa Subscription Box -->
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded space-y-4 text-xs">
+            <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+              <div class="font-medium text-slate-900">Automated M-Pesa Daraja Subscription Billing</div>
+              <span class="text-[11px] text-emerald-700 font-medium">Safaricom Daraja API Active</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+              <div>
+                <label class="block text-slate-500 mb-1">Selected Package</label>
+                <input type="text" id="sub-selected-plan" value="Pro Package (KES 12,000 / mo)" readonly class="w-full px-3 py-2 bg-white border border-slate-200 rounded text-xs font-semibold text-slate-900">
+              </div>
+              <div>
+                <label class="block text-slate-500 mb-1">Client M-Pesa Phone Number</label>
+                <input type="text" id="sub-phone" placeholder="e.g. 2547XXXXXXXX" class="w-full px-3 py-2 bg-white border border-slate-200 rounded text-xs font-mono focus:outline-none focus:border-slate-400">
+              </div>
+              <div>
+                <button onclick="triggerSubscriptionStk()" id="sub-btn" class="w-full py-2 bg-emerald-600 text-white rounded text-xs font-medium hover:bg-emerald-700 transition flex items-center justify-center space-x-1.5">
+                  <i class="fa-solid fa-mobile-screen"></i>
+                  <span>Pay with M-Pesa STK Push</span>
+                </button>
+              </div>
+            </div>
+
+            <div id="sub-result-box" class="hidden p-3 bg-white border border-slate-200 rounded text-xs space-y-1">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- 11. COMMERCIAL PORTAL: 4. KNOWLEDGE & VERTICALS-->
+      <!-- ============================================== -->
+      <section id="portal-kb-tab" class="hidden space-y-5">
+        <div class="bg-white border border-slate-200 rounded p-6 space-y-6">
+          <div class="border-b border-slate-100 pb-3">
+            <h3 class="text-sm font-semibold text-slate-900">Knowledge Base Upload & Pre-Built Verticals</h3>
+            <p class="text-xs text-slate-500">Upload custom CSV/JSON price lists or deploy pre-packaged templates for Kenyan business niches.</p>
+          </div>
+
+          <!-- Pre-Built Vertical Templates -->
+          <div class="space-y-3">
+            <div class="font-medium text-xs text-slate-900">Pre-Built Industry Templates (1-Click Deployment)</div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" id="vertical-templates-container">
+              <!-- Populated via JS -->
+            </div>
+          </div>
+
+          <!-- Drag and Drop Uploader -->
+          <div class="space-y-3 pt-3 border-t border-slate-100">
+            <div class="font-medium text-xs text-slate-900">No-Code Knowledge Base Upload (CSV / JSON / Text)</div>
+            <div id="drop-zone" class="border-2 border-dashed border-slate-300 rounded-lg p-8 text-center space-y-2 hover:border-slate-400 transition cursor-pointer bg-slate-50/50" onclick="document.getElementById('file-upload-input').click()">
+              <input type="file" id="file-upload-input" class="hidden" accept=".csv,.json,.txt" onchange="handleFileUpload(event)">
+              <div class="w-10 h-10 mx-auto rounded-full bg-slate-100 flex items-center justify-center text-slate-500 text-base">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+              </div>
+              <div class="text-xs font-medium text-slate-800">
+                Click to browse or drag and drop your product price list or FAQ file
+              </div>
+              <div class="text-[11px] text-slate-500">
+                Supports CSV, JSON, and Text formats. Automatically parsed and embedded into RAG memory.
+              </div>
+            </div>
+
+            <!-- Upload Result & Table Preview -->
+            <div id="upload-preview-container" class="hidden space-y-3 p-4 bg-slate-50 border border-slate-200 rounded text-xs">
+              <div class="flex items-center justify-between">
+                <span class="font-medium text-slate-900" id="upload-preview-title">Parsed Products</span>
+                <button onclick="deployUploadedKnowledge()" class="px-3 py-1 bg-slate-900 text-white rounded text-xs hover:bg-slate-800 transition">
+                  Confirm & Deploy to Agent
+                </button>
+              </div>
+              <div class="overflow-x-auto max-h-48 overflow-y-auto">
+                <table class="w-full text-left text-xs bg-white border border-slate-200 rounded">
+                  <thead class="bg-slate-100 text-[10px] text-slate-600">
+                    <tr><th class="p-2">Name / Title</th><th class="p-2">Price (KES)</th><th class="p-2">Category</th></tr>
+                  </thead>
+                  <tbody id="upload-preview-tbody" class="divide-y divide-slate-100"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- 12. COMMERCIAL PORTAL: 5. DIALECT, HOURS & SLA -->
+      <!-- ============================================== -->
+      <section id="portal-settings-tab" class="hidden space-y-5">
+        <div class="bg-white border border-slate-200 rounded p-6 space-y-6">
+          <div class="border-b border-slate-100 pb-3">
+            <h3 class="text-sm font-semibold text-slate-900">Dialect Modes, Business Hours & Production SLA</h3>
+            <p class="text-xs text-slate-500">Control agent communication style, schedule after-hours routing, and inspect service level guarantees.</p>
+          </div>
+
+          <!-- Feature 9: English System Lock -->
+          <div class="space-y-3">
+            <div class="font-medium text-xs text-slate-900">Communication Tone Policy</div>
+            <div class="p-4 rounded border border-slate-900 bg-slate-50 space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="font-semibold text-xs text-slate-900">Strict Clean Professional English Only</span>
+                <span class="px-2 py-0.5 rounded text-[10px] bg-slate-900 text-white font-medium">Enforced</span>
+              </div>
+              <p class="text-[11px] text-slate-600">
+                Odin-P3L is configured to strictly respond in clean, grammatically sound, professional English. All colloquial slang, Swahili, and Sheng are completely disabled across all channels.
+              </p>
+            </div>
+          </div>
+
+          <!-- Feature 7: Business Hours & Out-of-Office Routing -->
+          <div class="space-y-3 pt-3 border-t border-slate-100">
+            <div class="flex items-center justify-between">
+              <div class="font-medium text-xs text-slate-900">Business Hours & Out-of-Office Routing</div>
+              <label class="flex items-center space-x-2 text-xs cursor-pointer">
+                <input type="checkbox" id="bh-enable" onchange="saveBusinessHours()" class="rounded">
+                <span class="font-medium text-slate-700">Enforce Business Hours</span>
+              </label>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+              <div>
+                <label class="block text-slate-500 mb-1">Opening Time (EAT)</label>
+                <input type="time" id="bh-start" value="08:00" class="w-full px-3 py-2 border border-slate-200 rounded text-xs" onchange="saveBusinessHours()">
+              </div>
+              <div>
+                <label class="block text-slate-500 mb-1">Closing Time (EAT)</label>
+                <input type="time" id="bh-end" value="20:00" class="w-full px-3 py-2 border border-slate-200 rounded text-xs" onchange="saveBusinessHours()">
+              </div>
+              <div>
+                <label class="block text-slate-500 mb-1">Operating Days</label>
+                <input type="text" id="bh-days" value="Monday - Saturday" readonly class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded text-xs text-slate-600">
+              </div>
+            </div>
+            <div>
+              <label class="block text-slate-500 text-xs mb-1">After-Hours Auto-Responder Message</label>
+              <textarea id="bh-msg" rows="2" class="w-full px-3 py-2 border border-slate-200 rounded text-xs focus:outline-none focus:border-slate-400" onchange="saveBusinessHours()">Hello! Thank you for contacting P3L Tech Shop. We are currently closed for the night. Your inquiry has been safely recorded, and our specialist will respond first thing at 8:00 AM.</textarea>
+            </div>
+          </div>
+
+          <!-- Feature 6: Weekly ROI & Analytics Automation Summary -->
+          <div class="space-y-3 pt-3 border-t border-slate-100">
+            <div class="flex items-center justify-between">
+              <div class="font-medium text-xs text-slate-900">Automated Weekly ROI & Client Summary</div>
+              <button onclick="sendWeeklyRoiEmail()" id="roi-send-btn" class="px-3 py-1 bg-slate-900 text-white rounded text-xs hover:bg-slate-800 transition">
+                <i class="fa-solid fa-paper-plane mr-1"></i> Send Sample Weekly Report
+              </button>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs bg-slate-50 p-4 rounded border border-slate-200" id="roi-summary-grid">
+              <div><span class="text-slate-500 block text-[11px]">Total Inquiries Handled</span><span class="text-base font-bold text-slate-900" id="roi-inquiries">0</span></div>
+              <div><span class="text-slate-500 block text-[11px]">Orders Closed</span><span class="text-base font-bold text-emerald-700" id="roi-orders">0 (0.0%)</span></div>
+              <div><span class="text-slate-500 block text-[11px]">Hours Saved by Bot</span><span class="text-base font-bold text-slate-900" id="roi-hours">0.0 Hours</span></div>
+              <div><span class="text-slate-500 block text-[11px]">Peak Inquiry Window</span><span class="text-base font-bold text-slate-900" id="roi-peak">Live Telemetry</span></div>
+            </div>
+            <span id="roi-email-status" class="text-xs text-emerald-700 font-medium"></span>
+          </div>
+
+          <!-- Feature 10: 99.9% Uptime Guarantee & SLA Terms -->
+          <div class="space-y-3 pt-3 border-t border-slate-100">
+            <div class="flex items-center justify-between">
+              <div class="font-medium text-xs text-slate-900">99.9% Production SLA & Service Agreement</div>
+              <button onclick="window.print()" class="px-2.5 py-1 text-xs border border-slate-200 rounded hover:bg-slate-50 transition text-slate-700">
+                <i class="fa-solid fa-print mr-1"></i> Print / Save PDF Agreement
+              </button>
+            </div>
+            <div class="p-4 bg-slate-50 border border-slate-200 rounded text-xs space-y-2 text-slate-700 leading-relaxed font-mono text-[11px]">
+              <div class="font-bold text-slate-900">P3L DEVELOPERS & TECH SHOP — PRODUCTION SLA SPECIFICATION</div>
+              <div><strong>1. Availability Guarantee:</strong> The Odin AI platform guarantees 99.9% monthly uptime across n8n workflows, Google Gemini inference, and WhatsApp webhook delivery.</div>
+              <div><strong>2. Human Escalation Response:</strong> Any conversation tagged with <span class="bg-amber-100 text-amber-900 px-1 rounded font-bold">human_takeover</span> initiates instant priority alerts to Razak Guyo (+254768141129) with a 15-minute response target.</div>
+              <div><strong>3. Data Privacy & Isolation:</strong> All customer phone numbers, catalog pricing, and order transcripts are encrypted in Supabase with Row Level Security (RLS) under Tenant ID 11111111-1111-1111-1111-111111111111.</div>
+              <div><strong>4. Service Credit:</strong> Any verifiable outage exceeding 0.1% monthly downtime results in a 10% credit applied to the next billing cycle.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script>
+    // Global State
+    let currentTab = 'overview-tab';
+    let globalHistory = [];
+    let globalTests = [];
+    let currentSessionId = null;
+    let qrPollInterval = null;
+
+    // Tab Navigation
+    function switchTab(tabId) {
+      document.querySelectorAll('main > div > section').forEach(sec => sec.classList.add('hidden'));
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('bg-slate-100', 'text-slate-900', 'font-semibold');
+        btn.classList.add('text-slate-600');
+      });
+
+      const target = document.getElementById(tabId);
+      if (target) target.classList.remove('hidden');
+
+      const navKey = tabId.replace('-tab', '');
+      const navBtn = document.getElementById(`nav-${navKey}`);
+      if (navBtn) {
+        navBtn.classList.add('bg-slate-100', 'text-slate-900', 'font-semibold');
+        navBtn.classList.remove('text-slate-600');
+      }
+
+      currentTab = tabId;
+
+      if (tabId === 'overview-tab') loadOverview();
+      if (tabId === 'chat-tab') {
+        loadChatSessions();
+      }
+      if (tabId === 'workflows-tab') loadWorkflows();
+      if (tabId === 'history-tab') loadHistory();
+      if (tabId === 'tests-tab') loadTests();
+      if (tabId === 'whatsapp-tab') refreshWhatsappTab();
+      if (tabId === 'portal-onboarding-tab') {
+        refreshOnboardingQr();
+        loadExistingBusinesses();
+      }
+      if (tabId === 'portal-inbox-tab') loadInbox();
+      if (tabId === 'portal-kb-tab' || tabId === 'portal-settings-tab') loadPortalSettings();
+    }
+
+    // 1. Overview Loader
+    async function loadOverview() {
+      try {
+        const res = await fetch('/api/overview');
+        const data = await res.json();
+        if (data.success) {
+          document.getElementById('ov-agents').textContent = data.agents.online;
+          document.getElementById('ov-runs').textContent = data.executions.total;
+          document.getElementById('ov-latency').textContent = `${data.executions.avgLatencyMs} ms`;
+          document.getElementById('ov-tokens').textContent = (data.costs.totalTokens || 0).toLocaleString();
+          document.getElementById('ov-cost').textContent = `Cost: $${(data.costs.totalCostUsd || 0).toFixed(5)}`;
+
+          // WhatsApp Gateway status
+          if (data.whatsapp) {
+            const statusEl = document.getElementById('ov-wa-status');
+            const phoneEl = document.getElementById('ov-wa-phone');
+            const userEl = document.getElementById('ov-wa-user');
+
+            if (data.whatsapp.connected && data.whatsapp.phone) {
+              if (statusEl) {
+                statusEl.textContent = '● Live';
+                statusEl.className = 'text-emerald-700 font-medium';
+              }
+              if (phoneEl) phoneEl.textContent = data.whatsapp.phone;
+              if (userEl) userEl.textContent = data.whatsapp.pushName ? `${data.whatsapp.pushName} (Paired)` : 'Paired';
+            } else {
+              if (statusEl) {
+                statusEl.textContent = '● Awaiting Pair';
+                statusEl.className = 'text-amber-600 font-medium';
+              }
+              if (phoneEl) phoneEl.textContent = 'None (Scan QR to link)';
+              if (userEl) userEl.textContent = 'Disconnected';
+            }
+          }
+
+          if (data.telegram) {
+            const tgStatusEl = document.getElementById('ov-tg-status');
+            if (tgStatusEl) tgStatusEl.textContent = `● ${data.telegram.status}`;
+          }
+
+          // Recent Activity Feed
+          const container = document.getElementById('ov-activity-container');
+          if (data.recentActivity && data.recentActivity.length > 0) {
+            container.innerHTML = '';
+            data.recentActivity.forEach(item => {
+              const row = document.createElement('div');
+              row.className = 'py-2.5 flex items-center justify-between text-xs';
+              const agentLabel = item.agentName || (item.role === 'assistant' ? 'Odin-P3L AI' : 'Customer');
+              const textContent = item.input || item.text || '(Request processed)';
+              row.innerHTML = `
+                <div class="space-y-0.5 max-w-lg truncate">
+                  <div class="font-medium text-slate-800">${agentLabel} · <span class="text-slate-500 font-normal">P3L Developers</span></div>
+                  <div class="text-slate-500 truncate">"${textContent}"</div>
+                </div>
+                <div class="text-right text-[11px] font-mono text-slate-500">
+                  <span class="text-slate-800 font-medium">${item.latencyMs || 0} ms</span>
+                  <div>${new Date(item.timestamp || Date.now()).toLocaleTimeString()}</div>
+                </div>
+              `;
+              container.appendChild(row);
+            });
+          }
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    // 2. Embedded Overview AI Sandbox & Multi-Tenant Business Switching
+    let currentActiveTenantId = '11111111-1111-1111-1111-111111111111';
+
+    function switchBusinessTenant(tenantId) {
+      currentActiveTenantId = tenantId;
+      const isNails = tenantId === '22222222-2222-2222-2222-222222222222';
+
+      // Sync all dropdowns
+      const ovSelect = document.getElementById('ov-tenant-select');
+      const testSelect = document.getElementById('test-tenant-select');
+      const inboxSelect = document.getElementById('inbox-tenant-select');
+      if (ovSelect) ovSelect.value = tenantId;
+      if (testSelect) testSelect.value = tenantId;
+      if (inboxSelect) inboxSelect.value = tenantId;
+
+      // Update Overview elements
+      const headerTitle = document.getElementById('ov-agent-header-title');
+      const headerSub = document.getElementById('ov-agent-header-sub');
+      const ovStream = document.getElementById('ov-chat-stream');
+      const ovInput = document.getElementById('ov-chat-input');
+      const testInput = document.getElementById('test-chat-input');
+      const promptsBox = document.getElementById('ov-quick-prompts-container');
+
+      // Reset active session so conversations never cross-contaminate
+      currentSessionId = null;
+      const activeTitle = document.getElementById('chat-active-session-title');
+      const activeId = document.getElementById('chat-active-session-id');
+      if (activeTitle) activeTitle.textContent = isNails ? 'Luxe Nails & Spa Lounge' : 'P3L Developers';
+      if (activeId) activeId.textContent = 'Session: Fresh Session';
+
+      if (isNails) {
+        if (headerTitle) headerTitle.textContent = 'Bella-Luxe · Beauty & Nail Concierge';
+        if (headerSub) headerSub.textContent = 'Nail service catalog, 500 KES reservation deposits, and zero tech cross-talk.';
+        if (ovStream) ovStream.innerHTML = '<div class="p-3 bg-white border border-slate-200 rounded text-slate-700 max-w-xl">Hello, welcome to Luxe Nails and Spa Lounge on Wood Avenue in Kilimani. I am Bella. How can I help you today?</div>';
+        if (ovInput) ovInput.placeholder = 'Ask Bella about acrylics, Russian manicures, spa pedicures, or book an appointment...';
+        if (testInput) testInput.placeholder = 'Ask Bella about nail services, booking slots, M-Pesa deposits, or salon policies...';
+
+        if (promptsBox) {
+          promptsBox.innerHTML = `
+            <span class="text-slate-400 py-1 text-[11px]">Quick Tests:</span>
+            <button onclick="sendOverviewPrompt('What signature manicure and pedicure services do you offer and what are their prices in KES?')" class="px-2.5 py-1 bg-pink-50 border border-pink-200 hover:border-pink-400 rounded text-pink-900 transition font-medium">
+              Services Menu
+            </button>
+            <button onclick="sendOverviewPrompt('What is your salon policy on booking deposits and rescheduling?')" class="px-2.5 py-1 bg-slate-50 border border-slate-200 hover:border-slate-400 rounded text-slate-700 transition">
+              Deposit & Hygiene Policy
+            </button>
+            <button onclick="sendOverviewPrompt('I would like to book the Russian Dry Manicure with BIAB for tomorrow at 2 PM.')" class="px-2.5 py-1 bg-slate-50 border border-slate-200 hover:border-slate-400 rounded text-slate-700 transition">
+              Book Appointment
+            </button>
+            <button onclick="sendOverviewPrompt('Do you sell HP Victus gaming laptops with RTX 4050?')" class="px-2.5 py-1 bg-amber-50 border border-amber-300 hover:border-amber-500 rounded text-amber-900 transition font-medium">
+              Isolation Test (Ask for Laptops)
+            </button>
+            <button onclick="sendOverviewPrompt('I need to speak directly with salon director Amina Wanjiku.')" class="px-2.5 py-1 bg-slate-50 border border-slate-200 hover:border-slate-400 rounded text-slate-700 transition">
+              Owner Escalation
+            </button>
+          `;
+        }
+      } else {
+        if (headerTitle) headerTitle.textContent = 'Odin-P3L · Hardware & Engineering Specialist';
+        if (headerSub) headerSub.textContent = 'Computer hardware catalog, M-Pesa billing, and zero salon cross-talk.';
+        if (ovStream) ovStream.innerHTML = '<div class="p-3 bg-white border border-slate-200 rounded text-slate-600 max-w-xl">Hello, welcome to P3L Developers and Tech Shop. I am Odin. Are you looking for a laptop, workstation, or technical support today?</div>';
+        if (ovInput) ovInput.placeholder = 'Ask Odin about laptops, specs, M-Pesa, warranty, or browse the web...';
+        if (testInput) testInput.placeholder = 'Ask Odin about laptops, specs, policies, or web info...';
+
+        if (promptsBox) {
+          promptsBox.innerHTML = `
+            <span class="text-slate-400 py-1 text-[11px]">Quick Tests:</span>
+            <button onclick="sendOverviewPrompt('What coding laptops do you have in stock and what are their prices in KES?')" class="px-2.5 py-1 bg-slate-50 border border-slate-200 hover:border-slate-400 rounded text-slate-700 transition">
+              Laptop Catalog
+            </button>
+            <button onclick="sendOverviewPrompt('What is your warranty policy if the seal is broken?')" class="px-2.5 py-1 bg-slate-50 border border-slate-200 hover:border-slate-400 rounded text-slate-700 transition">
+              Warranty & Returns
+            </button>
+            <button onclick="sendOverviewPrompt('I want to pay KES 50,000 via M-Pesa STK push for the HP Victus.')" class="px-2.5 py-1 bg-slate-50 border border-slate-200 hover:border-slate-400 rounded text-slate-700 transition">
+              M-Pesa STK Push
+            </button>
+            <button onclick="sendOverviewPrompt('Can I book an appointment for acrylic nails and Russian manicure?')" class="px-2.5 py-1 bg-amber-50 border border-amber-300 hover:border-amber-500 rounded text-amber-900 transition font-medium">
+              Isolation Test (Ask for Nails)
+            </button>
+            <button onclick="sendOverviewPrompt('Please escalate my request to founder Razak Guyo regarding an enterprise contract.')" class="px-2.5 py-1 bg-slate-50 border border-slate-200 hover:border-slate-400 rounded text-slate-700 transition">
+              Founder Escalation
+            </button>
+          `;
+        }
+      }
+
+      clearChat();
+      loadChatSessions();
+      loadInbox(tenantId);
+    }
+
+    function clearOverviewChat() {
+      const isNails = currentActiveTenantId === '22222222-2222-2222-2222-222222222222';
+      document.getElementById('ov-chat-stream').innerHTML = isNails 
+        ? '<div class="p-3 bg-white border border-slate-200 rounded text-slate-600 max-w-xl">Hello, welcome to Luxe Nails and Spa Lounge on Wood Avenue in Kilimani. I am Bella. How can I help you today?</div>'
+        : '<div class="p-3 bg-white border border-slate-200 rounded text-slate-600 max-w-xl">Hello, welcome to P3L Developers and Tech Shop. I am Odin. Are you looking for a laptop, workstation, or technical support today?</div>';
+    }
+
+    function sendOverviewPrompt(text) {
+      document.getElementById('ov-chat-input').value = text;
+      handleOverviewChatSubmit(new Event('submit'));
+    }
+
+    function formatAiReply(text) {
+      if (!text) return '';
+      let formatted = text.replace(/!\[([^\]]*)\]\((https?:\/\/[^\)]+)\)/g, '<div class="my-2.5"><img src="$2" alt="$1" class="rounded border border-slate-200 max-h-48 object-cover shadow-sm"><span class="text-[10px] text-slate-500 font-medium block mt-1">$1</span></div>');
+      formatted = formatted.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+      return formatted;
+    }
+
+    async function handleOverviewChatSubmit(e) {
+      if (e) e.preventDefault();
+      const input = document.getElementById('ov-chat-input');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const stream = document.getElementById('ov-chat-stream');
+      const latencyBadge = document.getElementById('ov-chat-latency-badge');
+      const btn = document.getElementById('ov-chat-btn');
+
+      // Append user bubble
+      const u = document.createElement('div');
+      u.className = 'text-right';
+      u.innerHTML = `<span class="inline-block bg-slate-900 text-white rounded px-3 py-1.5 text-xs">${text}</span>`;
+      stream.appendChild(u);
+      input.value = '';
+      stream.scrollTop = stream.scrollHeight;
+
+      btn.disabled = true;
+      latencyBadge.textContent = 'Calling Gemini 3.5...';
+
+      try {
+        const res = await fetch('/api/testing/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            message: text,
+            tenantId: currentActiveTenantId,
+            sessionId: currentSessionId,
+            capabilities: { ragEnabled: true, mediaDeliveryEnabled: true }
+          })
+        });
+
+        const data = await res.json();
+        btn.disabled = false;
+
+        if (data.success) {
+          latencyBadge.textContent = `${data.latencyMs} ms · ${data.tokens?.totalTokenCount || 0} tokens`;
+
+          const a = document.createElement('div');
+          a.className = 'text-left space-y-1';
+          let mediaHtml = '';
+          if (data.media) {
+            mediaHtml = `<div class="mt-2"><img src="${data.media.url}" class="rounded border border-slate-200 max-h-36"><span class="text-[10px] text-slate-500 block mt-1">${data.media.title}</span></div>`;
+          }
+
+          a.innerHTML = `
+            <div class="inline-block bg-white border border-slate-200 rounded p-3 text-slate-800 max-w-lg shadow-sm">
+              <div class="whitespace-pre-wrap text-xs leading-relaxed">${formatAiReply(data.reply)}</div>
+              ${mediaHtml}
+              <div class="text-[10px] text-slate-400 font-mono pt-1.5 mt-2 border-t border-slate-100 flex items-center justify-between">
+                <span>${data.latencyMs} ms · ${data.tokens?.totalTokenCount || 0} tokens</span>
+                <span>Odin-P3L ReAct</span>
+              </div>
+            </div>
+          `;
+          stream.appendChild(a);
+          stream.scrollTop = stream.scrollHeight;
+
+          // Update overview counters immediately
+          loadOverview();
+        } else {
+          latencyBadge.textContent = 'Error';
+          const errDiv = document.createElement('div');
+          errDiv.className = 'text-xs text-red-600 font-mono p-2 bg-red-50 rounded border border-red-200';
+          errDiv.textContent = 'Error: ' + (data.error || 'Failed to get response');
+          stream.appendChild(errDiv);
+        }
+      } catch (err) {
+        btn.disabled = false;
+        latencyBadge.textContent = 'Connection error';
+      }
+    }
+
+    // 3. Test Chat Tab (With Saved Sessions Sidebar)
+    async function loadChatSessions() {
+      try {
+        const res = await fetch(`/api/portal/chat/sessions?tenantId=${currentActiveTenantId}`);
+        const data = await res.json();
+        const listContainer = document.getElementById('chat-sessions-list');
+        const countBadge = document.getElementById('nav-sessions-count');
+
+        if (data.success && data.sessions) {
+          countBadge.textContent = data.sessions.length;
+          listContainer.innerHTML = '';
+
+          if (data.sessions.length === 0) {
+            listContainer.innerHTML = '<div class="p-4 text-center text-slate-400 text-xs">No saved chats for this business yet.<br>Click "New Chat" to start.</div>';
+            return;
+          }
+
+          data.sessions.forEach(s => {
+            const isSelected = s.id === currentSessionId;
+            const div = document.createElement('div');
+            div.className = `p-3 cursor-pointer transition ${isSelected ? 'bg-slate-100 border-l-2 border-slate-900 font-semibold' : 'hover:bg-slate-50'}`;
+            div.onclick = () => selectChatSession(s.id, s.customer_phone || s.customer_name || 'Session');
+
+            div.innerHTML = `
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs text-slate-900 truncate">${s.customer_name || s.customer_phone || 'Customer Session'}</span>
+                <span class="text-[9px] text-slate-400 font-mono">${s.status || 'active'}</span>
+              </div>
+              <div class="text-[10px] text-slate-500 font-mono truncate">
+                ${s.customer_phone || s.id.substring(0, 8)} · ${new Date(s.created_at || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              </div>
+            `;
+            listContainer.appendChild(div);
+          });
+        }
+      } catch (e) {
+        console.error('Failed to load chat sessions:', e);
+      }
+    }
+
+    function startNewTestChat() {
+      currentSessionId = null;
+      const isNails = currentActiveTenantId === '22222222-2222-2222-2222-222222222222';
+      document.getElementById('chat-active-session-title').textContent = isNails ? 'Luxe Nails & Spa Lounge' : 'P3L Developers';
+      document.getElementById('chat-active-session-id').textContent = 'Session: Fresh Clean Session';
+      clearChat();
+      loadChatSessions();
+    }
+
+    async function selectChatSession(sessionId, title) {
+      currentSessionId = sessionId;
+      document.getElementById('chat-active-session-title').textContent = title;
+      document.getElementById('chat-active-session-id').textContent = `Session ID: ${sessionId}`;
+
+      const stream = document.getElementById('chat-stream');
+      stream.innerHTML = '<div class="text-center text-xs text-slate-400 py-6">Loading session transcript...</div>';
+
+      try {
+        const res = await fetch(`/api/portal/chat/session/messages?sessionId=${sessionId}`);
+        const data = await res.json();
+
+        if (data.success && data.messages) {
+          stream.innerHTML = '';
+          if (data.messages.length === 0) {
+            stream.innerHTML = '<div class="p-3 bg-slate-50 border border-slate-100 rounded text-slate-600">No messages in this session yet.</div>';
+            return;
+          }
+
+          data.messages.forEach(m => {
+            const isUser = m.sender_role === 'customer' || m.sender_role === 'user';
+            const bubble = document.createElement('div');
+            bubble.className = isUser ? 'text-right' : 'text-left';
+
+            if (isUser) {
+              bubble.innerHTML = `<span class="inline-block bg-slate-900 text-white rounded px-3 py-1.5 text-xs">${m.message_text}</span>`;
+            } else {
+              bubble.innerHTML = `
+                <div class="inline-block bg-white border border-slate-200 rounded p-3 text-slate-800 max-w-lg shadow-sm">
+                  <p class="whitespace-pre-wrap">${m.message_text}</p>
+                  <div class="text-[10px] text-slate-400 font-mono pt-1.5 mt-2 border-t border-slate-100">
+                    ${new Date(m.created_at).toLocaleTimeString()}
+                  </div>
+                </div>
+              `;
+            }
+            stream.appendChild(bubble);
+          });
+          stream.scrollTop = stream.scrollHeight;
+        }
+      } catch (e) {
+        stream.innerHTML = `<div class="text-xs text-red-600">Failed to load messages: ${e.message}</div>`;
+      }
+
+      loadChatSessions();
+    }
+
+    function clearChat() {
+      const isNails = currentActiveTenantId === '22222222-2222-2222-2222-222222222222';
+      const promptIntro = isNails 
+        ? 'Fresh chat ready for Luxe Nails and Spa Lounge. Ask about nail services, appointment slots, or salon policies.'
+        : 'Fresh chat ready for P3L Developers. Ask about laptops, workstations, or hardware specs.';
+      document.getElementById('chat-stream').innerHTML = `<div class="bg-slate-50 border border-slate-100 rounded p-3 text-slate-600">${promptIntro}</div>`;
+      document.getElementById('chat-steps-container').innerHTML = '<p class="text-slate-400">Steps will appear here when you send a message.</p>';
+      document.getElementById('chat-sources-box').classList.add('hidden');
+    }
+
+    async function handleChatSubmit(e) {
+      e.preventDefault();
+      const input = document.getElementById('chat-input');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const stream = document.getElementById('chat-stream');
+      const stepsList = document.getElementById('chat-steps-container');
+      const statusPill = document.getElementById('chat-status-pill');
+      const btn = document.getElementById('chat-submit-btn');
+
+      // Append user bubble
+      const u = document.createElement('div');
+      u.className = 'text-right';
+      u.innerHTML = `<span class="inline-block bg-slate-900 text-white rounded px-3 py-1.5 text-xs">${text}</span>`;
+      stream.appendChild(u);
+      input.value = '';
+      stream.scrollTop = stream.scrollHeight;
+
+      btn.disabled = true;
+      statusPill.textContent = 'Calling Gemini 3.5...';
+      stepsList.innerHTML = '<div class="text-xs text-slate-500 font-mono">Processing request through Gemini 3.5 ReAct...</div>';
+
+      const ragEnabled = document.getElementById('test-rag-toggle').checked;
+      const mediaDeliveryEnabled = document.getElementById('test-media-toggle').checked;
+
+      try {
+        const res = await fetch('/api/testing/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            message: text,
+            tenantId: currentActiveTenantId,
+            sessionId: currentSessionId,
+            capabilities: { ragEnabled, mediaDeliveryEnabled }
+          })
+        });
+
+        const data = await res.json();
+        btn.disabled = false;
+
+        if (data.success) {
+          statusPill.textContent = `Completed in ${data.latencyMs} ms`;
+
+          // Display Steps
+          stepsList.innerHTML = '';
+          (data.stages || []).forEach((st, idx) => {
+            const row = document.createElement('div');
+            row.className = 'p-2 bg-slate-50 border border-slate-100 rounded space-y-0.5 text-xs';
+            row.innerHTML = `
+              <div class="flex items-center justify-between font-medium text-slate-800">
+                <span>${idx + 1}. ${st.stage}</span>
+                <span class="font-mono text-[11px] text-slate-500">${st.latencyMs} ms</span>
+              </div>
+              <div class="text-[11px] text-slate-500">${st.detail}</div>
+            `;
+            stepsList.appendChild(row);
+          });
+
+          // Sources display
+          const sourcesBox = document.getElementById('chat-sources-box');
+          const sourcesText = document.getElementById('chat-sources-text');
+          const ragStage = data.stages?.find(s => s.docs && s.docs.length > 0);
+          if (ragStage && ragStage.docs.length > 0) {
+            sourcesBox.classList.remove('hidden');
+            sourcesText.innerHTML = ragStage.docs.map(d => `• ${d.source}: ${d.match}`).join('<br>');
+          } else {
+            sourcesBox.classList.add('hidden');
+          }
+
+          // Append Assistant Response
+          const a = document.createElement('div');
+          a.className = 'text-left space-y-1';
+          let mediaHtml = '';
+          if (data.media) {
+            mediaHtml = `<div class="mt-2"><img src="${data.media.url}" class="rounded border border-slate-200 max-h-36"><span class="text-[10px] text-slate-500 block mt-1">${data.media.title}</span></div>`;
+          }
+
+          a.innerHTML = `
+            <div class="inline-block bg-white border border-slate-200 rounded p-3 text-slate-800 max-w-lg shadow-sm">
+              <div class="whitespace-pre-wrap text-xs leading-relaxed">${formatAiReply(data.reply)}</div>
+              ${mediaHtml}
+              <div class="text-[10px] text-slate-400 font-mono pt-1.5 mt-2 border-t border-slate-100 flex items-center justify-between">
+                <span>${data.latencyMs} ms · ${data.tokens?.totalTokenCount || 0} tokens</span>
+                <span>Run: ${data.runId}</span>
+              </div>
+            </div>
+          `;
+          stream.appendChild(a);
+          stream.scrollTop = stream.scrollHeight;
+
+          // Reload session list
+          loadChatSessions();
+          loadHistoryCount();
+        } else {
+          statusPill.textContent = 'Error';
+          stepsList.innerHTML = `<div class="text-xs text-red-600 font-mono">Error: ${data.error || 'Failed to get response'}</div>`;
+        }
+      } catch (err) {
+        btn.disabled = false;
+        statusPill.textContent = 'Connection Error';
+        stepsList.innerHTML = `<div class="text-xs text-red-600 font-mono">${err.message}</div>`;
+      }
+    }
+
+    // 4. Workflows (1 Real Workflow)
+    async function loadWorkflows() {
+      // The single active production workflow is rendered directly in table
+    }
+
+    // 5. Full History Loader
+    async function loadHistory() {
+      try {
+        const res = await fetch('/api/history/full');
+        const data = await res.json();
+        if (data.success && data.history) {
+          globalHistory = data.history;
+          document.getElementById('nav-history-count').textContent = globalHistory.length;
+
+          const tbody = document.getElementById('history-tbody');
+          tbody.innerHTML = '';
+          if (globalHistory.length === 0) {
+            tbody.innerHTML = `
+              <tr>
+                <td colspan="5" class="p-6 text-center text-slate-400">
+                  No requests recorded in database yet. Send a test message in Test Chat.
+                </td>
+              </tr>
+            `;
+            return;
+          }
+
+          globalHistory.forEach(item => {
+            const tr = document.createElement('tr');
+            const channel = item.channel || (item.role === 'assistant' ? 'Odin Agent' : 'Customer Inbound');
+            const time = new Date(item.timestamp || Date.now()).toLocaleTimeString();
+            const input = item.input || (item.role === 'user' ? item.text : 'Customer Inquiry');
+            const output = item.output || (item.role === 'assistant' ? item.text : 'Processed');
+            const status = item.status || '200 OK';
+            tr.innerHTML = `
+              <td class="p-2.5 font-mono text-slate-700 font-semibold">${channel}</td>
+              <td class="p-2.5 text-slate-500 text-[11px]">${time}</td>
+              <td class="p-2.5 text-slate-800 max-w-xs truncate" title="${input}">${input}</td>
+              <td class="p-2.5 text-slate-600 max-w-sm truncate" title="${output}">${output}</td>
+              <td class="p-2.5 text-emerald-700 font-medium">${status}</td>
+            `;
+            tbody.appendChild(tr);
+          });
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    async function loadHistoryCount() {
+      try {
+        const res = await fetch('/api/history/full');
+        const data = await res.json();
+        if (data.success && data.history) {
+          document.getElementById('nav-history-count').textContent = data.history.length;
+        }
+      } catch (e) {}
+    }
+
+    // 6. Codebase Tests
+    async function loadTests() {
+      try {
+        const res = await fetch('/api/platform/tests/list');
+        const data = await res.json();
+        if (data.success) {
+          globalTests = data.testSuites;
+          const container = document.getElementById('tests-container');
+          container.innerHTML = '';
+
+          globalTests.forEach(t => {
+            const row = document.createElement('div');
+            row.className = 'py-4 space-y-2';
+            row.innerHTML = `
+              <div class="flex items-center justify-between">
+                <div>
+                  <div class="font-semibold text-slate-900 text-xs">${t.name}</div>
+                  <div class="text-xs text-slate-500">${t.description}</div>
+                </div>
+                <div class="flex items-center space-x-3">
+                  <span id="test-badge-${t.id}" class="text-xs font-mono font-medium ${t.lastResult === 'PASSED' ? 'text-emerald-700' : 'text-slate-500'}">
+                    ${t.lastResult} ${t.durationMs ? `(${t.durationMs} ms)` : ''}
+                  </span>
+                  <button onclick="runSingleTest('${t.id}')" id="btn-test-${t.id}" class="px-3 py-1 bg-white border border-slate-300 hover:bg-slate-50 text-slate-800 rounded text-xs font-medium transition">
+                    Run Test
+                  </button>
+                </div>
+              </div>
+
+              <div class="text-[11px] font-mono text-slate-400">
+                Command: <span class="text-slate-600">${t.command}</span>
+              </div>
+
+              <div id="test-out-${t.id}" class="hidden p-3 bg-slate-900 text-emerald-400 font-mono text-[10px] rounded whitespace-pre-wrap max-h-48 overflow-y-auto"></div>
+            `;
+            container.appendChild(row);
+          });
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    async function runSingleTest(testId) {
+      const badge = document.getElementById(`test-badge-${testId}`);
+      const btn = document.getElementById(`btn-test-${testId}`);
+      const out = document.getElementById(`test-out-${testId}`);
+
+      badge.textContent = 'Running...';
+      badge.className = 'text-xs font-mono font-medium text-slate-500';
+      btn.disabled = true;
+
+      try {
+        const res = await fetch('/api/platform/tests/run', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ testId })
+        });
+        const data = await res.json();
+        btn.disabled = false;
+
+        if (data.success) {
+          badge.className = 'text-xs font-mono font-medium text-emerald-700';
+          badge.textContent = `PASSED (${data.durationMs} ms)`;
+          out.classList.remove('hidden');
+          out.textContent = data.output;
+        } else {
+          badge.className = 'text-xs font-mono font-medium text-red-600';
+          badge.textContent = `FAILED (${data.durationMs} ms)`;
+          out.classList.remove('hidden');
+          out.textContent = data.output;
+        }
+      } catch (err) {
+        btn.disabled = false;
+        badge.textContent = 'Error';
+      }
+    }
+
+    async function runAllTests() {
+      const btn = document.getElementById('btn-run-all');
+      btn.disabled = true;
+      btn.textContent = 'Running...';
+      for (const t of globalTests) {
+        await runSingleTest(t.id);
+      }
+      btn.disabled = false;
+      btn.textContent = 'Run All Tests';
+    }
+
+    // 7. WhatsApp Tab Refresh
+    async function refreshWhatsappTab() {
+      try {
+        const res = await fetch('/api/waha/status');
+        const data = await res.json();
+        const phoneEl = document.getElementById('wa-tab-phone');
+        if (data.connected && data.phone) {
+          phoneEl.textContent = `${data.phone} (${data.pushName || 'Connected'})`;
+          phoneEl.className = 'font-mono text-emerald-700 font-semibold';
+        } else {
+          phoneEl.textContent = 'None (Scan QR to link business line)';
+          phoneEl.className = 'font-mono text-amber-600 font-semibold';
+        }
+      } catch (e) {}
+    }
+
+    // 8. Commercial Portal: Businesses in Database & Onboarding QR
+    async function loadExistingBusinesses() {
+      try {
+        const res = await fetch('/api/portal/businesses');
+        const data = await res.json();
+        const container = document.getElementById('businesses-container');
+
+        if (data.success && data.businesses) {
+          container.innerHTML = '';
+          data.businesses.forEach(b => {
+            const card = document.createElement('div');
+            card.className = 'p-4 bg-slate-50 border border-slate-200 rounded space-y-3 text-xs';
+            card.innerHTML = `
+              <div class="flex items-center justify-between">
+                <div>
+                  <span class="font-bold text-slate-900 text-sm">${b.name}</span>
+                  <span class="ml-2 text-[10px] bg-slate-200 text-slate-700 px-1.5 py-0.5 rounded font-mono">${b.tier}</span>
+                </div>
+                <span class="text-emerald-700 font-medium">● ${b.database}</span>
+              </div>
+              <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-[11px] text-slate-600">
+                <div>Owner: <strong class="text-slate-800">${b.owner}</strong></div>
+                <div>Location: <span class="text-slate-800">${b.city}, ${b.country}</span></div>
+                <div>Assigned Agent: <strong class="text-slate-800">${b.agent}</strong></div>
+                <div>Catalog: <strong class="text-slate-800">${b.productsCount} Hardware SKUs</strong></div>
+              </div>
+              <details class="text-[11px] pt-1 border-t border-slate-200">
+                <summary class="cursor-pointer text-blue-600 hover:underline font-medium">Inspect Database Catalog (${b.productsCount} items with verified KES prices)</summary>
+                <div class="mt-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 max-h-48 overflow-y-auto p-2 bg-white rounded border border-slate-200">
+                  ${((b.catalog && b.catalog.length > 0) ? b.catalog : (b.products || [])).map(p => `
+                    <div class="p-2 border rounded bg-slate-50/50">
+                      <div class="font-semibold text-slate-800 truncate">${p.name}</div>
+                      <div class="text-emerald-700 font-mono font-medium">KES ${(Number(p.base_price_kes || p.priceKES || p.price || 0)).toLocaleString()}</div>
+                      <div class="text-[10px] text-slate-500 truncate">${p.category || p.item_type || ''} · ${p.stock_quantity ? p.stock_quantity + ' in stock' : 'Verified'}</div>
+                    </div>
+                  `).join('')}
+                </div>
+              </details>
+            `;
+            container.appendChild(card);
+          });
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    async function refreshOnboardingQr() {
+      try {
+        const res = await fetch('/api/waha/status');
+        const data = await res.json();
+        const phoneEl = document.getElementById('ob-connected-phone');
+        const statusEl = document.getElementById('ob-session-status');
+        const userEl = document.getElementById('ob-connected-user');
+        const bizPhoneInput = document.getElementById('ob-biz-phone');
+        const qrBox = document.getElementById('ob-qr-display-box');
+        const connectedBox = document.getElementById('ob-connected-box');
+
+        if (data.connected && data.phone) {
+          phoneEl.textContent = data.phone;
+          phoneEl.className = 'font-mono text-emerald-700 font-semibold';
+          if (statusEl) {
+            statusEl.textContent = '● Device Linked & Online';
+            statusEl.className = 'text-emerald-700 font-medium';
+          }
+          if (userEl) userEl.textContent = data.pushName || 'WhatsApp User';
+          if (bizPhoneInput && !bizPhoneInput.value) bizPhoneInput.value = data.phone;
+          if (qrBox) qrBox.classList.add('hidden');
+          if (connectedBox) connectedBox.classList.remove('hidden');
+
+          if (qrPollInterval) {
+            clearInterval(qrPollInterval);
+            qrPollInterval = null;
+          }
+        } else {
+          phoneEl.textContent = 'Disconnected — Scan QR Code';
+          phoneEl.className = 'font-mono text-amber-600 font-semibold';
+          if (statusEl) {
+            statusEl.textContent = 'Awaiting Device Pair';
+            statusEl.className = 'text-amber-600 font-medium';
+          }
+          if (userEl) userEl.textContent = 'Offline';
+          if (qrBox) qrBox.classList.remove('hidden');
+          if (connectedBox) connectedBox.classList.add('hidden');
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    async function pairNewWhatsAppDevice() {
+      const btn = document.getElementById('ob-btn-pair-new');
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> Generating QR...';
+      }
+
+      const statusEl = document.getElementById('ob-session-status');
+      if (statusEl) {
+        statusEl.textContent = 'Resetting session for new QR code...';
+        statusEl.className = 'text-amber-600 font-medium';
+      }
+
+      try {
+        const res = await fetch('/api/waha/pair-new', { method: 'POST' });
+        const data = await res.json();
+
+        const qrBox = document.getElementById('ob-qr-display-box');
+        const connectedBox = document.getElementById('ob-connected-box');
+        if (qrBox) qrBox.classList.remove('hidden');
+        if (connectedBox) connectedBox.classList.add('hidden');
+
+        const qrImg = document.getElementById('ob-qr-img');
+        if (qrImg) {
+          qrImg.src = '/api/waha/qr?t=' + Date.now();
+        }
+
+        if (qrPollInterval) clearInterval(qrPollInterval);
+        qrPollInterval = setInterval(refreshOnboardingQr, 3000);
+      } catch (e) {
+        console.error('Pair new device error:', e);
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = '<i class="fa-solid fa-qrcode mr-1"></i> Link New Client Phone (Show QR)';
+        }
+      }
+    }
+
+    async function saveOnboardingIdentity() {
+      const name = document.getElementById('ob-biz-name').value.trim();
+      const phone = document.getElementById('ob-biz-phone').value.trim();
+      const city = document.getElementById('ob-biz-city').value.trim();
+      const vertical = document.getElementById('ob-biz-vertical').value;
+      const template = document.getElementById('ob-biz-template')?.value || 'Bitreal';
+      const statusEl = document.getElementById('ob-save-status');
+
+      if (!name) {
+        statusEl.textContent = 'Please enter a business name';
+        statusEl.className = 'text-xs text-red-600 ml-2 font-medium';
+        return;
+      }
+
+      statusEl.textContent = 'Creating client and provisioning agent in Supabase database...';
+      statusEl.className = 'text-xs text-slate-500 ml-2 font-medium';
+
+      try {
+        const res = await fetch('/api/businesses/create', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            business_name: name,
+            owner_name: name + ' Admin',
+            owner_phone: phone || '254700000000',
+            city: city || 'Nairobi',
+            industry: vertical,
+            template: template
+          })
+        });
+        const data = await res.json();
+        if (data.success && data.tenant) {
+          statusEl.textContent = `✓ Created client '${data.tenant.business_name}' in Supabase database!`;
+          statusEl.className = 'text-xs text-emerald-700 ml-2 font-medium';
+          loadExistingBusinesses();
+        } else {
+          statusEl.textContent = 'Error: ' + (data.error || 'Failed to save');
+          statusEl.className = 'text-xs text-red-600 ml-2 font-medium';
+        }
+      } catch (e) {
+        statusEl.textContent = 'Connection error: ' + e.message;
+        statusEl.className = 'text-xs text-red-600 ml-2 font-medium';
+      }
+      setTimeout(() => statusEl.textContent = '', 4000);
+    }
+
+    // 9. Shared Operator Inbox
+    let activeChatId = null;
+    let cachedConversations = [];
+
+    async function loadInbox(tenantId = null) {
+      const targetTenant = tenantId || currentActiveTenantId || '11111111-1111-1111-1111-111111111111';
+      try {
+        const res = await fetch(`/api/portal/inbox?tenantId=${targetTenant}`);
+        const data = await res.json();
+        if (data.success) {
+          cachedConversations = data.conversations || [];
+          renderInboxList();
+          if (cachedConversations.length > 0) {
+            selectConversation(cachedConversations[0].chatId);
+          } else {
+            activeChatId = null;
+          }
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+          }
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    function renderInboxList() {
+      const listContainer = document.getElementById('inbox-conv-list');
+      if (!listContainer) return;
+      listContainer.innerHTML = '';
+
+      if (cachedConversations.length === 0) {
+        listContainer.innerHTML = `
+          <div class="p-6 text-center text-slate-400 space-y-2">
+            <i class="fa-solid fa-inbox text-2xl text-slate-300"></i>
+            <div class="text-xs font-medium text-slate-600">No active customer chats yet</div>
+            <p class="text-[11px] text-slate-400 leading-relaxed">
+              When a customer messages your connected WhatsApp Business line or Telegram, their live thread appears here in real time.
+            </p>
+          </div>
+        `;
+        document.getElementById('inbox-active-title').textContent = 'Live WhatsApp Operator Console';
+        document.getElementById('inbox-active-phone').textContent = 'Connected: WAHA Engine Active';
+        document.getElementById('inbox-takeover-btn').classList.add('hidden');
+        document.getElementById('inbox-messages-container').innerHTML = `
+          <div class="h-full flex items-center justify-center text-slate-400 text-xs">
+            Awaiting incoming customer inquiry...
+          </div>
+        `;
+        return;
+      }
+
+      cachedConversations.forEach(conv => {
+        const isSelected = conv.chatId === activeChatId;
+        const div = document.createElement('div');
+        div.className = `p-3.5 cursor-pointer transition ${isSelected ? 'bg-white border-l-2 border-slate-900 shadow-sm' : 'hover:bg-slate-100/70'}`;
+        div.onclick = () => selectConversation(conv.chatId);
+
+        const statusTag = conv.humanTakeover 
+          ? '<span class="text-[9px] bg-amber-100 text-amber-800 font-bold px-1.5 py-0.5 rounded">Human Takeover</span>'
+          : '<span class="text-[9px] bg-emerald-50 text-emerald-700 font-medium px-1.5 py-0.5 rounded">AI Active</span>';
+
+        const cleanDisplayPhone = conv.chatId?.startsWith('+') ? conv.chatId : '+' + (conv.chatId || '');
+
+        div.innerHTML = `
+          <div class="flex items-center justify-between mb-1">
+            <span class="font-semibold text-slate-900 text-xs">${conv.customerName}</span>
+            ${statusTag}
+          </div>
+          <div class="text-[11px] text-slate-500 truncate mb-1">"${conv.lastMessage}"</div>
+          <div class="text-[10px] text-slate-400 font-mono flex items-center justify-between">
+            <span>${cleanDisplayPhone}</span>
+            <span>${conv.lastTimestamp ? new Date(conv.lastTimestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ''}</span>
+          </div>
+        `;
+        listContainer.appendChild(div);
+      });
+    }
+
+    function selectConversation(chatId) {
+      activeChatId = chatId;
+      renderInboxList();
+      const conv = cachedConversations.find(c => c.chatId === chatId);
+      if (!conv) return;
+
+      const cleanDisplayPhone = conv.chatId?.startsWith('+') ? conv.chatId : '+' + (conv.chatId || '');
+      document.getElementById('inbox-active-title').textContent = `${conv.customerName}`;
+      document.getElementById('inbox-active-phone').textContent = `Channel: ${cleanDisplayPhone}`;
+
+      const takeoverBtn = document.getElementById('inbox-takeover-btn');
+      takeoverBtn.classList.remove('hidden');
+      if (conv.humanTakeover) {
+        takeoverBtn.textContent = 'Resume AI Bot';
+        takeoverBtn.className = 'px-3 py-1 rounded text-xs font-medium bg-amber-100 text-amber-800 border border-amber-200 hover:bg-amber-200 transition';
+      } else {
+        takeoverBtn.textContent = 'Take Over (Pause Bot)';
+        takeoverBtn.className = 'px-3 py-1 rounded text-xs font-medium bg-slate-900 text-white hover:bg-slate-800 transition';
+      }
+
+      const container = document.getElementById('inbox-messages-container');
+      container.innerHTML = '';
+      conv.messages.forEach(m => {
+        const row = document.createElement('div');
+        const isCustomer = m.sender === 'customer';
+        const isOperator = m.sender === 'operator';
+
+        row.className = `flex ${isCustomer ? 'justify-start' : 'justify-end'}`;
+        const bubbleBg = isCustomer ? 'bg-white border border-slate-200 text-slate-800' : (isOperator ? 'bg-blue-600 text-white' : 'bg-slate-900 text-white');
+
+        row.innerHTML = `
+          <div class="max-w-[75%] rounded-lg p-3 text-xs space-y-1 ${bubbleBg} shadow-sm">
+            <div class="text-[10px] ${isCustomer ? 'text-slate-400' : 'text-slate-300'} font-semibold flex items-center justify-between space-x-2">
+              <span>${isCustomer ? conv.customerName : (isOperator ? 'Human Operator (Staff)' : 'Odin AI Bot')}</span>
+              <span class="font-normal font-mono">${new Date(m.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+            </div>
+            <div class="leading-relaxed whitespace-pre-wrap">${m.text}</div>
+          </div>
+        `;
+        container.appendChild(row);
+      });
+      container.scrollTop = container.scrollHeight;
+    }
+
+    async function toggleTakeover() {
+      if (!activeChatId) return;
+      try {
+        const res = await fetch('/api/portal/inbox/takeover', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chatId: activeChatId })
+        });
+        const data = await res.json();
+        if (data.success) {
+          const conv = cachedConversations.find(c => c.chatId === activeChatId);
+          if (conv) conv.humanTakeover = data.humanTakeover;
+          selectConversation(activeChatId);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    async function sendStaffReply() {
+      if (!activeChatId) return;
+      const input = document.getElementById('inbox-reply-input');
+      const text = (input.value || '').trim();
+      if (!text) return;
+
+      input.value = '';
+      try {
+        const res = await fetch('/api/portal/inbox/send', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chatId: activeChatId, text })
+        });
+        const data = await res.json();
+        if (data.success) {
+          await loadInbox();
+          selectConversation(activeChatId);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    function setStaffPrompt(text) {
+      const input = document.getElementById('inbox-reply-input');
+      input.value = text;
+      input.focus();
+    }
+
+    // 10. Tiers & M-Pesa Subscription
+    let currentSelectedPlanId = 'pro';
+
+    function selectPlan(planId, name, price) {
+      currentSelectedPlanId = planId;
+      document.getElementById('sub-selected-plan').value = `${name} (KES ${price.toLocaleString()} / mo)`;
+      const resultBox = document.getElementById('sub-result-box');
+      resultBox.classList.remove('hidden');
+      resultBox.innerHTML = `<span class="text-slate-600">Selected <strong>${name}</strong>. Enter phone below to trigger Daraja STK Push prompt.</span>`;
+    }
+
+    async function triggerSubscriptionStk() {
+      const phone = document.getElementById('sub-phone').value;
+      const btn = document.getElementById('sub-btn');
+      const resultBox = document.getElementById('sub-result-box');
+
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> Dispatching STK Push...';
+
+      try {
+        const res = await fetch('/api/portal/billing/stk', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ phone, planId: currentSelectedPlanId })
+        });
+        const data = await res.json();
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-mobile-screen mr-1"></i> Pay with M-Pesa STK Push';
+
+        resultBox.classList.remove('hidden');
+        if (data.success) {
+          resultBox.innerHTML = `
+            <div class="text-emerald-700 font-semibold mb-1">✓ STK Push Dispatched Successfully!</div>
+            <div class="text-slate-700">${data.message}</div>
+            <div class="text-[10px] font-mono text-slate-500 pt-1">CheckoutRequestID: ${data.checkoutId} · Plan: ${data.plan}</div>
+          `;
+        } else {
+          resultBox.innerHTML = `<div class="text-red-600 font-semibold">${data.error || 'Failed to dispatch'}</div>`;
+        }
+      } catch (err) {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-mobile-screen mr-1"></i> Pay with M-Pesa STK Push';
+        resultBox.classList.remove('hidden');
+        resultBox.innerHTML = `<div class="text-red-600 font-semibold">${err.message}</div>`;
+      }
+    }
+
+    // 11. Portal Settings & Verticals
+    async function loadPortalSettings() {
+      try {
+        const res = await fetch('/api/portal/settings');
+        const data = await res.json();
+        if (data.success) {
+          const vContainer = document.getElementById('vertical-templates-container');
+          if (vContainer && data.verticals) {
+            vContainer.innerHTML = '';
+            data.verticals.forEach(v => {
+              const isActive = v.id === data.settings.activeVertical;
+              const card = document.createElement('div');
+              card.className = `p-4 rounded border transition ${isActive ? 'border-slate-900 bg-slate-50/50 shadow-sm' : 'border-slate-200 hover:border-slate-300'}`;
+              card.innerHTML = `
+                <div class="flex items-center justify-between mb-1">
+                  <span class="text-[10px] font-bold uppercase tracking-wider ${isActive ? 'text-slate-900' : 'text-slate-500'}">${v.industry}</span>
+                  <span class="text-[9px] px-1.5 py-0.5 rounded font-semibold ${isActive ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600'}">${isActive ? 'Active' : 'Deploy'}</span>
+                </div>
+                <div class="font-semibold text-xs text-slate-900 mb-1">${v.name}</div>
+                <p class="text-[11px] text-slate-500 mb-2 leading-relaxed">${v.description}</p>
+                <button onclick="applyVerticalTemplate('${v.id}')" class="w-full py-1.5 rounded text-xs font-medium transition ${isActive ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}">
+                  ${isActive ? '✓ Active Template' : 'Apply Template'}
+                </button>
+              `;
+              vContainer.appendChild(card);
+            });
+          }
+
+          // Business hours update
+          if (data.settings.businessHours) {
+            const bh = data.settings.businessHours;
+            document.getElementById('bh-enable').checked = bh.enabled;
+            if (bh.start) document.getElementById('bh-start').value = bh.start;
+            if (bh.end) document.getElementById('bh-end').value = bh.end;
+          }
+          if (data.settings.outOfOfficeMessage) {
+            document.getElementById('bh-msg').value = data.settings.outOfOfficeMessage;
+          }
+
+          // Fetch Live ROI metrics from Supabase
+          fetch('/api/portal/roi/report').then(r => r.json()).then(roi => {
+            if (roi.success && roi.metrics) {
+              const elInq = document.getElementById('roi-inquiries');
+              const elOrd = document.getElementById('roi-orders');
+              const elHrs = document.getElementById('roi-hours');
+              const elPk = document.getElementById('roi-peak');
+              if (elInq) elInq.textContent = roi.metrics.totalInquiries;
+              if (elOrd) elOrd.textContent = `${roi.metrics.ordersClosed} (${roi.metrics.conversionRate})`;
+              if (elHrs) elHrs.textContent = roi.metrics.hoursSaved;
+              if (elPk) elPk.textContent = roi.metrics.peakHours;
+            }
+          }).catch(() => {});
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    async function applyVerticalTemplate(verticalId) {
+      try {
+        const res = await fetch('/api/portal/settings', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ activeVertical: verticalId })
+        });
+        const data = await res.json();
+        if (data.success) {
+          loadPortalSettings();
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    function updateVerticalFromSelect(vId) {
+      applyVerticalTemplate(vId);
+    }
+
+    let uploadedFilePayload = null;
+
+    function handleFileUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const content = e.target.result;
+        uploadedFilePayload = { filename: file.name, content };
+
+        const previewContainer = document.getElementById('upload-preview-container');
+        const previewTitle = document.getElementById('upload-preview-title');
+        const tbody = document.getElementById('upload-preview-tbody');
+
+        previewContainer.classList.remove('hidden');
+        previewTitle.textContent = `Ready to Import: ${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+        tbody.innerHTML = '';
+
+        if (file.name.endsWith('.csv')) {
+          const lines = content.split('\n').filter(l => l.trim().length > 0).slice(0, 6);
+          lines.slice(1).forEach(l => {
+            const cols = l.split(',');
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td class="p-2 font-medium">${cols[0] || 'Item'}</td><td class="p-2 font-mono">${cols[1] || '-'}</td><td class="p-2 text-slate-500">${cols[2] || 'Hardware'}</td>`;
+            tbody.appendChild(tr);
+          });
+        } else {
+          try {
+            const parsed = JSON.parse(content);
+            const items = Array.isArray(parsed) ? parsed.slice(0, 5) : [parsed];
+            items.forEach(it => {
+              const tr = document.createElement('tr');
+              tr.innerHTML = `<td class="p-2 font-medium">${it.name || it.title || 'Product'}</td><td class="p-2 font-mono">${it.price ? 'KES ' + it.price : '-'}</td><td class="p-2 text-slate-500">${it.category || 'Standard'}</td>`;
+              tbody.appendChild(tr);
+            });
+          } catch (e) {
+            tbody.innerHTML = `<tr><td colspan="3" class="p-2 text-slate-500">Raw text file preview loaded.</td></tr>`;
+          }
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    async function deployUploadedKnowledge() {
+      if (!uploadedFilePayload) return;
+      try {
+        const res = await fetch('/api/portal/knowledge/upload', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(uploadedFilePayload)
+        });
+        const data = await res.json();
+        if (data.success) {
+          alert(`Successfully deployed ${data.itemsCount} catalog items into Odin RAG memory!`);
+        } else {
+          alert('Upload failed: ' + data.error);
+        }
+      } catch (err) {
+        alert('Upload error: ' + err.message);
+      }
+    }
+
+    async function saveBusinessHours() {
+      const enabled = document.getElementById('bh-enable').checked;
+      const start = document.getElementById('bh-start').value;
+      const end = document.getElementById('bh-end').value;
+      const outOfOfficeMessage = document.getElementById('bh-msg').value;
+
+      try {
+        await fetch('/api/portal/settings', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            businessHours: { enabled, start, end },
+            outOfOfficeMessage
+          })
+        });
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    async function sendWeeklyRoiEmail() {
+      const btn = document.getElementById('roi-send-btn');
+      const statusEl = document.getElementById('roi-email-status');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> Generating Report...';
+
+      try {
+        const res = await fetch('/api/portal/roi/report');
+        const data = await res.json();
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-paper-plane mr-1"></i> Send Sample Weekly Report';
+
+        if (data.success) {
+          statusEl.textContent = `✓ Weekly ROI Summary generated: ${data.metrics.totalInquiries} inquiries, ${data.metrics.hoursSaved} hours saved, ${data.metrics.conversionRate} conversion rate. Dispatched!`;
+          setTimeout(() => statusEl.textContent = '', 6000);
+        }
+      } catch (err) {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-paper-plane mr-1"></i> Send Sample Weekly Report';
+        statusEl.textContent = 'Report generation error: ' + err.message;
+      }
+    }
+
+    // Initialize
+    window.addEventListener('DOMContentLoaded', () => {
+      switchBusinessTenant('11111111-1111-1111-1111-111111111111');
+      loadOverview();
+      loadHistoryCount();
+      loadExistingBusinesses();
+      loadChatSessions();
+    });
+  </script>
+
+</body>
+</html>

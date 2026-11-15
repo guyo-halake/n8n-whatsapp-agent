@@ -1,0 +1,26 @@
+{
+  "name": "odin-commercial-agent-platform",
+  "version": "2.4.0",
+  "description": "Enterprise-grade autonomous sales and customer operations agent powered by Gemini 3.5 ReAct, Supabase Cloud PostgreSQL, WAHA Core WhatsApp, and Telegram.",
+  "main": "Razak Agents/server.js",
+  "scripts": {
+    "start": "node supervisor.js",
+    "start:server": "node \"Razak Agents/server.js\"",
+    "start:pm2": "pm2 start ecosystem.config.js --env production",
+    "stop:pm2": "pm2 stop ecosystem.config.js",
+    "restart:pm2": "pm2 restart ecosystem.config.js",
+    "status": "pm2 status",
+    "test": "node \"Razak Agents/test_suite.js\"",
+    "test:react": "node \"Razak Agents/test_production_react.js\"",
+    "test:ai": "node \"Razak Agents/test_real_ai.js\""
+  },
+  "dependencies": {
+    "@whiskeysockets/baileys": "^7.0.0-rc14",
+    "dotenv": "^18.0.10",
+    "puppeteer-core": "^25.16.0",
+    "qrcode": "^1.5.4"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

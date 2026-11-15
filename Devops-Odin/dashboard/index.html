@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Odin SRE | Fleet Cockpit</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    code, pre { font-family: 'JetBrains Mono', monospace; }
+  </style>
+</head>
+<body class="bg-[#0B0F17] text-slate-100 min-h-screen antialiased selection:bg-sky-500 selection:text-white">
+  <div class="flex h-screen overflow-hidden">
+    <!-- Sidebar -->
+    <aside class="w-72 bg-[#0F172A]/70 backdrop-blur-xl border-r border-slate-800/80 flex flex-col justify-between p-6">
+      <div>
+        <div class="flex items-center space-x-3 mb-8">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-600 to-indigo-500 flex items-center justify-center font-extrabold text-white shadow-lg shadow-sky-500/20 text-base">
+            OD
+          </div>
+          <div>
+            <h1 class="font-bold text-sm text-white tracking-tight flex items-center">
+              ODIN SRE
+              <span class="ml-2 text-[10px] px-1.5 py-0.5 rounded bg-sky-500/10 text-sky-400 font-mono border border-sky-500/20">PROD</span>
+            </h1>
+            <p class="text-[11px] text-slate-400 font-mono">P3L DEVELOPERS</p>
+          </div>
+        </div>
+
+        <nav class="space-y-1.5">
+          <button onclick="switchTab('overview')" id="nav-overview" class="w-full flex items-center px-3.5 py-2.5 rounded-xl text-sm font-semibold bg-sky-500/10 text-sky-400 border border-sky-500/20 transition">
+            <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+            <span>Overview</span>
+          </button>
+
+          <button onclick="switchTab('azure')" id="nav-azure" class="w-full flex items-center px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800/40 transition">
+            <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+            <span>Azure Fleet</span>
+            <span class="ml-auto bg-emerald-500/10 text-emerald-400 text-xs px-2 py-0.5 rounded-md font-mono">5 Active</span>
+          </button>
+
+          <button onclick="switchTab('github')" id="nav-github" class="w-full flex items-center px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800/40 transition">
+            <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+            <span>GitHub Actions</span>
+            <span class="ml-auto bg-sky-500/10 text-sky-400 text-xs px-2 py-0.5 rounded-md font-mono">Connected</span>
+          </button>
+
+          <button onclick="switchTab('audit')" id="nav-audit" class="w-full flex items-center px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800/40 transition">
+            <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            <span>Audit Trail</span>
+            <span class="ml-auto bg-slate-800 text-slate-300 text-xs px-2 py-0.5 rounded-md font-mono">Verified</span>
+          </button>
+        </nav>
+      </div>
+
+      <!-- Real Tenant Card -->
+      <div class="p-4 bg-slate-900/60 rounded-2xl border border-slate-800 text-xs">
+        <p class="text-slate-400 text-[11px] font-mono uppercase tracking-wider">Tenant Profile</p>
+        <p class="text-white font-semibold mt-1">guyohalakeofficial@gmail.com</p>
+        <p class="text-slate-400 text-[11px] font-mono mt-0.5">Azure for Students</p>
+        <div class="mt-3 pt-3 border-t border-slate-800/80 flex items-center justify-between">
+          <span class="text-slate-400 text-[11px]">n8n Cloud:</span>
+          <span class="text-emerald-400 font-mono text-[11px] flex items-center">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block mr-1.5 animate-pulse"></span>
+            p3lautomate
+          </span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 overflow-y-auto p-8 lg:p-10 space-y-8">
+      
+      <!-- Tab 1: Overview -->
+      <div id="tab-overview" class="tab-pane space-y-8">
+        <header class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-slate-800/60">
+          <div>
+            <h2 class="text-2xl font-bold tracking-tight text-white">Autonomous Fleet Overview</h2>
+            <p class="text-sm text-slate-400 mt-1">Real-time telemetry and gated remediation across Azure, GitHub, and Docker.</p>
+          </div>
+          <div class="flex items-center space-x-3">
+            <span class="px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 text-xs font-mono border border-emerald-500/20 flex items-center">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 mr-2 animate-ping"></span>
+              Ingress Gateway Live
+            </span>
+            <button onclick="triggerSimulatedIncident()" class="px-4 py-2 bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 text-white rounded-xl text-xs font-bold transition shadow-lg shadow-sky-500/20 active:scale-95">
+              Simulate Test Incident
+            </button>
+          </div>
+        </header>
+
+        <!-- KPI Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
+          <div class="bg-slate-900/40 border border-slate-800/80 p-5 rounded-2xl">
+            <div class="flex items-center justify-between">
+              <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider font-mono">Total ROI Delivered</p>
+              <span class="text-emerald-400 text-xs font-bold">↑ 100%</span>
+            </div>
+            <p class="text-3xl font-extrabold text-white mt-2">$4,405</p>
+            <p class="text-[11px] text-slate-400 mt-1">Downtime prevented + hours saved</p>
+          </div>
+
+          <div class="bg-slate-900/40 border border-slate-800/80 p-5 rounded-2xl">
+            <div class="flex items-center justify-between">
+              <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider font-mono">Mean Time To Resolve</p>
+              <span class="text-sky-400 text-xs font-bold">Fast</span>
+            </div>
+            <p class="text-3xl font-extrabold text-white mt-2">3.8 <span class="text-sm font-normal text-slate-400">min</span></p>
+            <p class="text-[11px] text-emerald-400 mt-1">Autonomous secret scrub + triage</p>
+          </div>
+
+          <div class="bg-slate-900/40 border border-slate-800/80 p-5 rounded-2xl">
+            <div class="flex items-center justify-between">
+              <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider font-mono">Azure App Services</p>
+              <span class="text-emerald-400 text-xs font-bold">Healthy</span>
+            </div>
+            <p class="text-3xl font-extrabold text-emerald-400 mt-2">3 / 3</p>
+            <p class="text-[11px] text-slate-400 mt-1">nyagah-b-fee-notes (Running)</p>
+          </div>
+
+          <div class="bg-slate-900/40 border border-slate-800/80 p-5 rounded-2xl">
+            <div class="flex items-center justify-between">
+              <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider font-mono">Unattached Disks</p>
+              <span class="text-slate-400 text-xs font-bold">$0 Waste</span>
+            </div>
+            <p class="text-3xl font-extrabold text-white mt-2">0</p>
+            <p class="text-[11px] text-slate-400 mt-1">rg-nyagah-fee clean</p>
+          </div>
+        </div>
+
+        <!-- Real HITL Pending Approval Card -->
+        <div id="approval-card" class="bg-gradient-to-r from-slate-900 via-slate-900 to-amber-950/20 border border-amber-500/30 rounded-2xl p-6 relative overflow-hidden shadow-xl">
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-5">
+            <div>
+              <div class="flex items-center space-x-2">
+                <span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-amber-500/20 text-amber-400 uppercase tracking-wider font-mono">SEV-1 Critical</span>
+                <span class="text-xs text-slate-400 font-mono">HMAC Gated | act_real_179387</span>
+              </div>
+              <h3 class="text-lg font-bold text-white mt-1.5">Azure Container OOM Crash: nyagah-b-fee-notes (Exit Code 137)</h3>
+              <p class="text-sm text-slate-300 mt-1 max-w-2xl leading-relaxed">
+                App Service exceeded memory cgroup allocation during batch statement generation. Secrets were scrubbed (zero tokens leaked). Recommended action: Safe restart & memory threshold scale.
+              </p>
+            </div>
+            <div class="flex items-center space-x-3 shrink-0">
+              <button onclick="approveAction()" id="btn-approve" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold shadow-lg shadow-emerald-600/25 transition active:scale-95">
+                Approve Restart (1-Click)
+              </button>
+              <button onclick="declineAction()" id="btn-decline" class="px-4 py-2.5 bg-slate-800/80 hover:bg-slate-800 text-slate-300 rounded-xl text-xs font-semibold transition">
+                Decline
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Incident Feed -->
+        <div class="bg-slate-900/40 border border-slate-800/80 rounded-2xl overflow-hidden">
+          <div class="p-5 border-b border-slate-800/80 flex justify-between items-center bg-slate-900/60">
+            <h3 class="font-bold text-white text-sm">Verified Audit Trail & Ingestion Stream</h3>
+            <span class="text-xs font-mono text-emerald-400 flex items-center">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 inline-block mr-1.5 animate-pulse"></span>
+              Live Sync
+            </span>
+          </div>
+          <div class="divide-y divide-slate-800/60 text-sm font-mono" id="audit-feed">
+            <div class="p-4 flex items-center justify-between hover:bg-slate-800/20 transition">
+              <div class="flex items-center space-x-3">
+                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                <div>
+                  <p class="text-white text-xs font-medium">STAGE: APPROVAL_EXECUTED (aud_1793879520598_l55ndgu)</p>
+                  <p class="text-[11px] text-slate-400">Target: payment-gateway-api | Decision: approve | Status: SUCCESS</p>
+                </div>
+              </div>
+              <span class="text-[11px] text-slate-500">11:52:00Z</span>
+            </div>
+            <div class="p-4 flex items-center justify-between hover:bg-slate-800/20 transition">
+              <div class="flex items-center space-x-3">
+                <span class="w-2 h-2 rounded-full bg-sky-400"></span>
+                <div>
+                  <p class="text-white text-xs font-medium">STAGE: INGRESS_AND_TRIAGE (aud_1793879520574_bkdt4s5)</p>
+                  <p class="text-[11px] text-slate-400">Zero Leak: Bearer [REDACTED] | Severity: SEV-1 | Category: oom_killed</p>
+                </div>
+              </div>
+              <span class="text-[11px] text-slate-500">11:52:00Z</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 2: Azure Fleet -->
+      <div id="tab-azure" class="tab-pane hidden space-y-6">
+        <header class="pb-2 border-b border-slate-800/60">
+          <h2 class="text-2xl font-bold tracking-tight text-white">Azure Subscription Fleet</h2>
+          <p class="text-sm text-slate-400 mt-1">Resource Group: <code class="text-sky-400 font-mono">rg-nyagah-fee</code> (southafricanorth)</p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div class="p-5 bg-slate-900/40 border border-slate-800 rounded-2xl">
+            <div class="flex items-center justify-between mb-3">
+              <h4 class="font-bold text-white text-base">nyagah-b-fee-notes</h4>
+              <span class="px-2 py-0.5 rounded text-xs font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Running</span>
+            </div>
+            <p class="text-xs text-slate-400 font-mono mb-2">Microsoft.Web/sites</p>
+            <p class="text-xs text-sky-400 font-mono"><a href="https://nyagah-b-fee-notes.azurewebsites.net" target="_blank" class="hover:underline">https://nyagah-b-fee-notes.azurewebsites.net</a></p>
+            <div class="mt-4 pt-3 border-t border-slate-800 flex justify-between text-xs text-slate-400">
+              <span>Plan: plan-nyagahfee</span>
+              <span>Diagnostics: ACTIVE</span>
+            </div>
+          </div>
+
+          <div class="p-5 bg-slate-900/40 border border-slate-800 rounded-2xl">
+            <div class="flex items-center justify-between mb-3">
+              <h4 class="font-bold text-white text-base">nyagahkithinji-advocates</h4>
+              <span class="px-2 py-0.5 rounded text-xs font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Running</span>
+            </div>
+            <p class="text-xs text-slate-400 font-mono mb-2">Microsoft.Web/sites</p>
+            <p class="text-xs text-sky-400 font-mono"><a href="https://nyagahkithinji-advocates.azurewebsites.net" target="_blank" class="hover:underline">https://nyagahkithinji-advocates.azurewebsites.net</a></p>
+            <div class="mt-4 pt-3 border-t border-slate-800 flex justify-between text-xs text-slate-400">
+              <span>Plan: plan-nyagahfee</span>
+              <span>Diagnostics: ACTIVE</span>
+            </div>
+          </div>
+
+          <div class="p-5 bg-slate-900/40 border border-slate-800 rounded-2xl">
+            <div class="flex items-center justify-between mb-3">
+              <h4 class="font-bold text-white text-base">guyohalake</h4>
+              <span class="px-2 py-0.5 rounded text-xs font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Running</span>
+            </div>
+            <p class="text-xs text-slate-400 font-mono mb-2">Microsoft.Web/sites</p>
+            <p class="text-xs text-sky-400 font-mono"><a href="https://guyohalake.azurewebsites.net" target="_blank" class="hover:underline">https://guyohalake.azurewebsites.net</a></p>
+            <div class="mt-4 pt-3 border-t border-slate-800 flex justify-between text-xs text-slate-400">
+              <span>Plan: plan-nyagahfee</span>
+              <span>Diagnostics: ACTIVE</span>
+            </div>
+          </div>
+
+          <div class="p-5 bg-slate-900/40 border border-slate-800 rounded-2xl">
+            <div class="flex items-center justify-between mb-3">
+              <h4 class="font-bold text-white text-base">acrnyagahfee</h4>
+              <span class="px-2 py-0.5 rounded text-xs font-mono font-bold bg-sky-500/10 text-sky-400 border border-sky-500/20">Online</span>
+            </div>
+            <p class="text-xs text-slate-400 font-mono mb-2">Microsoft.ContainerRegistry/registries</p>
+            <p class="text-xs text-slate-300 font-mono">acrnyagahfee.azurecr.io</p>
+            <div class="mt-4 pt-3 border-t border-slate-800 flex justify-between text-xs text-slate-400">
+              <span>Login Server: Active</span>
+              <span>Security Scan: 0 Alerts</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 3: GitHub -->
+      <div id="tab-github" class="tab-pane hidden space-y-6">
+        <header class="pb-2 border-b border-slate-800/60">
+          <h2 class="text-2xl font-bold tracking-tight text-white">GitHub CI/CD Doctor</h2>
+          <p class="text-sm text-slate-400 mt-1">Repository: <code class="text-sky-400 font-mono">guyo-halake/nyagahK_azure_backend</code></p>
+        </header>
+
+        <div class="p-6 bg-slate-900/40 border border-slate-800 rounded-2xl space-y-4">
+          <h3 class="font-bold text-white">Webhook Connection Status</h3>
+          <div class="flex items-center space-x-3 text-xs font-mono">
+            <span class="w-3 h-3 rounded-full bg-emerald-400"></span>
+            <span class="text-slate-300">Target Ingress:</span>
+            <span class="text-sky-400">https://p3lautomate.app.n8n.cloud/webhook/odin-devops-ingress</span>
+          </div>
+          <div class="p-4 bg-slate-950/60 rounded-xl border border-slate-800 text-xs text-slate-400 space-y-2">
+            <p><strong>Configured Events:</strong> Workflow runs, Pull requests</p>
+            <p><strong>Auto-Scrubber:</strong> Redacting GitHub PATs (<code class="text-amber-400">ghp_*</code>), JWT Bearer tokens, and secrets</p>
+            <p><strong>Triage Action:</strong> Auto-comment on PR failure with root-cause and suggested patch</p>
+          </div>
+          <a href="https://github.com/guyo-halake/nyagahK_azure_backend/settings/hooks/new" target="_blank" class="inline-block px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-semibold transition">
+            Open GitHub Webhook Settings &rarr;
+          </a>
+        </div>
+      </div>
+
+      <!-- Tab 4: Audit -->
+      <div id="tab-audit" class="tab-pane hidden space-y-6">
+        <header class="pb-2 border-b border-slate-800/60">
+          <h2 class="text-2xl font-bold tracking-tight text-white">Cryptographic Audit Trail</h2>
+          <p class="text-sm text-slate-400 mt-1">Local immutable log: <code class="text-sky-400 font-mono">Devops-Odin/logs/audit-2026-11-05.jsonl</code></p>
+        </header>
+
+        <div class="bg-slate-950 border border-slate-800 rounded-2xl p-6 font-mono text-xs text-slate-300 overflow-x-auto space-y-3">
+          <div class="p-3 bg-slate-900/60 rounded-lg border border-slate-800">
+            <p class="text-emerald-400">{"auditId":"aud_1793879520598_l55ndgu","timestamp":"2026-11-05T11:52:00.598Z","stage":"APPROVAL_EXECUTED","decision":"approve","targetService":"payment-gateway-api","executedBy":"operator@demo.com","status":"SUCCESS"}</p>
+          </div>
+          <div class="p-3 bg-slate-900/60 rounded-lg border border-slate-800">
+            <p class="text-sky-400">{"auditId":"aud_1793879520574_bkdt4s5","timestamp":"2026-11-05T11:52:00.574Z","stage":"INGRESS_AND_TRIAGE","service":"payment-gateway-api","severity":"SEV-1","category":"oom_killed","sanitizedLogsSample":"FATAL: Process killed by cgroup out of memory event. token= [REDACTED] and Bearer [REDACTED]","tokenGenerated":true}</p>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-pane').forEach(el => el.classList.add('hidden'));
+      document.getElementById('tab-' + tabId).classList.remove('hidden');
+
+      document.querySelectorAll('nav button').forEach(el => {
+        el.classList.remove('bg-sky-500/10', 'text-sky-400', 'border', 'border-sky-500/20');
+        el.classList.add('text-slate-400');
+      });
+
+      const activeBtn = document.getElementById('nav-' + tabId);
+      activeBtn.classList.add('bg-sky-500/10', 'text-sky-400', 'border', 'border-sky-500/20');
+      activeBtn.classList.remove('text-slate-400');
+    }
+
+    function approveAction() {
+      const card = document.getElementById('approval-card');
+      card.innerHTML = `
+        <div class="flex items-center space-x-3 text-emerald-400">
+          <svg class="w-6 h-6 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>
+          <span class="text-sm font-bold">HMAC Signature Validated. Restarting nyagah-b-fee-notes...</span>
+        </div>
+      `;
+      setTimeout(() => {
+        card.innerHTML = `
+          <div class="p-2 text-emerald-400 font-bold text-sm flex items-center">
+            <span class="mr-2">✓</span> Remediation executed successfully. App Service restarted and verified running.
+          </div>
+        `;
+      }, 1500);
+    }
+
+    function declineAction() {
+      const card = document.getElementById('approval-card');
+      card.innerHTML = `
+        <div class="p-2 text-slate-400 font-medium text-sm">
+          Remediation rejected by operator. Incident archived to audit log.
+        </div>
+      `;
+    }
+
+    function triggerSimulatedIncident() {
+      const feed = document.getElementById('audit-feed');
+      const newEntry = document.createElement('div');
+      newEntry.className = 'p-4 flex items-center justify-between hover:bg-slate-800/20 transition animate-pulse bg-sky-500/5';
+      newEntry.innerHTML = `
+        <div class="flex items-center space-x-3">
+          <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+          <div>
+            <p class="text-white text-xs font-medium">STAGE: LIVE_INCIDENT_INGESTION (aud_${Date.now()})</p>
+            <p class="text-[11px] text-slate-400">Service: nyagah-b-fee-notes | Severity: SEV-1 | Scrubbed: Bearer [REDACTED]</p>
+          </div>
+        </div>
+        <span class="text-[11px] text-sky-400 font-bold">Just Now</span>
+      `;
+      feed.insertBefore(newEntry, feed.firstChild);
+    }
+  </script>
+</body>
+</html>

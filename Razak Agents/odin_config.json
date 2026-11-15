@@ -109,7 +109,7 @@
     },
     "sales_rep_alert": {
       "notification_email": "devs@p3ldevelopers.com",
-      "notification_phone": "+254141888585",
+      "notification_phone": "+254768141129",
       "escalation_reasons": [
         "explicit human request",
         "budget > $3,000",

@@ -1,0 +1,78 @@
+[
+  {
+    "name": "Original OLED / Incell Screen Replacement for iPhones (iPhone 11 to iPhone 16 Pro Max)",
+    "category": "Hardware Repair Services",
+    "sku": "SRV-IPH-SCREEN-REP",
+    "price": 6500,
+    "item_type": "service",
+    "stock": 999,
+    "image": "https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=800",
+    "specs": {
+      "scope": "iPhone 11 (KES 6,500), iPhone 12/13 (KES 9,500 - 14,000), iPhone 14/15/16 Pro (KES 18,000 - 35,000)",
+      "duration": "45 minutes express repair while you wait",
+      "parts": "Original OEM refurbished or High-Grade Incell/OLED with True Tone reprogramming",
+      "warranty": "90-Day Warranty on touch sensitivity & display integrity"
+    },
+    "desc": "Precision iPhone screen replacement. Restores 100% touch sensitivity, vivid color gamut, and True Tone display calibration in under 1 hour."
+  },
+  {
+    "name": "Motherboard Chip-Level Repair, Short-Circuit Fix & Liquid Spill Ultrasonic Cleaning",
+    "category": "Hardware Repair Services",
+    "sku": "SRV-MB-CHIP-REP",
+    "price": 8500,
+    "item_type": "service",
+    "stock": 999,
+    "image": "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=800",
+    "specs": {
+      "diagnostic": "Free initial multimeter diagnostic test",
+      "process": "Infrared thermal imaging to trace short circuits, microscopic IC soldering, ultrasonic chemical PCB bath",
+      "warranty": "90-Day Repair Warranty"
+    },
+    "desc": "Advanced micro-soldering and component-level repair for dead motherboards, water/tea liquid spills, charging port burnout, and power rail shorts."
+  },
+  {
+    "name": "Clean OS Installation & Software Suite Setup (Windows 11 Pro, macOS Sonoma/Sequoia, Linux)",
+    "category": "Software & System Services",
+    "sku": "SRV-OS-SETUP-ISO",
+    "price": 3000,
+    "item_type": "service",
+    "stock": 999,
+    "image": "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?w=800",
+    "specs": {
+      "os_options": "Windows 11 Pro Genuine, macOS Sonoma/Sequoia, Ubuntu 24.04 LTS",
+      "included": "Full driver installation, Microsoft Office genuine activation, antivirus, browser optimizations, and high-speed data backup",
+      "duration": "1 to 2 hours express setup"
+    },
+    "desc": "Fresh, bloatware-free operating system installation with authentic license activation, manufacturer firmware updates, and essential software suites."
+  },
+  {
+    "name": "Autonomous WhatsApp AI Sales Agent & Business Process Automation (Odin Engine)",
+    "category": "AI & Custom Software Development",
+    "sku": "SRV-AI-AUTOMATION-ODIN",
+    "price": 65000,
+    "item_type": "service",
+    "stock": 999,
+    "image": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800",
+    "specs": {
+      "deliverables": "Autonomous WhatsApp Multi-Device Agent, Supabase Multi-Tenant Database, n8n Cloud Orchestration, M-Pesa automatic STK Push integration, Real-Time Web Dashboard",
+      "timeline": "5 business days deployment",
+      "sla": "99.9% uptime with 24/7 autonomous lead qualification"
+    },
+    "desc": "Complete enterprise conversational sales and CRM platform. Turns your WhatsApp business line into a tireless 24/7 sales consultant that quotes products, handles customer questions, and collects payments."
+  },
+  {
+    "name": "Full-Stack Custom Web Development & Scalable SaaS Application Sprint",
+    "category": "AI & Custom Software Development",
+    "sku": "SRV-FULLSTACK-WEB-DEV",
+    "price": 85000,
+    "item_type": "service",
+    "stock": 999,
+    "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800",
+    "specs": {
+      "stack": "Next.js / React, Node.js, Supabase / PostgreSQL, Tailwind CSS, Stripe / M-Pesa API",
+      "features": "Custom responsive UI, authentication, database schemas, SEO optimization, and domain deployment",
+      "timeline": "14 days sprint delivery"
+    },
+    "desc": "High-performance web applications, e-commerce storefronts, and cloud dashboards built to scale effortlessly."
+  }
+]

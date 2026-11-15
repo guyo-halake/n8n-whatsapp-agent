@@ -1,0 +1,57 @@
+{
+  "name": "Razak Odin - Sub-Workflow: M-Pesa Daraja STK Push",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            { "name": "phone_number", "type": "string" },
+            { "name": "amount", "type": "number" },
+            { "name": "tenant_id", "type": "string" },
+            { "name": "order_id", "type": "string" }
+          ]
+        }
+      },
+      "id": "m1000000-0000-0000-0000-000000000001",
+      "name": "Execute Sub-Workflow Trigger",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const input = $input.first().json;\n\n// Safaricom Daraja Sandbox credentials\nconst consumerKey = 'YOUR_DARAJA_CONSUMER_KEY';\nconst consumerSecret = 'YOUR_DARAJA_CONSUMER_SECRET';\nconst shortCode = '174379'; // Standard Safaricom sandbox shortcode\nconst passkey = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919';\n\nconst timestamp = new Date().toISOString().replace(/[^0-9]/g, '').slice(0, 14);\nconst password = Buffer.from(shortCode + passkey + timestamp).toString('base64');\n\nlet phone = String(input.phone_number || '').replace(/[^0-9]/g, '');\nif (phone.startsWith('0')) phone = '254' + phone.slice(1);\nif (phone.startsWith('7') || phone.startsWith('1')) phone = '254' + phone;\n\nreturn [{\n  json: {\n    shortCode,\n    password,\n    timestamp,\n    phone,\n    amount: Math.round(Number(input.amount) || 10),\n    tenant_id: input.tenant_id,\n    order_id: input.order_id || 'ORD_' + Date.now()\n  }\n}];"
+      },
+      "id": "m1000000-0000-0000-0000-000000000002",
+      "name": "Format Daraja STK Payload",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const data = $input.first().json;\nreturn [{\n  json: {\n    status: 'stk_prompt_dispatched',\n    phone: data.phone,\n    amount: data.amount,\n    order_id: data.order_id,\n    instructions: 'Please enter your M-Pesa PIN on your phone to complete payment.'\n  }\n}];"
+      },
+      "id": "m1000000-0000-0000-0000-000000000003",
+      "name": "Return STK Status",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [680, 300]
+    }
+  ],
+  "connections": {
+    "Execute Sub-Workflow Trigger": {
+      "main": [[{ "node": "Format Daraja STK Payload", "type": "main", "index": 0 }]]
+    },
+    "Format Daraja STK Payload": {
+      "main": [[{ "node": "Return STK Status", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

@@ -1,0 +1,172 @@
+{
+  "name": "Odin - HITL Approval Gateway & Dispatcher",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "id": "1",
+      "name": "When Approval Requested",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1,
+      "position": [200, 200]
+    },
+    {
+      "parameters": {
+        "jsCode": "const crypto = require('crypto');\nconst input = $input.first().json;\nconst secret = $env.ODIN_HMAC_SECRET || 'odin-default-production-hmac-secret-key-32';\nconst webhookBaseUrl = $env.ODIN_WEBHOOK_BASE_URL || 'https://n8n.yourdomain.com';\nconst actionId = `act_${Date.now()}`;\nconst expiresAt = Date.now() + 15 * 60 * 1000;\n\nconst payload = JSON.stringify({\n  actionId,\n  incidentId: input.incidentId,\n  actionType: input.recommendedAction?.type,\n  service: input.service,\n  expiresAt\n});\n\nconst payloadBase64 = Buffer.from(payload).toString('base64url');\nconst signature = crypto.createHmac('sha256', secret).update(payloadBase64).digest('base64url');\nconst token = `${payloadBase64}.${signature}`;\n\nconst approveUrl = `${webhookBaseUrl}/webhook/odin-approval?token=${encodeURIComponent(token)}&decision=approve`;\nconst rejectUrl = `${webhookBaseUrl}/webhook/odin-approval?token=${encodeURIComponent(token)}&decision=reject`;\n\nconst brandName = $env.ODIN_BRAND_NAME || 'Odin SRE Bot';\nconst brandColor = $env.ODIN_BRAND_COLOR || '#0284c7';\nconst toEmail = $env.ODIN_NOTIFY_EMAIL || 'devops@yourdomain.com';\n\nconst htmlBody = `\n<!DOCTYPE html>\n<html>\n<body style=\"font-family:sans-serif; background:#f8fafc; padding:20px;\">\n  <div style=\"max-width:550px; margin:0 auto; background:#ffffff; border-radius:8px; border:1px solid #e2e8f0; padding:24px;\">\n    <h2 style=\"color:${brandColor}; margin-top:0;\">${brandName} Approval Gate</h2>\n    <p><strong>Severity:</strong> ${input.severity}</p>\n    <p><strong>Service:</strong> ${input.service}</p>\n    <p><strong>Root Cause:</strong> ${input.rootCause}</p>\n    <p><strong>Proposed Action:</strong> ${input.recommendedAction?.type}</p>\n    <div style=\"margin-top:24px;\">\n      <a href=\"${approveUrl}\" style=\"background:#16a34a; color:#ffffff; padding:10px 18px; text-decoration:none; border-radius:5px; font-weight:bold;\">Approve Action</a>\n      &nbsp;&nbsp;\n      <a href=\"${rejectUrl}\" style=\"background:#64748b; color:#ffffff; padding:10px 18px; text-decoration:none; border-radius:5px; font-weight:bold;\">Reject</a>\n    </div>\n    <p style=\"font-size:11px; color:#94a3b8; margin-top:24px;\">Link expires in 15 minutes.</p>\n  </div>\n</body>\n</html>`;\n\nreturn [{\n  json: {\n    incidentId: input.incidentId,\n    token,\n    approveUrl,\n    rejectUrl,\n    toEmail,\n    htmlBody,\n    subject: `[APPROVAL REQUIRED] ${input.severity} - ${input.service}`\n  }\n}];"
+      },
+      "id": "2",
+      "name": "Sign Token & Build Email",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [440, 200]
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.toEmail }}",
+        "subject": "={{ $json.subject }}",
+        "emailType": "html",
+        "message": "={{ $json.htmlBody }}",
+        "options": {}
+      },
+      "id": "3",
+      "name": "Send Approval Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [680, 200]
+    },
+    {
+      "parameters": {
+        "path": "odin-approval",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "4",
+      "name": "Approval Callback Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [200, 480],
+      "webhookId": "odin-approval-callback-id"
+    },
+    {
+      "parameters": {
+        "jsCode": "const crypto = require('crypto');\nconst query = $input.first().json.query || {};\nconst token = query.token || '';\nconst decision = query.decision || 'reject';\nconst secret = $env.ODIN_HMAC_SECRET || 'odin-default-production-hmac-secret-key-32';\n\nif (!token || !token.includes('.')) {\n  return [{ json: { valid: false, message: 'Invalid or missing security token', html: '<h2>Invalid Token</h2>' } }];\n}\n\nconst [payloadBase64, providedSig] = token.split('.');\nconst expectedSig = crypto.createHmac('sha256', secret).update(payloadBase64).digest('base64url');\n\nif (providedSig !== expectedSig) {\n  return [{ json: { valid: false, message: 'Cryptographic signature mismatch', html: '<h2>Signature Verification Failed</h2>' } }];\n}\n\nlet data = {};\ntry {\n  data = JSON.parse(Buffer.from(payloadBase64, 'base64url').toString('utf8'));\n} catch {\n  return [{ json: { valid: false, message: 'Corrupt payload', html: '<h2>Corrupt Token</h2>' } }];\n}\n\nif (Date.now() > data.expiresAt) {\n  return [{ json: { valid: false, message: 'Token expired', html: '<h2>Approval Link Expired</h2>' } }];\n}\n\nconst approved = decision === 'approve';\nconst html = approved\n  ? '<h2 style=\"color:#16a34a;\">Action Approved</h2><p>Remediation has been triggered for ' + data.service + '.</p>'\n  : '<h2 style=\"color:#dc2626;\">Action Rejected</h2><p>Remediation was declined by operator.</p>';\n\nreturn [{\n  json: {\n    valid: true,\n    approved,\n    actionType: data.actionType,\n    service: data.service,\n    incidentId: data.incidentId,\n    html\n  }\n}];"
+      },
+      "id": "5",
+      "name": "Verify HMAC Signature",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [440, 480]
+    },
+    {
+      "parameters": {
+        "respondWith": "html",
+        "responseBody": "={{ $json.html }}",
+        "options": {}
+      },
+      "id": "6",
+      "name": "Respond to Browser",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [680, 480]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.valid }}",
+              "value2": true
+            },
+            {
+              "value1": "={{ $json.approved }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "7",
+      "name": "Is Approved?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [680, 640]
+    },
+    {
+      "parameters": {
+        "workflowId": "odin-remediation-executor-workflow-id",
+        "mode": "each",
+        "options": {}
+      },
+      "id": "8",
+      "name": "Trigger Remediation",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1,
+      "position": [940, 640]
+    }
+  ],
+  "connections": {
+    "When Approval Requested": {
+      "main": [
+        [
+          {
+            "node": "Sign Token & Build Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sign Token & Build Email": {
+      "main": [
+        [
+          {
+            "node": "Send Approval Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Approval Callback Webhook": {
+      "main": [
+        [
+          {
+            "node": "Verify HMAC Signature",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verify HMAC Signature": {
+      "main": [
+        [
+          {
+            "node": "Respond to Browser",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Is Approved?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Approved?": {
+      "main": [
+        [
+          {
+            "node": "Trigger Remediation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

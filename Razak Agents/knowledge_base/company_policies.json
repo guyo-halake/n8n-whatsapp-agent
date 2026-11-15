@@ -1,0 +1,45 @@
+{
+  "company": {
+    "name": "P3L Developers & Tech Shop",
+    "location": "Nairobi, Kenya (Central Business District / Westlands Operations)",
+    "phone": "+254768141129",
+    "email": "info@p3ldevelopers.co.ke",
+    "website": "https://p3ldevelopers.co.ke"
+  },
+  "payment_methods": {
+    "pochi_la_biashara": {
+      "name": "M-Pesa Pochi La Biashara",
+      "phone_number": "+254768141129",
+      "instructions": "Go to M-Pesa -> Lipa na M-Pesa -> Pochi La Biashara -> Enter 0768141129 -> Enter Amount -> Enter PIN."
+    },
+    "paybill": {
+      "name": "Lipa na M-Pesa Paybill",
+      "business_number": "255255",
+      "account_number_format": "<Your Full Name> & <Order Number>",
+      "instructions": "Go to M-Pesa -> Lipa na M-Pesa -> Paybill -> Enter Business No: 255255 -> Account: Your Name / Item -> Enter Amount -> Enter PIN."
+    },
+    "cash_on_delivery": "Available within Nairobi CBD and immediate environs after minimal rider dispatch fee commitment."
+  },
+  "delivery_network": {
+    "nairobi_and_environs": {
+      "speed": "Same-Day Dispatch (Within 1 to 3 hours)",
+      "couriers": [
+        "Super Metro Parcels (Quick dispatch along Thika Road, Juja, Westlands, Kikuyu)",
+        "Pickup Mtaani (Convenient neighborhood locker/agent pickup across all Nairobi estates at only KES 150 - 250)",
+        "Direct Dedicated Motorbike Rider (Instant door-to-door delivery across Nairobi)"
+      ]
+    },
+    "upcountry_and_rest_of_kenya": {
+      "speed": "Next-Day Guaranteed Delivery (Arrives next morning)",
+      "couriers": [
+        "Wells Fargo Courier (Insured, doorstep or office delivery across Mombasa, Kisumu, Nakuru, Eldoret, Nyeri, etc.)",
+        "G4S Secure Logistics"
+      ]
+    }
+  },
+  "warranties": {
+    "brand_new_devices": "1-Year Comprehensive Manufacturer / International Warranty with immediate factory replacement for technical defects.",
+    "refurbished_devices": "6-Months P3L Hardware Warranty + 100% Battery Health guarantee + 14-day hassle-free replacement period.",
+    "hardware_repairs": "90-Day Warranty on all replaced screens, IC chips, and motherboard micro-soldering."
+  }
+}

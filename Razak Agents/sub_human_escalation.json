@@ -1,0 +1,86 @@
+{
+  "name": "Razak Odin - Sub-Workflow: Human Escalation & Alert",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            { "name": "tenant_id", "type": "string" },
+            { "name": "customer_phone", "type": "string" },
+            { "name": "customer_name", "type": "string" },
+            { "name": "reason", "type": "string" }
+          ]
+        }
+      },
+      "id": "h1000000-0000-0000-0000-000000000001",
+      "name": "Execute Sub-Workflow Trigger",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://muratasgegqmbkhmsevt.supabase.co/rest/v1/tenant_escalation_contacts?tenant_id=eq.{{ $json.tenant_id }}&is_active=eq.true&order=priority_order.asc",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "SUPABASE_KEY_PLACEHOLDER"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer SUPABASE_KEY_PLACEHOLDER"
+            }
+          ]
+        }
+      },
+      "id": "h1000000-0000-0000-0000-000000000002",
+      "name": "Fetch Escalation Contacts from Supabase",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const original = $('Execute Sub-Workflow Trigger').first().json;\nconst contacts = $input.first().json;\n\nconst primaryContact = Array.isArray(contacts) && contacts.length > 0 ? contacts[0] : { phone_number: '254711223344', full_name: 'Manager' };\nconst secondaryContact = Array.isArray(contacts) && contacts.length > 1 ? contacts[1] : null;\n\nconst alertMessage = `🚨 *[ODIN LIVE ESCALATION ALERT]*\\n\\n` +\n  `• Customer: ${original.customer_name || 'Valued Client'} (+${original.customer_phone})\\n` +\n  `• Reason: ${original.reason || 'Customer requested human assistance'}\\n` +\n  `• Action: AI agent is pausing for 30 minutes.\\n\\n` +\n  `Please open WhatsApp and take over this chat now.`;\n\nreturn [{\n  json: {\n    primary_phone: primaryContact.phone_number,\n    primary_name: primaryContact.full_name,\n    secondary_phone: secondaryContact ? secondaryContact.phone_number : null,\n    alert_text: alertMessage,\n    escalated_at: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "h1000000-0000-0000-0000-000000000003",
+      "name": "Format Priority Escalation Alert",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://localhost:3000/api/sendText",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"chatId\": \"{{ $json.primary_phone }}@c.us\",\n  \"text\": {{ JSON.stringify($json.alert_text) }}\n}"
+      },
+      "id": "h1000000-0000-0000-0000-000000000004",
+      "name": "Send WhatsApp Alert to Primary Contact",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [900, 300]
+    }
+  ],
+  "connections": {
+    "Execute Sub-Workflow Trigger": {
+      "main": [[{ "node": "Fetch Escalation Contacts from Supabase", "type": "main", "index": 0 }]]
+    },
+    "Fetch Escalation Contacts from Supabase": {
+      "main": [[{ "node": "Format Priority Escalation Alert", "type": "main", "index": 0 }]]
+    },
+    "Format Priority Escalation Alert": {
+      "main": [[{ "node": "Send WhatsApp Alert to Primary Contact", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

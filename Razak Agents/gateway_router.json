@@ -1,0 +1,552 @@
+{
+  "id": "CsBJMQmxtWDWqpyq",
+  "name": "Razak Odin - Multi-Tenant WhatsApp Gateway Router",
+  "active": true,
+  "isArchived": false,
+  "versionId": "b3b732db-8827-4c57-b592-40c7216a75b6",
+  "activeVersionId": "b3b732db-8827-4c57-b592-40c7216a75b6",
+  "triggerCount": 2,
+  "nodeCount": 15,
+  "createdAt": "2026-10-31T08:04:45.593Z",
+  "updatedAt": "2026-11-05T11:44:23.903Z",
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": true
+  },
+  "tags": [],
+  "parentFolderId": "beibx8enmyvvnhDa",
+  "scopes": [
+    "execution:delete",
+    "execution:list",
+    "execution:read",
+    "execution:reveal",
+    "workflow:create",
+    "workflow:delete",
+    "workflow:disableRedaction",
+    "workflow:enableRedaction",
+    "workflow:execute",
+    "workflow:execute-chat",
+    "workflow:export",
+    "workflow:import",
+    "workflow:list",
+    "workflow:move",
+    "workflow:publish",
+    "workflow:read",
+    "workflow:share",
+    "workflow:unpublish",
+    "workflow:unshare",
+    "workflow:update"
+  ],
+  "canExecute": true,
+  "connections": {
+    "WhatsApp Universal Gateway Webhook": {
+      "main": [
+        [
+          {
+            "node": "Universal Normalizer & Dedupe",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Universal Normalizer & Dedupe": {
+      "main": [
+        [
+          {
+            "node": "Fetch Tenant from Supabase",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Tenant from Supabase": {
+      "main": [
+        [
+          {
+            "node": "Assemble Agent Context & Guard",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Assemble Agent Context & Guard": {
+      "main": [
+        [
+          {
+            "node": "Odin Multilingual Sales Brain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Odin Multilingual Sales Brain": {
+      "main": [
+        [
+          {
+            "node": "Universal Outbound Dispatcher",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Universal Outbound Dispatcher": {
+      "main": [
+        [
+          {
+            "node": "WAHA Send Outbound Message",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If Telegram Channel",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If Escalation Needed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Per-Customer Session Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Odin Multilingual Sales Brain",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "initiate_mpesa_payment": {
+      "ai_tool": [
+        [
+          {
+            "node": "Odin Multilingual Sales Brain",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "escalate_to_human_agents": {
+      "ai_tool": [
+        [
+          {
+            "node": "Odin Multilingual Sales Brain",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Odin Multilingual Sales Brain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Universal Gateway Webhook": {
+      "main": [
+        [
+          {
+            "node": "Universal Normalizer & Dedupe",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Telegram Channel": {
+      "main": [
+        [
+          {
+            "node": "Send AI Reply via Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Escalation Needed": {
+      "main": [
+        [
+          {
+            "node": "Dispatch Instant Escalation to Telegram",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send Escalation Email (Native n8n Email)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "whatsapp-odin-inbound",
+        "options": {},
+        "responseMode": "responseNode"
+      },
+      "id": "96625d30-3053-413c-a0db-696df9e469d7",
+      "name": "WhatsApp Universal Gateway Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -240,
+        16
+      ],
+      "webhookId": "whatsapp-odin-inbound"
+    },
+    {
+      "parameters": {
+        "jsCode": "const inputItem = $input.first().json;\nconst body = inputItem.body || inputItem;\n\n// Filter out WAHA non-message events (status pings, ack, etc.)\nif (body.event && body.event !== 'message' && body.event !== 'message.any') {\n  return [];\n}\n\nlet senderPhone = '';\nlet receiverLine = '254768141129';\nlet senderName = 'Customer';\nlet messageText = '';\nlet messageId = 'msg_' + Date.now();\nlet referralSource = 'direct';\nlet provider = 'WAHA';\nlet rawChatId = '';\n\n// 1. Meta Cloud API Payload\nif (body.entry && body.entry[0]?.changes && body.entry[0].changes[0]?.value) {\n  provider = 'META_CLOUD_API';\n  const val = body.entry[0].changes[0].value;\n  if (val.statuses) return [];\n  \n  receiverLine = val.metadata?.display_phone_number?.replace(/[^0-9]/g, '') || '254768141129';\n  if (val.contacts && val.contacts[0]) {\n    senderName = val.contacts[0].profile?.name || senderName;\n    senderPhone = val.contacts[0].wa_id || '';\n  }\n  if (val.messages && val.messages[0]) {\n    const msg = val.messages[0];\n    messageId = msg.id || messageId;\n    senderPhone = senderPhone || msg.from || '';\n    if (msg.type === 'text') messageText = msg.text?.body || '';\n    else if (msg.type === 'button') messageText = msg.button?.text || '';\n    else if (msg.type === 'interactive') messageText = msg.interactive?.button_reply?.title || msg.interactive?.list_reply?.title || '';\n    if (msg.referral) referralSource = msg.referral.source_type || 'ad_campaign';\n  }\n  rawChatId = senderPhone ? senderPhone + '@c.us' : '';\n} \n// 2. Telegram Inbound Payload (@fv_rzkbot)\nelse if (body.message && body.message.chat) {\n  provider = 'TELEGRAM';\n  const msg = body.message;\n  rawChatId = String(msg.chat.id);\n  senderPhone = String(msg.from?.id || msg.chat.id);\n  receiverLine = '254768141129';\n  senderName = [msg.from?.first_name, msg.from?.last_name].filter(Boolean).join(' ') || msg.from?.username || 'Telegram Client';\n  messageText = msg.text || '';\n  messageId = String(msg.message_id || Date.now());\n  referralSource = 'telegram';\n}\n// 3. WAHA Inbound Payload\nelse if (body.payload && (body.event === 'message' || body.event === 'message.any')) {\n  if (body.payload.fromMe) return [];\n  provider = 'WAHA';\n  rawChatId = body.payload.from || body.payload.chatId || '';\n  senderPhone = (rawChatId || '').replace(/@.*$/, '').replace(/[^0-9]/g, '');\n  receiverLine = (body.session || body.payload.to || '').replace(/[^0-9]/g, '') || '254768141129';\n  senderName = body.payload._data?.notifyName || body.payload.notifyName || senderName;\n  messageText = body.payload.body || '';\n  messageId = body.payload.id || messageId;\n} \n// 4. Direct Test Webhook / Browser Simulator\nelse {\n  provider = body.channel_provider || 'DIRECT_TEST';\n  senderPhone = String(body.phone || body.sender || '254768141129').replace(/[^0-9]/g, '');\n  receiverLine = String(body.receiver || body.business_phone || '254768141129').replace(/[^0-9]/g, '');\n  senderName = body.name || senderName;\n  messageText = body.message || body.text || 'Hello';\n  referralSource = body.source || 'direct';\n  rawChatId = body.chatId || (senderPhone + '@c.us');\n}\n\nif (!messageText || !senderPhone) {\n  return [];\n}\n\nreturn [{\n  json: {\n    sender_phone: senderPhone,\n    chat_id: rawChatId,\n    receiver_line: receiverLine,\n    sender_name: senderName,\n    message_text: messageText,\n    message_id: messageId,\n    referral_source: referralSource,\n    channel_provider: provider,\n    rag_context: body.ragContext || '',\n    received_at: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "1e936945-aa08-431b-a13c-f5ebf7b1deeb",
+      "name": "Universal Normalizer & Dedupe",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -16,
+        16
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://muratasgegqmbkhmsevt.supabase.co/rest/v1/tenant_whatsapp_lines?phone_number=eq.{{ $json.receiver_line || '254768141129' }}&select=*,tenants(*,tenant_agent_configs(*),tenant_escalation_contacts(*),tenant_subscriptions(*),catalog_items(*))",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "SUPABASE_KEY_PLACEHOLDER"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer SUPABASE_KEY_PLACEHOLDER"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2ed01e2a-2e0a-45d8-8521-d906f44d7fd8",
+      "name": "Fetch Tenant from Supabase",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        208,
+        16
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const normalized = $('Universal Normalizer & Dedupe').first().json;\nconst lineRecords = $input.first().json;\n\nlet line = Array.isArray(lineRecords) && lineRecords.length > 0 ? lineRecords[0] : (lineRecords && lineRecords.id ? lineRecords : null);\nlet tenant = line?.tenants || {};\nlet agentConfig = tenant.tenant_agent_configs || {};\nlet catalog = tenant.catalog_items || [];\n\nconst businessName = tenant.business_name || 'P3L Developers';\nconst ownerEmail = tenant.owner_email || 'razakwako45@gmail.com';\nconst agentName = agentConfig.agent_name || 'Odin-P3L';\nconst currency = tenant.currency || 'KES';\nconst opHours = tenant.operating_hours ? `Mon-Fri: ${tenant.operating_hours.mon_fri || '08:00-18:00'}, Sat-Sun: ${tenant.operating_hours.sat_sun || '09:00-14:00'}` : 'Monday to Friday 8:00 AM to 6:00 PM, Saturday and Sunday 9:00 AM to 2:00 PM';\nconst deliveryInfo = tenant.delivery_zones ? `${tenant.delivery_zones.coverage}: ${tenant.delivery_zones.details}` : 'Nairobi same-day express dispatch via Super Metro Parcels, Pickup Mtaani lockers, or direct motorbike rider. Countrywide upcountry next-day delivery via Wells Fargo Courier or G4S.';\n\n// Catalog with explicit image URLs for media sharing\nlet catalogText = catalog.map((item, idx) => {\n  let entry = `${idx + 1}. [${(item.item_type || 'item').toUpperCase()}] ${item.category}: **${item.name}** - **${currency} ${Number(item.base_price_kes).toLocaleString()}** (${item.in_stock ? 'In Stock' : 'Out of Stock'}) | ${item.description || ''}`;\n  if (item.image_url) {\n    entry += ` | Media Photo Link: ${item.image_url}`;\n  }\n  return entry;\n}).join('\\n');\n\nconst systemInstructions = `You are ${agentName}, the professional consultative sales and technical solutions advisor for ${businessName} in Nairobi, Kenya.\n\nABOUT THE ENTERPRISE:\n- Organization: ${businessName}\n- Focus: Premier enterprise technology engineering firm, bespoke AI and automation solutions, and authorized provider of high-performance computing hardware, laptops, Apple workstations, monitors, and precision repair services across Kenya.\n- Operations Email: ${ownerEmail}\n- Operating Hours: ${opHours}\n- Delivery Network: Same-day dispatch across Nairobi and surroundings via Super Metro Parcels, Pickup Mtaani, or motorbike rider. Next-day guaranteed delivery countrywide via Wells Fargo Courier or G4S.\n- Currency: ${currency}\n\nCRITICAL RULES ON IDENTITY & BRANDING:\n1. You represent an established, high-caliber technology firm. NEVER recite personal founder bios, personal college or university details, age, or personal background when asked about the company or what we do.\n2. If asked about the business, present ${businessName} as a premier technology engineering firm and hardware supplier with enterprise software capabilities, top-tier computing inventory, full 1-year warranties, and professional repairs.\n\nCRITICAL RULES ON TONE & FORMATTING:\n1. Talk naturally, warmly, and concisely like an expert, attentive human tech consultant or sales executive.\n2. NEVER use emojis under any circumstances (no rockets, laptops, checkmarks, phones, fire, stars).\n3. NEVER use star bullet lists (* item). Write in clean, smooth, readable sentences and paragraphs.\n4. When you need to highlight something important (such as product names, exact prices in KES, account numbers, warranties, or contact info), ALWAYS use bold formatting (**like this**).\n\nMEDIA & IMAGE SHARING:\n1. You have direct access to image URLs and media links for our products in the catalog.\n2. If the customer asks to see pictures, photos, samples, or links for any item, share the direct media photo link from the catalog so they can view it.\n\nPAYMENT INSTRUCTIONS & HONESTY:\n1. Official Payment Methods:\n   - M-Pesa Pochi La Biashara: Send payment directly to phone number **0768141129** (Instant, zero transaction fee).\n   - M-Pesa Paybill: Business Number **255255**, Account Number: **Customer Name & Item Ordered**.\n   - Cash on Delivery: Available within Nairobi CBD upon minimal rider dispatch commitment.\n2. STRICT TRUTH LAW: NEVER claim or imply that an automatic STK PIN prompt has been sent to their phone screen. Always instruct the customer to send payment manually to Pochi La Biashara (**0768141129**) or Paybill **255255**, and reply here with the Safaricom confirmation message to dispatch immediately.\n3. If the customer confirms an order or wants to pay, call initiate_mpesa_payment.\n\nHUMAN ESCALATION & SUPPORT:\n1. If the customer encounters an issue, says payment did not go through, requests custom enterprise contracts, or explicitly asks for a human specialist, immediately call escalate_to_human_agents.\n2. State clearly that our senior technical operations team at **${ownerEmail}** has been alerted with their chat details and will assist promptly.\n\nSTRICT CATALOG LAW:\nNever invent products, specs, or discounts that do not exist in the catalog. Quote exact prices from the verified list below.\n\nOFFICIAL VERIFIED CATALOG:\n${catalogText || 'All catalog items loaded dynamically.'}`;\n\nreturn [{\n  json: {\n    ...normalized,\n    tenant_id: tenant.id || '11111111-1111-1111-1111-111111111111',\n    business_name: businessName,\n    owner_email: ownerEmail,\n    currency: currency,\n    provider: normalized.channel_provider || line?.provider || 'WAHA',\n    meta_phone_number_id: line?.meta_phone_number_id || null,\n    meta_access_token: line?.meta_access_token || null,\n    waha_endpoint_url: line?.waha_endpoint_url || 'http://localhost:5000',\n    system_instructions: systemInstructions,\n    message_text: normalized.message_text\n  }\n}];"
+      },
+      "id": "6278df36-320f-407c-b808-1989112f0f8d",
+      "name": "Assemble Agent Context & Guard",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        432,
+        16
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.message_text }}",
+        "options": {
+          "systemMessage": "={{ $json.system_instructions }}"
+        }
+      },
+      "id": "040a9a8b-4f94-4aeb-a628-335954add9d3",
+      "name": "Odin Multilingual Sales Brain",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        640,
+        16
+      ]
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.tenant_id }}_{{ $json.sender_phone }}",
+        "contextWindowLength": 10
+      },
+      "id": "56c7a1eb-754d-4835-a4fb-8f1abd911041",
+      "name": "Per-Customer Session Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        672,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "description": "Trigger M-Pesa payment guidelines and manual Pochi / Paybill instructions when customer confirms their order and amount.",
+        "jsCode": "const context = $('Assemble Agent Context & Guard').first().json;\nreturn JSON.stringify({\n  action: 'manual_mpesa_payment_instructions',\n  pochi_la_biashara: '0768141129',\n  paybill_number: '255255',\n  account_format: '<Customer Name> & <Item Ordered>',\n  business: context.business_name,\n  currency: context.currency,\n  instructions: 'Instruct the customer to send payment via M-Pesa Pochi La Biashara to 0768141129 or Paybill 255255 with account <Name & Item>. Do not promise an STK push popup on their screen. Once paid, they should paste the Safaricom confirmation message here for immediate dispatch.'\n});"
+      },
+      "id": "910b0331-07ac-41f8-800c-36e00ed58ad3",
+      "name": "initiate_mpesa_payment",
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.3,
+      "position": [
+        912,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "description": "Immediately alert the operations desk at razakwako45@gmail.com and senior managers if the customer asks for a human, says payment did not go through, or needs complex enterprise contracts.",
+        "jsCode": "const context = $('Assemble Agent Context & Guard').first().json;\nreturn JSON.stringify({\n  escalation_triggered: true,\n  escalation_email: context.owner_email || 'razakwako45@gmail.com',\n  business: context.business_name,\n  message: 'Human escalation alert dispatched to operations team at ' + (context.owner_email || 'razakwako45@gmail.com') + ' and senior manager alerted.'\n});"
+      },
+      "id": "a4aa2637-7c17-4262-9a26-f4d4a824975c",
+      "name": "escalate_to_human_agents",
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.3,
+      "position": [
+        1024,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const agentOutput = $input.first().json.output || 'Hello! Thank you for contacting P3L Developers. A specialist will assist you shortly.';\nconst originalContext = $('Assemble Agent Context & Guard').first().json;\n\nconst isEscalation = /escalat|human|agent|operations team|razakwako45@gmail\\.com|human support|operator/i.test(agentOutput) ||\n                     /human|agent|operator|manager|call me|payment fail|didn't go through|not going through/i.test(originalContext.message_text || '');\n\nreturn [{\n  json: {\n    success: true,\n    status: 'delivered',\n    chatId: originalContext.chat_id || (originalContext.sender_phone + '@c.us'),\n    phone: originalContext.sender_phone,\n    customer_name: originalContext.sender_name || 'Valued Client',\n    message_text: originalContext.message_text,\n    text: agentOutput,\n    reply: agentOutput,\n    provider: originalContext.provider,\n    is_escalation: isEscalation,\n    escalation_email: originalContext.owner_email || 'razakwako45@gmail.com',\n    business_name: originalContext.business_name || 'P3L Developers',\n    meta_phone_number_id: originalContext.meta_phone_number_id,\n    meta_access_token: originalContext.meta_access_token,\n    waha_endpoint_url: originalContext.waha_endpoint_url,\n    timestamp: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "974c1617-d9c5-4dc2-bc98-454ea1703256",
+      "name": "Universal Outbound Dispatcher",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        880,
+        16
+      ]
+    },
+    {
+      "parameters": {
+        "jsonBody": "={\n  \"session\": \"default\",\n  \"chatId\": \"{{ $json.chatId }}\",\n  \"text\": {{ JSON.stringify($json.text) }}\n}",
+        "method": "POST",
+        "options": {},
+        "sendBody": true,
+        "sendHeaders": false,
+        "specifyBody": "json",
+        "url": "https://cure-largest-reseller-decisions.trycloudflare.com/api/sendText"
+      },
+      "id": "e8db4a40-4810-432f-b6f1-364ba7fd8761",
+      "name": "WAHA Send Outbound Message",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1104,
+        16
+      ],
+      "onError": "continueRegularOutput",
+      "disabled": true
+    },
+    {
+      "id": "respond-to-webhook-node",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1320,
+        16
+      ],
+      "parameters": {
+        "options": {},
+        "respondWith": "firstIncomingItem"
+      }
+    },
+    {
+      "id": "b6a942b9-5cce-4b20-99bb-9f5064cd3c34",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        528,
+        240
+      ],
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "telegram-universal-webhook",
+      "name": "Telegram Universal Gateway Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -240,
+        180
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "options": {},
+        "path": "telegram-odin-inbound",
+        "responseMode": "responseNode"
+      },
+      "webhookId": "ce22fa70-6e10-45be-b790-873fe4a56dc9"
+    },
+    {
+      "id": "if-telegram-channel",
+      "name": "If Telegram Channel",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1104,
+        180
+      ],
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "cond-tg",
+              "leftValue": "={{ $json.provider }}",
+              "operator": {
+                "operation": "equals",
+                "type": "string"
+              },
+              "rightValue": "TELEGRAM"
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          }
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "send-ai-reply-telegram",
+      "name": "Send AI Reply via Telegram",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1320,
+        180
+      ],
+      "parameters": {
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "chat_id",
+              "value": "={{ $('If Telegram Channel').item.json.chatId }}"
+            },
+            {
+              "name": "text",
+              "value": "={{ $('If Telegram Channel').item.json.text }}"
+            }
+          ]
+        },
+        "contentType": "json",
+        "method": "POST",
+        "options": {},
+        "sendBody": true,
+        "specifyBody": "keypair",
+        "url": "https://api.telegram.org/bot8742307708:AAFcN6PzTUOwCr_bzeAIRekcJjQuG1E5FMQ/sendMessage"
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "cond-esc",
+              "leftValue": "={{ $json.is_escalation }}",
+              "operator": {
+                "operation": "equals",
+                "type": "boolean"
+              },
+              "rightValue": true
+            }
+          ]
+        }
+      },
+      "id": "e1000000-0000-0000-0000-000000000001",
+      "name": "If Escalation Needed",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1150,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.telegram.org/bot8742307708:AAFcN6PzTUOwCr_bzeAIRekcJjQuG1E5FMQ/sendMessage",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"chat_id\": 5784911905,\n  \"text\": \"🚨 *[ODIN LIVE ESCALATION ALERT]*\\n\\n• Business: **{{ $json.business_name }}**\\n• Customer: **{{ $json.customer_name }}** ({{ $json.phone }})\\n• Channel: **{{ $json.provider }}**\\n• Customer Query: {{ $json.message_text }}\\n• Target Email: **{{ $json.escalation_email }}**\\n• AI Status: Escalated to operations desk\\n\\nPlease review this ticket now.\",\n  \"parse_mode\": \"Markdown\"\n}"
+      },
+      "id": "e1000000-0000-0000-0000-000000000002",
+      "name": "Dispatch Instant Escalation to Telegram",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1400,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "support@p3l.tech",
+        "toEmail": "={{ $json.escalation_email || \"razakwako45@gmail.com\" }}",
+        "subject": "={{ \"[ODIN ESCALATION ALERT] \" + $json.customer_name + \" (\" + $json.phone + \") - \" + $json.business_name }}",
+        "html": "=<div style=\"font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px;\">\n  <h2 style=\"color: #d32f2f;\">🚨 Customer Escalation Alert</h2>\n  <p><strong>Business:</strong> {{ $json.business_name }}</p>\n  <p><strong>Customer:</strong> {{ $json.customer_name }} ({{ $json.phone }})</p>\n  <p><strong>Channel:</strong> {{ $json.provider }}</p>\n  <hr style=\"border: 0; border-top: 1px solid #eee; margin: 15px 0;\">\n  <p><strong>Customer Inquiry:</strong></p>\n  <blockquote style=\"background: #f9f9f9; padding: 10px 15px; border-left: 4px solid #1976d2; margin: 0;\">{{ $json.message_text }}</blockquote>\n  <p><strong>AI Assistant Output:</strong></p>\n  <blockquote style=\"background: #f9f9f9; padding: 10px 15px; border-left: 4px solid #388e3c; margin: 0;\">{{ $json.text }}</blockquote>\n  <hr style=\"border: 0; border-top: 1px solid #eee; margin: 15px 0;\">\n  <p style=\"font-size: 12px; color: #777;\">Dispatched automatically by Odin Multi-Tenant Gateway.</p>\n</div>"
+      },
+      "id": "e1000000-0000-0000-0000-000000000003",
+      "name": "Send Escalation Email (Native n8n Email)",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        1400,
+        300
+      ],
+      "continueOnFail": true
+    }
+  ],
+  "nodeGroups": [],
+  "activeVersion": {
+    "sameAsDraft": true
+  },
+  "meta": {
+    "aiBuilderAssisted": true,
+    "builderVariant": "mcp"
+  }
+}

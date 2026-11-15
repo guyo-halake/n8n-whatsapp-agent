@@ -1,0 +1,91 @@
+{
+  "azure_cloud": {
+    "subscription_name": "Azure for Students",
+    "subscription_id": "f933e58c-9e82-47fe-849c-40e95a63650a",
+    "tenant_id": "fb952c0d-3932-434a-9309-d9eb8d8b0a0e",
+    "primary_admin": "guyohalakeofficial@gmail.com",
+    "resource_groups": {
+      "rg-nyagah-fee": {
+        "location": "southafricanorth",
+        "purpose": "Production workloads for Nyagah Kithinji Advocates & Core Web Applications",
+        "resources": [
+          {
+            "name": "nyagah-b-fee-notes",
+            "type": "Microsoft.Web/sites",
+            "runtime": "Python 3.11 / 3.14 FastAPI",
+            "hostname": "https://nyagah-b-fee-notes.azurewebsites.net",
+            "app_service_plan": "plan-nyagahfee",
+            "description": "Core legal remuneration calculation and fee notes generator backend for Nyagah Advocates."
+          },
+          {
+            "name": "nyagahkithinji-advocates",
+            "type": "Microsoft.Web/sites",
+            "hostname": "https://nyagahkithinji-advocates.azurewebsites.net",
+            "app_service_plan": "plan-nyagahfee",
+            "description": "Primary client-facing practice website and advocate booking platform."
+          },
+          {
+            "name": "guyohalake",
+            "type": "Microsoft.Web/sites",
+            "hostname": "https://guyohalake.azurewebsites.net",
+            "app_service_plan": "plan-nyagahfee",
+            "description": "Personal engineering portfolio and cloud service demonstrations."
+          },
+          {
+            "name": "plan-nyagahfee",
+            "type": "Microsoft.Web/serverFarms",
+            "tier": "B1 Basic Linux",
+            "sku": "Basic"
+          },
+          {
+            "name": "acrnyagahfee",
+            "type": "Microsoft.ContainerRegistry/registries",
+            "login_server": "acrnyagahfee.azurecr.io",
+            "sku": "Basic"
+          }
+        ]
+      },
+      "rg-portfolio-san": {
+        "location": "southafricanorth",
+        "resources": [
+          {
+            "name": "guyohalakeportfolio",
+            "type": "Microsoft.Storage/storageAccounts",
+            "sku": "Standard_LRS"
+          }
+        ]
+      }
+    }
+  },
+  "version_control_github": {
+    "organization_or_user": "guyo-halake",
+    "repositories": [
+      {
+        "name": "nyagahK_azure_backend",
+        "url": "https://github.com/guyo-halake/nyagahK_azure_backend",
+        "default_branch": "main",
+        "local_path": "c:\\Users\\guyoh\\Desktop\\NYAGA LAW DEVOPS",
+        "stack": "FastAPI, PyTest, Terraform, Docker, Azure App Service",
+        "ci_cd": "GitHub Actions (deploy.yml with Terraform and Azure CLI login)"
+      },
+      {
+        "name": "AZURE-FUNDAMENTALS-LAB-AND",
+        "url": "https://github.com/guyo-halake/AZURE-FUNDAMENTALS-LAB-AND",
+        "default_branch": "main",
+        "local_path": "c:\\Users\\guyoh\\Desktop\\AZURE DEVOPS"
+      }
+    ]
+  },
+  "automation_n8n": {
+    "cloud_instance_url": "https://p3lautomate.app.n8n.cloud",
+    "ingress_webhook": "https://p3lautomate.app.n8n.cloud/webhook/odin-devops-ingress",
+    "approval_webhook": "https://p3lautomate.app.n8n.cloud/webhook/odin-approval",
+    "active_workflows": [
+      "ODIN - Webhook Ingress & Secret Sanitizer",
+      "ODIN - AI SRE Diagnostic Core",
+      "ODIN - HITL Approval Gateway & Dispatcher",
+      "ODIN - Remediation Executor"
+    ]
+  }
+}
+

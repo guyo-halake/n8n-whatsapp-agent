@@ -1,0 +1,2 @@
+{"auditId":"aud_1793879520574_bkdt4s5","timestamp":"2026-11-05T11:52:00.574Z","stage":"INGRESS_AND_TRIAGE","service":"payment-gateway-api","severity":"SEV-1","category":"oom_killed","sanitizedLogsSample":"FATAL: Process killed by cgroup out of memory event. token= [REDACTED] and Bearer [REDACTED] passwor","tokenGenerated":true}
+{"auditId":"aud_1793879520598_l55ndgu","timestamp":"2026-11-05T11:52:00.598Z","stage":"APPROVAL_EXECUTED","decision":"approve","targetService":"payment-gateway-api","executedBy":"operator@demo.com","status":"SUCCESS"}
