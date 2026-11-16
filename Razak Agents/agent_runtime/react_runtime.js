@@ -353,10 +353,12 @@ Prices are strictly in KES.`;
   // Persist genuine trace in Supabase ONLY if persistSession is true
   if (persistSession) {
     try {
-      const session = await db.getOrCreateSession(cleanPhone);
+      const session = await db.getOrCreateSession(cleanPhone, tenantId);
       if (session?.id) {
+        dbSessionId = session.id;
         await db.logChatMessage({
           sessionId: session.id,
+          tenantId,
           phone: cleanPhone,
           role: 'assistant',
           message: finalReply,
@@ -376,6 +378,7 @@ Prices are strictly in KES.`;
   return {
     success: true,
     runId,
+    sessionId: dbSessionId,
     reply: finalReply,
     customerPhone: cleanPhone,
     modelUsed: PRIMARY_MODEL,

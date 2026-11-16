@@ -203,6 +203,35 @@ async function setSessionTakeover(sessionId, operatorName) {
 }
 
 /**
+ * Delete a session and its associated messages
+ */
+async function deleteSession(sessionId) {
+  try {
+    await supabaseRequest(`/chat_messages?session_id=eq.${sessionId}`, 'DELETE');
+    const res = await supabaseRequest(`/chat_sessions?id=eq.${sessionId}`, 'DELETE');
+    return res.data || { success: true };
+  } catch (err) {
+    return { error: err.message };
+  }
+}
+
+/**
+ * Archive session
+ */
+async function archiveSession(sessionId) {
+  try {
+    const res = await supabaseRequest(
+      `/chat_sessions?id=eq.${sessionId}`,
+      'PATCH',
+      { session_summary: 'ARCHIVED' }
+    );
+    return res.data || { success: true };
+  } catch (err) {
+    return { error: err.message };
+  }
+}
+
+/**
  * List real tenants from Supabase
  */
 async function listTenants() {
