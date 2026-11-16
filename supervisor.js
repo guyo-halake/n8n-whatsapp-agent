@@ -82,22 +82,28 @@ function startServer() {
   });
 }
 
-// Auto-reload on file edits in Razak Agents
-let reloadDebounce = null;
-const watchDir = path.resolve(__dirname, 'Razak Agents');
-if (fs.existsSync(watchDir)) {
-  fs.watch(watchDir, { recursive: true }, (eventType, filename) => {
-    if (!filename) return;
-    if (filename.endsWith('.js') || filename.endsWith('.html') || filename.endsWith('.json')) {
-      if (reloadDebounce) clearTimeout(reloadDebounce);
-      reloadDebounce = setTimeout(() => {
-        log(`[SUPERVISOR] Detected modification in ${filename}. Gracefully restarting child server...`);
-        if (currentChild) {
-          currentChild.kill();
+// Auto-reload on file edits in Razak Agents (development only)
+if (process.env.NODE_ENV !== 'production' && process.platform !== 'linux') {
+  try {
+    let reloadDebounce = null;
+    const watchDir = path.resolve(__dirname, 'Razak Agents');
+    if (fs.existsSync(watchDir)) {
+      fs.watch(watchDir, { recursive: true }, (eventType, filename) => {
+        if (!filename) return;
+        if (filename.endsWith('.js') || filename.endsWith('.html') || filename.endsWith('.json')) {
+          if (reloadDebounce) clearTimeout(reloadDebounce);
+          reloadDebounce = setTimeout(() => {
+            log(`[SUPERVISOR] Detected modification in ${filename}. Gracefully restarting child server...`);
+            if (currentChild) {
+              currentChild.kill();
+            }
+          }, 800);
         }
-      }, 800);
+      });
     }
-  });
+  } catch (watchErr) {
+    log(`[SUPERVISOR] File watcher skipped: ${watchErr.message}`);
+  }
 }
 
 // Graceful shutdown handling
