@@ -23,3 +23,7 @@ logs/
 # OS Artifacts
 .DS_Store
 Thumbs.db
+*.zip
+*.db
+*.db-shm
+*.db-wal
