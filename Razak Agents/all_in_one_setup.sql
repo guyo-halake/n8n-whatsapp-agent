@@ -187,7 +187,7 @@ CREATE TABLE IF NOT EXISTS catalog_items (
     discount_price_kes NUMERIC(10,2),
     
     in_stock BOOLEAN DEFAULT true,
-`    stock_quantity INT,
+    stock_quantity INT,
     is_available_for_order BOOLEAN DEFAULT true,
     
     service_duration_minutes INT,
@@ -531,3 +531,121 @@ INSERT INTO catalog_items (
     ARRAY['service', 'iot', 'hardware_repair', 'diagnostics', 'motherboard']
 );
 
+-- Production payment/order reconciliation additions
+ALTER TABLE orders
+    ADD COLUMN IF NOT EXISTS payment_method VARCHAR(40),
+    ADD COLUMN IF NOT EXISTS payment_status VARCHAR(30) NOT NULL DEFAULT 'unpaid',
+    ADD COLUMN IF NOT EXISTS delivery_status VARCHAR(40) NOT NULL DEFAULT 'pending',
+    ADD COLUMN IF NOT EXISTS order_reference VARCHAR(80),
+    ADD COLUMN IF NOT EXISTS paid_at TIMESTAMPTZ,
+    ADD COLUMN IF NOT EXISTS delivered_at TIMESTAMPTZ;
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_orders_tenant_reference
+    ON orders (tenant_id, order_reference)
+    WHERE order_reference IS NOT NULL;
+
+CREATE TABLE IF NOT EXISTS payment_transactions (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    tenant_id UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+    order_id UUID NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
+    provider VARCHAR(40) NOT NULL,
+    provider_reference VARCHAR(160) NOT NULL,
+    customer_phone VARCHAR(50),
+    amount_kes NUMERIC(12,2) NOT NULL,
+    currency VARCHAR(10) NOT NULL DEFAULT 'KES',
+    status VARCHAR(30) NOT NULL DEFAULT 'initialized',
+    provider_payload JSONB NOT NULL DEFAULT '{}'::jsonb,
+    paid_at TIMESTAMPTZ,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    UNIQUE (provider, provider_reference)
+);
+ALTER TABLE payment_transactions
+    ADD COLUMN IF NOT EXISTS customer_phone VARCHAR(50);
+
+-- Paystack Transactions (Direct Gateway Ledger & STK/Card Tracking)
+CREATE TABLE IF NOT EXISTS paystack_transactions (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    tenant_id UUID REFERENCES tenants(id) ON DELETE CASCADE DEFAULT '11111111-1111-1111-1111-111111111111',
+    reference VARCHAR(100) NOT NULL UNIQUE,
+    email VARCHAR(255),
+    phone VARCHAR(50),
+    amount_kes NUMERIC(12,2) NOT NULL DEFAULT 0,
+    currency VARCHAR(10) NOT NULL DEFAULT 'KES',
+    status VARCHAR(30) NOT NULL DEFAULT 'initialized',
+    channel VARCHAR(50) DEFAULT 'mobile_money',
+    authorization_url TEXT,
+    gateway_response TEXT,
+    paystack_id BIGINT,
+    paid_at TIMESTAMPTZ,
+    metadata JSONB DEFAULT '{}'::jsonb,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_paystack_tx_ref ON paystack_transactions(reference);
+CREATE INDEX IF NOT EXISTS idx_paystack_tx_status ON paystack_transactions(status);
+CREATE INDEX IF NOT EXISTS idx_paystack_tx_tenant ON paystack_transactions(tenant_id);
+
+CREATE TABLE IF NOT EXISTS payment_webhook_events (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    provider VARCHAR(40) NOT NULL,
+    event_id VARCHAR(200) NOT NULL,
+    event_type VARCHAR(100) NOT NULL,
+    payload JSONB NOT NULL,
+    processed_at TIMESTAMPTZ,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    UNIQUE (provider, event_id)
+);
+
+CREATE TABLE IF NOT EXISTS order_status_history (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    tenant_id UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+    order_id UUID NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
+    status_field VARCHAR(30) NOT NULL,
+    old_status VARCHAR(40),
+    new_status VARCHAR(40) NOT NULL,
+    source VARCHAR(60) NOT NULL,
+    metadata JSONB NOT NULL DEFAULT '{}'::jsonb,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS delivery_events (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    tenant_id UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+    order_id UUID NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
+    status VARCHAR(40) NOT NULL,
+    agent_name VARCHAR(150),
+    agent_phone VARCHAR(50),
+    notes TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS notification_events (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    tenant_id UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+    order_id UUID REFERENCES orders(id) ON DELETE SET NULL,
+    channel VARCHAR(30) NOT NULL,
+    recipient VARCHAR(160) NOT NULL,
+    event_type VARCHAR(80) NOT NULL,
+    status VARCHAR(30) NOT NULL DEFAULT 'pending',
+    provider_reference VARCHAR(160),
+    error_message TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    UNIQUE (order_id, channel, recipient, event_type)
+);
+
+CREATE TABLE IF NOT EXISTS ledger_entries (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    tenant_id UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+    order_id UUID REFERENCES orders(id) ON DELETE SET NULL,
+    payment_transaction_id UUID REFERENCES payment_transactions(id) ON DELETE SET NULL,
+    entry_type VARCHAR(50) NOT NULL,
+    amount_kes NUMERIC(12,2) NOT NULL,
+    fee_kes NUMERIC(12,2) NOT NULL DEFAULT 0,
+    net_amount_kes NUMERIC(12,2) NOT NULL,
+    currency VARCHAR(10) NOT NULL DEFAULT 'KES',
+    provider_reference VARCHAR(160),
+    metadata JSONB NOT NULL DEFAULT '{}'::jsonb,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);

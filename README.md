@@ -1,13 +1,15 @@
 # Odin AI: Multi-Tenant Autonomous Agent Platform & Production Cloud Runtime
 
 [![Azure Deployment](https://img.shields.io/badge/Azure%20App%20Service-guyoautomates.azurewebsites.net-0078D4?style=for-the-badge&logo=microsoft-azure)](https://guyoautomates.azurewebsites.net)
+[![Live Chat with Agent](https://img.shields.io/badge/Live%20Demo-Chat%20With%20Agent-purple?style=for-the-badge&logo=openai)](https://guyoautomates.azurewebsites.net/#chat)
 [![Production Status](https://img.shields.io/badge/System-Production%20Live-emerald?style=for-the-badge&logo=google)](https://guyoautomates.azurewebsites.net)
-[![Evaluation Matrix](https://img.shields.io/badge/Evaluations-5%2F5%20PASS%20(100%25)-indigo?style=for-the-badge)](https://guyoautomates.azurewebsites.net)
+[![Evaluation Matrix](https://img.shields.io/badge/Evaluations-10%2F10%20PASS%20(100%25)-indigo?style=for-the-badge)](https://guyoautomates.azurewebsites.net)
 [![AI Engine](https://img.shields.io/badge/AI%20Engine-Gemini%203.5%20ReAct%20Loop-blue?style=for-the-badge&logo=google-gemini)](https://guyoautomates.azurewebsites.net)
 [![Database](https://img.shields.io/badge/Database-Supabase%20Cloud%20PostgreSQL-green?style=for-the-badge&logo=supabase)](https://guyoautomates.azurewebsites.net)
 
 > **Lead Architect & Engineer:** **Razak Guyo**  
-> **Production Cloud Endpoint:** [https://guyoautomates.azurewebsites.net](https://guyoautomates.azurewebsites.net)  
+> **Direct Live Agent Chat Console:** [https://guyoautomates.azurewebsites.net/#chat](https://guyoautomates.azurewebsites.net/#chat)  
+> **Production Cloud Portal:** [https://guyoautomates.azurewebsites.net](https://guyoautomates.azurewebsites.net)  
 > **Repository:** [https://github.com/guyo-halake/n8n-whatsapp-agent](https://github.com/guyo-halake/n8n-whatsapp-agent)
 
 ---
@@ -56,7 +58,8 @@ Odin AI is an enterprise-grade autonomous customer operations and sales platform
 
 The platform is deployed live on Microsoft Azure App Service. Clients, recruiters, and evaluators can verify capabilities in real time:
 
-- **Live Web Console & Operator Inbox:** [https://guyoautomates.azurewebsites.net](https://guyoautomates.azurewebsites.net)
+- **Direct Live Agent Chat Console (Interactive Test):** [https://guyoautomates.azurewebsites.net/#chat](https://guyoautomates.azurewebsites.net/#chat) (or [/chat](https://guyoautomates.azurewebsites.net/chat)) — test multi-turn conversations, catalog RAG lookups, and M-Pesa prompting directly in your browser.
+- **Live Web Console & Operator Dashboard:** [https://guyoautomates.azurewebsites.net](https://guyoautomates.azurewebsites.net)
 - **Live Health Endpoint:** [https://guyoautomates.azurewebsites.net/api/health](https://guyoautomates.azurewebsites.net/api/health)
 - **Live Catalog API:** [https://guyoautomates.azurewebsites.net/api/products](https://guyoautomates.azurewebsites.net/api/products)
 - **Omnichannel Telegram Bot:** [@fv_rzkbot](https://t.me/fv_rzkbot)

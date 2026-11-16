@@ -355,12 +355,13 @@ async function listWhatsAppLines(tenantId = DEFAULT_TENANT_ID) {
  */
 async function getBusinessDetails(tenantId = DEFAULT_TENANT_ID) {
   try {
-    const [tenant, agentConfigs, lines, catalog, subscriptions] = await Promise.all([
+    const [tenant, agentConfigs, lines, catalog, subscriptions, escalation] = await Promise.all([
       getTenantById(tenantId),
       listAgents(tenantId),
       listWhatsAppLines(tenantId),
       getCatalogItems(tenantId),
-      supabaseRequest(`/tenant_subscriptions?tenant_id=eq.${tenantId}&select=*`, 'GET').catch(() => ({ data: [] }))
+      supabaseRequest(`/tenant_subscriptions?tenant_id=eq.${tenantId}&select=*`, 'GET').catch(() => ({ data: [] })),
+      supabaseRequest(`/tenant_escalation_contacts?tenant_id=eq.${tenantId}&select=*&order=priority_order.asc`, 'GET').catch(() => ({ data: [] }))
     ]);
 
     return {
@@ -370,7 +371,8 @@ async function getBusinessDetails(tenantId = DEFAULT_TENANT_ID) {
       whatsappLines: lines || [],
       catalogCount: catalog.length,
       catalogItems: catalog,
-      subscription: subscriptions.data?.[0] || null
+      subscription: subscriptions.data?.[0] || null,
+      escalationContacts: escalation.data || []
     };
   } catch (err) {
     return { success: false, error: err.message };

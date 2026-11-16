@@ -5,6 +5,17 @@
  */
 const db = require('../db_service');
 const { loadLocalKnowledge } = require('../rag_engine');
+const paystack = require('../paystack_service');
+
+function normalizeKenyanPhone(phone) {
+  let clean = String(phone || '').replace(/\D/g, '');
+  if (clean.startsWith('0')) clean = clean.substring(1);
+  if (clean.startsWith('254')) clean = clean.substring(3);
+  if (clean.length !== 9 || (!clean.startsWith('7') && !clean.startsWith('1'))) {
+    throw new Error('A valid Kenyan mobile number starting with 07, 01, or +254 is required');
+  }
+  return `254${clean}`;
+}
 
 const TOOL_DECLARATIONS = [
   {
@@ -31,7 +42,7 @@ const TOOL_DECLARATIONS = [
   },
   {
     name: 'initiate_mpesa_payment',
-    description: 'Trigger a real Safaricom Daraja M-Pesa STK Push to the customer phone for hardware deposits, full payments, or subscription fees.',
+    description: 'Send a real Paystack M-Pesa prompt to the customer phone. Never claim payment succeeded until the verified Paystack webhook updates the order.',
     parameters: {
       type: 'OBJECT',
       properties: {
@@ -228,7 +239,7 @@ const TOOL_EXECUTORS = {
     };
   },
 
-  confirm_customer_order: async ({ customerPhone, itemName, amountKES, deliveryLocation, upsellAccessory }, context = {}) => {
+  confirm_customer_order: async ({ customerPhone, itemName, amountKES, deliveryLocation, upsellAccessory, paymentMethod }, context = {}) => {
     const tenantId = context?.tenantId || '11111111-1111-1111-1111-111111111111';
     const isNails = tenantId === '22222222-2222-2222-2222-222222222222';
     let cleanPhone = String(customerPhone || '').replace(/[^0-9]/g, '');
@@ -237,8 +248,9 @@ const TOOL_EXECUTORS = {
 
     const orderRef = isNails ? `LUXE-BKG-${Math.floor(Math.random() * 89999 + 10000)}` : `P3L-ORD-${Math.floor(Math.random() * 89999 + 10000)}`;
     const totalAmount = Number(amountKES) || 0;
+    const isPayOnDelivery = String(paymentMethod || '').toLowerCase().includes('delivery') || String(paymentMethod || '').toLowerCase().includes('salon');
 
-    // Persist in Supabase orders table
+    // 1. Persist in Supabase orders table with accurate workflow status
     try {
       await db.supabaseRequest('/orders', 'POST', {
         tenant_id: tenantId,
@@ -247,12 +259,15 @@ const TOOL_EXECUTORS = {
         subtotal_kes: totalAmount,
         delivery_fee_kes: 0,
         total_amount_kes: totalAmount,
-        status: isNails ? 'confirmed_booking' : 'pending_payment',
-        delivery_address: deliveryLocation || (isNails ? 'Kilimani Salon, Wood Ave Plaza 3rd Fl' : 'Nairobi Express Dispatch')
+        status: isPayOnDelivery ? 'preparing' : (isNails ? 'preparing' : 'pending_payment'),
+        delivery_address: deliveryLocation || (isNails ? 'Kilimani Salon, Wood Ave Plaza 3rd Fl' : 'Nairobi Express Dispatch'),
+        delivery_notes: isPayOnDelivery ? 'Payment Method: Pay on Delivery (Cash / M-Pesa on Arrival)' : 'Payment Method: Standard Booking'
       });
     } catch (e) {
       console.warn('[Order Persistence Notice]', e.message);
     }
+
+    const payModeLabel = isPayOnDelivery ? 'Pay on Delivery (Collect KES on arrival)' : 'Prepaid / M-Pesa Pending';
 
     const alertText = isNails ? (
       `[NEW LUXE NAILS APPOINTMENT BOOKING]\n\n` +
@@ -261,9 +276,10 @@ const TOOL_EXECUTORS = {
       `• Service: ${itemName}\n` +
       (upsellAccessory ? `• Add-on: ${upsellAccessory}\n` : '') +
       `• Total Amount: KES ${totalAmount.toLocaleString()}\n` +
+      `• Payment Mode: ${isPayOnDelivery ? 'Pay at Salon' : 'Deposit Prompt'}\n` +
       `• Requested Time / Location: ${deliveryLocation || 'Kilimani Salon Studio'}\n` +
       `• Time: ${new Date().toLocaleTimeString()} EAT\n\n` +
-      `Action: Slot reserved. Confirm M-Pesa deposit with client.`
+      `Action: Slot reserved. Ready for salon preparation.`
     ) : (
       `[NEW CUSTOMER ORDER RECEIVED]\n\n` +
       `• Order Ref: #${orderRef}\n` +
@@ -271,12 +287,13 @@ const TOOL_EXECUTORS = {
       `• Hardware: ${itemName}\n` +
       (upsellAccessory ? `• Add-on: ${upsellAccessory}\n` : '') +
       `• Total Amount: KES ${totalAmount.toLocaleString()}\n` +
+      `• Payment Mode: ${payModeLabel}\n` +
       `• Delivery Destination: ${deliveryLocation || 'Nairobi Same-Day Courier'}\n` +
       `• Time: ${new Date().toLocaleTimeString()} EAT\n\n` +
-      `Action: Customer awaiting payment and delivery scheduling.`
+      `Action: ${isPayOnDelivery ? 'Order approved for dispatch. Collect payment on arrival.' : 'Customer awaiting payment verification.'}`
     );
 
-    // 1. Dispatch Instant Alert via Telegram (if configured)
+    // 2. Dispatch Instant Alert via Telegram (if configured)
     const tgToken = process.env.TELEGRAM_BOT_TOKEN;
     const tgChatId = process.env.TELEGRAM_OWNER_CHAT_ID || '5784911905';
     if (tgToken && tgChatId) {
@@ -287,81 +304,229 @@ const TOOL_EXECUTORS = {
       }).catch(() => {});
     }
 
-    // 2. Dispatch Instant Alert to the respective Business Owner via WhatsApp
-    const targetOwnerWhatsApp = isNails ? '254722884400' : '254768141129';
-    fetch('http://localhost:5000/api/sendText', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        session: 'default',
-        chatId: `${targetOwnerWhatsApp}@c.us`,
-        text: alertText
-      })
-    }).catch(() => {});
+    // 3. Dynamically resolve Business Owner WhatsApp from tenant_escalation_contacts
+    try {
+      let liveEsc = null;
+      const escRes = await db.supabaseRequest(`/tenant_escalation_contacts?tenant_id=eq.${tenantId}&priority_order=eq.1&limit=1`, 'GET').catch(() => ({ data: [] }));
+      if (Array.isArray(escRes.data) && escRes.data[0]) liveEsc = escRes.data[0];
+
+      let liveTenant = null;
+      try { liveTenant = await db.getTenantById(tenantId); } catch (_) {}
+
+      const rawOwnerPhone = liveEsc?.phone_number || liveTenant?.owner_phone || (isNails ? '254722884400' : '254768141129');
+      let targetOwnerWhatsApp = String(rawOwnerPhone).replace(/[^0-9]/g, '');
+      if (targetOwnerWhatsApp.startsWith('0')) targetOwnerWhatsApp = '254' + targetOwnerWhatsApp.substring(1);
+      if (!targetOwnerWhatsApp.startsWith('254')) targetOwnerWhatsApp = '254' + targetOwnerWhatsApp;
+
+      // Dispatch to Business Owner on WhatsApp
+      fetch('http://localhost:5000/api/sendText', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          session: 'default',
+          chatId: `${targetOwnerWhatsApp}@c.us`,
+          text: alertText
+        })
+      }).catch(() => {});
+
+      // Dispatch Confirmation WhatsApp to Customer (if valid Kenyan line)
+      if (cleanPhone && cleanPhone.startsWith('254') && cleanPhone.length === 12) {
+        const clientConfirmMsg = isNails ? (
+          `Hello! Your reservation #${orderRef} for ${itemName} has been booked. Location: ${deliveryLocation || 'Wood Avenue Plaza, 3rd Floor, Kilimani'}. We look forward to pampering you!`
+        ) : (
+          `Hello! Your order #${orderRef} for ${itemName} (KES ${totalAmount.toLocaleString()}) has been confirmed. Delivery: ${deliveryLocation || 'Nairobi Courier Dispatch'}. Payment method: ${payModeLabel}. Our team has received your order and is dispatching your items.`
+        );
+
+        fetch('http://localhost:5000/api/sendText', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            session: 'default',
+            chatId: `${cleanPhone}@c.us`,
+            text: clientConfirmMsg
+          })
+        }).catch(() => {});
+      }
+    } catch (notifyErr) {
+      console.warn('[WhatsApp Alert Notification Notice]', notifyErr.message);
+    }
 
     return {
       success: true,
       orderRef,
-      status: isNails ? 'BOOKING_RESERVED_AND_OWNER_NOTIFIED' : 'CONFIRMED_AND_OWNER_DISPATCHED',
+      status: isPayOnDelivery ? 'ORDER_SCHEDULED_PAY_ON_DELIVERY' : (isNails ? 'BOOKING_RESERVED_AND_OWNER_NOTIFIED' : 'CONFIRMED_AND_OWNER_DISPATCHED'),
       item: itemName,
       amountKES: totalAmount,
+      paymentMethod: isPayOnDelivery ? 'pay_on_delivery' : 'prepaid',
       serviceLocationOrDelivery: deliveryLocation || (isNails ? 'Kilimani Salon, Wood Ave Plaza 3rd Fl' : 'Nairobi Same-Day Courier'),
-      ownerAlerted: isNails ? 'Salon Owner Amina Wanjiku (+254722884400) notified via priority dispatch' : 'Founder Razak Guyo (+254768141129) notified via priority dispatch',
-      paymentOptions: isNails ? {
-        reservationDepositKES: 500,
-        tillOrPochi: '0722884400 (Amina Wanjiku - Luxe Nails)',
-        account: cleanPhone
-      } : {
-        pochiLaBiashara: '0768141129 (Razak Guyo)',
-        paybill: '255255',
-        account: cleanPhone,
-        cashOnDelivery: 'Available within Nairobi CBD & Westlands'
-      }
+      deliveryNotice: isPayOnDelivery ? 'Order approved for preparation and delivery. Payment to be collected upon arrival.' : 'Order recorded. Payment prompt or verification pending.',
+      ownerAlerted: 'Business owner notified automatically on WhatsApp with order and payment status.'
     };
   },
 
   initiate_mpesa_payment: async ({ phone, amountKES, itemName }, context = {}) => {
     const tenantId = context?.tenantId || '11111111-1111-1111-1111-111111111111';
     const isNails = tenantId === '22222222-2222-2222-2222-222222222222';
-    let cleanPhone = String(phone || '').replace(/[^0-9]/g, '');
-    if (cleanPhone.startsWith('0')) cleanPhone = '254' + cleanPhone.substring(1);
-    if (!cleanPhone.startsWith('254')) cleanPhone = '254' + cleanPhone;
+    const cleanPhone = normalizeKenyanPhone(phone);
 
-    const checkoutRequestId = `ws_CO_${Date.now()}_${Math.floor(Math.random() * 8999 + 1000)}`;
+    const numericAmount = Number(amountKES) || 0;
+    let orderId = null;
+    const orderReference = `ORD-${Date.now().toString(36).toUpperCase()}`;
 
+    // 1. Strictly persist payment intent order in Supabase orders table
     try {
-      await db.supabaseRequest('/customer_orders', 'POST', {
+      const orderRes = await db.supabaseRequest('/orders', 'POST', {
         tenant_id: tenantId,
         customer_phone: cleanPhone,
-        items: [{ name: itemName, price: amountKES }],
-        total_amount: amountKES,
-        payment_status: 'PENDING_STK',
-        checkout_request_id: checkoutRequestId,
-        created_at: new Date().toISOString()
+        order_items: [{ name: itemName, price: numericAmount }],
+        subtotal_kes: numericAmount,
+        delivery_fee_kes: 0,
+        total_amount_kes: numericAmount,
+        status: 'pending_payment',
+        delivery_address: isNails ? 'Kilimani Salon, Wood Ave Plaza 3rd Fl' : 'Nairobi Courier Dispatch',
+        delivery_notes: 'Created from customer payment request'
       });
-    } catch (e) {}
+      if (Array.isArray(orderRes.data) && orderRes.data[0]?.id) {
+        orderId = orderRes.data[0].id;
+        await db.supabaseRequest(`/orders?id=eq.${encodeURIComponent(orderId)}`, 'PATCH', {
+          payment_method: 'paystack',
+          payment_status: 'unpaid',
+          delivery_status: 'pending',
+          order_reference: orderReference
+        }).catch(() => {});
+      }
+    } catch (e) {
+      throw new Error(`Order could not be persisted before payment: ${e.message}`);
+    }
+
+    // 2. Request the M-Pesa prompt only after the order exists.
+    let payment;
+    try {
+      payment = await paystack.chargeMpesa({
+        email: `customer-${cleanPhone}@p3l.tech`,
+        amountKES: numericAmount,
+        phone: cleanPhone,
+        orderId,
+        tenantId,
+        metadata: { itemName, orderReference }
+      });
+    } catch (error) {
+      await db.supabaseRequest(`/orders?id=eq.${encodeURIComponent(orderId)}`, 'PATCH', {
+        payment_status: 'failed',
+        status: 'pending_payment',
+        updated_at: new Date().toISOString()
+      }).catch(() => {});
+      throw error;
+    }
+
+    // 3. Persist the payment reference for webhook reconciliation.
+    try {
+      await db.supabaseRequest('/payment_transactions', 'POST', {
+        tenant_id: tenantId,
+        order_id: orderId,
+        customer_phone: cleanPhone,
+        provider: 'paystack',
+        provider_reference: payment.reference,
+        amount_kes: numericAmount,
+        currency: 'KES',
+        status: 'initialized',
+        provider_payload: payment.raw
+      });
+    } catch (e) {
+      try {
+        await db.supabaseRequest('/mpesa_transactions', 'POST', {
+          tenant_id: tenantId,
+          order_id: orderId,
+          phone_number: cleanPhone,
+          amount_kes: numericAmount,
+          checkout_request_id: payment.reference,
+          status: payment.status || 'pay_offline',
+          result_desc: 'Paystack M-Pesa charge requested'
+        });
+      } catch (legacyError) {
+        throw new Error(`Payment reference could not be persisted in the current database schema: ${legacyError.message}`);
+      }
+    }
+
+    // 4. Dispatch dynamic WhatsApp alert to business owner and customer
+    try {
+      let liveEsc = null;
+      const escRes = await db.supabaseRequest(`/tenant_escalation_contacts?tenant_id=eq.${tenantId}&priority_order=eq.1&limit=1`, 'GET').catch(() => ({ data: [] }));
+      if (Array.isArray(escRes.data) && escRes.data[0]) liveEsc = escRes.data[0];
+
+      let liveTenant = null;
+      try { liveTenant = await db.getTenantById(tenantId); } catch (_) {}
+
+      const rawOwnerPhone = liveEsc?.phone_number || liveTenant?.owner_phone || (isNails ? '254722884400' : '254768141129');
+      let targetOwnerWhatsApp = String(rawOwnerPhone).replace(/[^0-9]/g, '');
+      if (targetOwnerWhatsApp.startsWith('0')) targetOwnerWhatsApp = '254' + targetOwnerWhatsApp.substring(1);
+      if (!targetOwnerWhatsApp.startsWith('254')) targetOwnerWhatsApp = '254' + targetOwnerWhatsApp;
+
+      const ownerPromptAlert = `[PAYMENT PROMPT TRIGGERED]\n\n• Order Ref: #${orderReference}\n• Customer: +${cleanPhone}\n• Item: ${itemName}\n• Amount: KES ${numericAmount.toLocaleString()}\n• Gateway: Paystack M-Pesa STK\n• Status: Prompt dispatched. Awaiting client PIN authorization.`;
+
+      // 1. Dispatch to Telegram (@fv_rzkbot - active instant alert)
+      const tgToken = process.env.TELEGRAM_BOT_TOKEN;
+      const tgChatId = process.env.TELEGRAM_OWNER_CHAT_ID || '5784911905';
+      if (tgToken && tgChatId) {
+        fetch(`https://api.telegram.org/bot${tgToken}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chat_id: tgChatId, text: ownerPromptAlert })
+        }).catch(() => {});
+      }
+
+      // 2. Dispatch to Business Owner WhatsApp (WAHA)
+      fetch('http://localhost:5000/api/sendText', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          session: 'default',
+          chatId: `${targetOwnerWhatsApp}@c.us`,
+          text: ownerPromptAlert
+        })
+      }).catch(() => {});
+
+      if (cleanPhone && cleanPhone.startsWith('254') && cleanPhone.length === 12) {
+        const clientPromptAlert = `Hello! An M-Pesa payment prompt for KES ${numericAmount.toLocaleString()} (${itemName}) has been triggered on your phone. Please check your screen and enter your M-Pesa PIN to complete payment securely via Paystack.`;
+        fetch('http://localhost:5000/api/sendText', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            session: 'default',
+            chatId: `${cleanPhone}@c.us`,
+            text: clientPromptAlert
+          })
+        }).catch(() => {});
+      }
+    } catch (_) {}
 
     return {
-      status: 'STK_PUSH_DISPATCHED',
-      checkoutRequestId,
+      status: payment.status === 'pay_offline' ? 'MPESA_PROMPT_REQUESTED' : 'PAYMENT_ACTION_REQUIRED',
+      reference: payment.reference,
+      orderId,
+      orderReference,
       recipientPhone: `+${cleanPhone}`,
-      amountKES,
+      amountKES: numericAmount,
       item: itemName,
-      darajaInstruction: `Safaricom STK push prompted on +${cleanPhone}. Enter M-Pesa PIN to complete payment.`,
-      alternativePayment: isNails ? {
-        tillOrPochi: '0722884400 (Amina Wanjiku - Luxe Nails)',
-        account: cleanPhone
-      } : {
-        pochiLaBiashara: '0768141129 (Razak Guyo)',
-        paybill: '255255',
-        account: cleanPhone
-      }
+      instruction: payment.status === 'pay_offline'
+        ? `Paystack requested an M-Pesa prompt on +${cleanPhone}. The customer must approve it with their M-Pesa PIN. The order will update only after verified gateway confirmation.`
+        : 'Paystack accepted the payment request but returned a non-prompt status. Do not claim payment succeeded until the verified gateway webhook arrives.'
     };
   },
 
   query_company_policy: async ({ topic }, context = {}) => {
     const tenantId = context?.tenantId || '11111111-1111-1111-1111-111111111111';
     const isNails = tenantId === '22222222-2222-2222-2222-222222222222';
+
+    let liveTenant = null;
+    try {
+      liveTenant = await db.getTenantById(tenantId);
+    } catch (_) {}
+
+    const loc = liveTenant?.physical_address || (isNails ? 'Wood Avenue Plaza, 3rd Floor, Kilimani, Nairobi' : 'P3L Developers Tech Hub, Nairobi');
+    const hours = liveTenant?.operating_hours?.raw || (typeof liveTenant?.operating_hours === 'string' ? liveTenant.operating_hours : (isNails ? 'Monday to Saturday: 8:30 AM - 8:00 PM | Sunday: 10:00 AM - 6:00 PM' : 'Monday to Friday: 8:00 AM - 6:00 PM | Saturday: 9:00 AM - 2:00 PM'));
+    const delivery = liveTenant?.delivery_zones?.details || (isNails ? 'Kilimani Salon Studio & VIP In-Home Appointments' : 'Same-day express delivery in Nairobi, next-day parcel delivery countrywide');
+    const guarantee = liveTenant?.delivery_zones?.guarantee || (isNails ? '7-Day Luxe Guarantee: Complimentary repair for chipped gel or lifted acrylic within 7 days.' : '12 Months Comprehensive Hardware & Part Warranty on new laptops, 6 months on repairs.');
 
     if (isNails) {
       return {
@@ -370,9 +535,9 @@ const TOOL_EXECUTORS = {
         bookingAndDeposit: 'A 500 KES deposit via M-Pesa is required to secure appointment slots. The deposit is deducted from your final bill.',
         rescheduling: 'Rescheduling is free of charge with at least 4 hours advance notice.',
         hygieneAndSanitization: 'Medical-grade autoclave sterilization for all metal implements, hospital-grade Barbicide disinfectant, and single-use disposable nail files & buffers.',
-        guarantee: '7-Day Luxe Guarantee: Complimentary repair for any chipped gel or lifted acrylic within 7 days of treatment.',
-        location: 'Wood Avenue Plaza, 3rd Floor, Kilimani, Nairobi. Secure parking available.',
-        operatingHours: 'Monday to Saturday: 8:30 AM - 8:00 PM | Sunday: 10:00 AM - 6:00 PM'
+        guarantee: guarantee,
+        location: loc,
+        operatingHours: hours
       };
     }
 
@@ -380,14 +545,12 @@ const TOOL_EXECUTORS = {
       business: 'P3L Developers and Tech Shop (Nairobi)',
       topic,
       warranty: {
-        brandNew: '12 Months Comprehensive Hardware & Part Warranty',
-        certifiedRefurbished: '6 Months Full Warranty',
+        brandNew: guarantee,
         brokenSealReturnWindow: '48 Hours from physical delivery'
       },
       delivery: {
-        nairobiCBDandWestlands: 'Same-day express delivery within 1-2 hours via rider',
-        upcountryKenya: 'Next-day delivery via Wells Fargo, G4S, or Super Metro Parcels',
-        pickupLocation: 'P3L Developers Tech Hub, Nairobi'
+        coverage: delivery,
+        pickupLocation: loc
       },
       paymentOptions: 'M-Pesa STK Push, Pochi La Biashara (0768141129), or Bank Wire'
     };
@@ -398,8 +561,14 @@ const TOOL_EXECUTORS = {
     const isNails = tenantId === '22222222-2222-2222-2222-222222222222';
     const cleanPhone = String(customerPhone || '').replace(/[^0-9]/g, '');
 
-    const operatorName = isNails ? 'Amina Wanjiku (Salon Owner)' : 'Razak Guyo (Founder)';
-    const operatorPhone = isNails ? '+254722884400' : '+254768141129';
+    let liveEsc = null;
+    try {
+      const escRes = await db.supabaseRequest(`/tenant_escalation_contacts?tenant_id=eq.${tenantId}&priority_order=eq.1&limit=1`, 'GET');
+      if (Array.isArray(escRes.data) && escRes.data[0]) liveEsc = escRes.data[0];
+    } catch (_) {}
+
+    const operatorName = liveEsc?.full_name || (isNails ? 'Amina Wanjiku (Salon Owner)' : 'Razak Guyo (Founder)');
+    const operatorPhone = liveEsc?.phone_number ? `+${liveEsc.phone_number}` : (isNails ? '+254722884400' : '+254768141129');
 
     // 1. Mark session as handed off in Supabase
     try {

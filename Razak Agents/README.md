@@ -1,8 +1,10 @@
 # RAZAK ODIN: Enterprise Multi-Tenant AI Platform
 
+> **Live Direct Chat with Agent**: [https://guyoautomates.azurewebsites.net/#chat](https://guyoautomates.azurewebsites.net/#chat) (or `/chat`)  
+> **Production Cloud Portal**: [https://guyoautomates.azurewebsites.net](https://guyoautomates.azurewebsites.net)  
 > **Live Supabase Project**: `https://muratasgegqmbkhmsevt.supabase.co`  
 > **n8n Live Instance**: `https://p3lautomate.app.n8n.cloud/`  
-> **Engine**: Google Gemini 1.5 Flash (Free testing tier) / Anthropic Claude 3.5 (Enterprise)  
+> **Engine**: Google Gemini 3.5 ReAct Loop  
 > **Folder**: `Razak Agents`
 
 ---
@@ -44,3 +46,23 @@ Run the test script to verify live connectivity:
 ```powershell
 node ".\Razak Agents\test_suite.js"
 ```
+
+## Production payment safety
+
+The Paystack secret and Africa's Talking API key must be supplied only through
+deployment secrets:
+
+```text
+PAYSTACK_SECRET_KEY=...
+PAYSTACK_PUBLIC_KEY=...
+AFRICASTALKING_API_KEY=...
+AFRICASTALKING_USERNAME=...
+```
+
+Do not put these values in source files, dashboard HTML, logs, or API
+responses. Run the additions at the end of `schema.sql` (or
+`all_in_one_setup.sql`) before enabling Paystack webhooks. The webhook endpoint
+is `/api/paystack-webhook`; configure Paystack to send events there. It
+authenticates the signature, verifies the transaction with Paystack, deduplicates
+the event, and only then marks the linked order as paid and creates a ledger
+entry. No payment is recorded when the customer only claims to have paid.

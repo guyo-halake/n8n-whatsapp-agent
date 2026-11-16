@@ -309,3 +309,103 @@ CREATE TABLE IF NOT EXISTS mpesa_transactions (
     created_at TIMESTAMPTZ DEFAULT NOW(),
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
+
+-- ============================================================================
+-- Production payment, delivery, notification, and ledger records
+-- ============================================================================
+ALTER TABLE orders
+    ADD COLUMN IF NOT EXISTS payment_method VARCHAR(40),
+    ADD COLUMN IF NOT EXISTS payment_status VARCHAR(30) NOT NULL DEFAULT 'unpaid',
+    ADD COLUMN IF NOT EXISTS delivery_status VARCHAR(40) NOT NULL DEFAULT 'pending',
+    ADD COLUMN IF NOT EXISTS order_reference VARCHAR(80),
+    ADD COLUMN IF NOT EXISTS paid_at TIMESTAMPTZ,
+    ADD COLUMN IF NOT EXISTS delivered_at TIMESTAMPTZ;
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_orders_tenant_reference
+    ON orders (tenant_id, order_reference)
+    WHERE order_reference IS NOT NULL;
+
+CREATE TABLE IF NOT EXISTS payment_transactions (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    tenant_id UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+    order_id UUID NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
+    provider VARCHAR(40) NOT NULL,
+    provider_reference VARCHAR(160) NOT NULL,
+    customer_phone VARCHAR(50),
+    amount_kes NUMERIC(12,2) NOT NULL,
+    currency VARCHAR(10) NOT NULL DEFAULT 'KES',
+    status VARCHAR(30) NOT NULL DEFAULT 'initialized',
+    provider_payload JSONB NOT NULL DEFAULT '{}'::jsonb,
+    paid_at TIMESTAMPTZ,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    UNIQUE (provider, provider_reference)
+);
+ALTER TABLE payment_transactions
+    ADD COLUMN IF NOT EXISTS customer_phone VARCHAR(50);
+
+CREATE TABLE IF NOT EXISTS payment_webhook_events (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    provider VARCHAR(40) NOT NULL,
+    event_id VARCHAR(200) NOT NULL,
+    event_type VARCHAR(100) NOT NULL,
+    payload JSONB NOT NULL,
+    processed_at TIMESTAMPTZ,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    UNIQUE (provider, event_id)
+);
+
+CREATE TABLE IF NOT EXISTS order_status_history (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    tenant_id UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+    order_id UUID NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
+    status_field VARCHAR(30) NOT NULL,
+    old_status VARCHAR(40),
+    new_status VARCHAR(40) NOT NULL,
+    source VARCHAR(60) NOT NULL,
+    metadata JSONB NOT NULL DEFAULT '{}'::jsonb,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS delivery_events (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    tenant_id UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+    order_id UUID NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
+    status VARCHAR(40) NOT NULL,
+    agent_name VARCHAR(150),
+    agent_phone VARCHAR(50),
+    notes TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS notification_events (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    tenant_id UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+    order_id UUID REFERENCES orders(id) ON DELETE SET NULL,
+    channel VARCHAR(30) NOT NULL,
+    recipient VARCHAR(160) NOT NULL,
+    event_type VARCHAR(80) NOT NULL,
+    status VARCHAR(30) NOT NULL DEFAULT 'pending',
+    provider_reference VARCHAR(160),
+    error_message TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    UNIQUE (order_id, channel, recipient, event_type)
+);
+
+CREATE TABLE IF NOT EXISTS ledger_entries (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    tenant_id UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+    order_id UUID REFERENCES orders(id) ON DELETE SET NULL,
+    payment_transaction_id UUID REFERENCES payment_transactions(id) ON DELETE SET NULL,
+    entry_type VARCHAR(50) NOT NULL,
+    amount_kes NUMERIC(12,2) NOT NULL,
+    fee_kes NUMERIC(12,2) NOT NULL DEFAULT 0,
+    net_amount_kes NUMERIC(12,2) NOT NULL,
+    currency VARCHAR(10) NOT NULL DEFAULT 'KES',
+    provider_reference VARCHAR(160),
+    metadata JSONB NOT NULL DEFAULT '{}'::jsonb,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_payment_transactions_order ON payment_transactions(order_id);
+CREATE INDEX IF NOT EXISTS idx_ledger_entries_tenant_created ON ledger_entries(tenant_id, created_at DESC);

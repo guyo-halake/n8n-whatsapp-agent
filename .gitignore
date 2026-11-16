@@ -19,6 +19,7 @@ auth_sessions/
 logs/
 **/*.log
 .pm2/
+Razak Agents/data/
 
 # OS Artifacts
 .DS_Store

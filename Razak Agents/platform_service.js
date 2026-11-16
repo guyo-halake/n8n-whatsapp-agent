@@ -10,6 +10,7 @@ const db = require('./db_service');
 const { retrieveKnowledgeContext, loadLocalKnowledge } = require('./rag_engine');
 const whatsappGateway = require('./whatsapp_gateway');
 const features = require('./features');
+const { TOOL_EXECUTORS } = require('./agent_runtime/tools');
 
 const RAZAK_DIR = __dirname;
 
@@ -193,7 +194,7 @@ WORKFLOW:
 - If customer sends a simple greeting: Respond simply: "Hello, welcome to P3L Developers and Tech Shop. Are you looking for a laptop, workstation, or technical support today?"
 - If customer asks for laptops/hardware: Call search_inventory once. Provide laptop name, core specs (processor, RAM, SSD), and KES price.
 - If customer confirms an order: Call confirm_customer_order once with phone, item name, price, delivery address.
-- If customer wants to pay: Call initiate_mpesa_payment once for Safaricom Daraja STK push.
+- If customer wants to pay: Call initiate_mpesa_payment once for the real Paystack M-Pesa prompt. Report it as sent only when the tool returns MPESA_PROMPT_REQUESTED; never claim payment succeeded without a verified webhook.
 - If customer asks about warranty/delivery: Call query_company_policy once.
 - If customer asks for Razak Guyo or human operator: Call escalate_to_human_operator once.
 Prices are strictly in KES.`,
@@ -466,6 +467,54 @@ async function executeRealAgentChat({ message, capabilities, customerPhone, sess
   const stages = [];
   const ragSources = [];
 
+  // Explicit payment requests must not depend on the model deciding to call a
+  // money-moving tool. Require an amount, then execute the payment tool once.
+  const paymentIntent = /\b(stk|m-?pesa|mpesa|paystack|payment|pay)\b/i.test(cleanMsg);
+  const amountMatch = cleanMsg.match(/\b(?:kes\s*)?(\d[\d,]*(?:\.\d{1,2})?)\s*(?:kes|ksh)?\b/i);
+  if (paymentIntent && amountMatch) {
+    const amountKES = Number(amountMatch[1].replace(/,/g, ''));
+    const phoneMatch = cleanMsg.match(/\b(?:\+?254[17]\d{8}|0[17]\d{8})\b/);
+    const paymentPhone = phoneMatch ? phoneMatch[0] : activeClient;
+    const itemMatch = cleanMsg.match(/\b(?:for|on|to buy)\s+([^,.!?]+?)(?:\s+(?:via|using|on)\s+|\s*$)/i);
+    const itemName = itemMatch?.[1]?.trim() || 'Customer payment';
+    const startedAt = Date.now();
+    let output;
+    try {
+      output = await TOOL_EXECUTORS.initiate_mpesa_payment({
+        phone: paymentPhone,
+        amountKES,
+        itemName
+      }, { tenantId: targetTenantId, customerPhone: paymentPhone });
+    } catch (error) {
+      output = { error: error.message, status: 'PAYMENT_REQUEST_FAILED' };
+    }
+
+    const successfulPrompt = output.status === 'MPESA_PROMPT_REQUESTED';
+    return {
+      success: successfulPrompt,
+      runId: `payment-${Date.now().toString(36)}`,
+      sessionId: sessionId || null,
+      reply: successfulPrompt
+        ? `The M-Pesa prompt was requested for KES ${amountKES.toLocaleString()} on ${paymentPhone}. Approve it with your M-Pesa PIN.`
+        : `The M-Pesa prompt was not sent: ${output.error || 'Paystack did not accept the request.'}`,
+      customerPhone: paymentPhone,
+      modelUsed: 'deterministic-payment-route',
+      stepsTaken: 1,
+      toolsCalled: [{
+        step: 1,
+        name: 'initiate_mpesa_payment',
+        args: { phone: paymentPhone, amountKES, itemName },
+        output,
+        latencyMs: Date.now() - startedAt
+      }],
+      latencyMs: Date.now() - t0,
+      tokens: { promptTokenCount: 0, candidatesTokenCount: 0, totalTokenCount: 0 },
+      costUsd: 0,
+      circuitBreakerTripped: false,
+      stages: []
+    };
+  }
+
   // Stage 1: User Message Ingestion
   stages.push({
     id: 'stage_1',
@@ -555,9 +604,11 @@ async function executeRealAgentChat({ message, capabilities, customerPhone, sess
         stepNumber: 5 + idx,
         title: `Tool Execution: ${t.name}`,
         category: 'TOOL',
-        status: 'COMPLETED',
+        status: t.output?.error ? 'FAILED' : 'COMPLETED',
         latencyMs: t.latencyMs || 300,
-        summary: `Autonomous tool '${t.name}' executed with arguments: ${JSON.stringify(t.args || {})}`,
+        summary: t.output?.error
+          ? `Tool '${t.name}' failed: ${t.output.error}`
+          : `Autonomous tool '${t.name}' executed with arguments: ${JSON.stringify(t.args || {})}`,
         payload: {
           toolName: t.name,
           arguments: t.args || {},
