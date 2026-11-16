@@ -59,7 +59,7 @@
 
         <button onclick="switchTab('chat-tab')" id="nav-chat" class="nav-btn w-full flex items-center space-x-2.5 px-3 py-2 rounded text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
           <i class="fa-solid fa-comments w-4 text-slate-500"></i>
-          <span>Customer Test Chat</span>
+          <span>Chat with Agent</span>
           <span id="nav-sessions-count" class="ml-auto text-[10px] bg-slate-100 text-slate-600 px-1 rounded font-mono">0</span>
         </button>
 
@@ -188,69 +188,64 @@
       <!-- ============================================== -->
       <section id="overview-tab" class="space-y-6">
         
-        <!-- WELCOME SECTION & STATUS PILLS -->
-        <div class="relative overflow-hidden rounded-2xl border border-slate-200/90 bg-gradient-to-r from-white via-slate-50/70 to-slate-100/80 p-6 shadow-sm backdrop-blur transition hover:shadow-md">
-          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-            
-            <!-- Left: Welcome Title -->
-            <div class="space-y-1">
-              <div class="flex items-center space-x-2.5">
-                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                <h2 class="text-xl font-bold text-slate-900 tracking-tight">welcome to guyesautomations</h2>
-              </div>
-              <p class="text-xs text-slate-500 font-medium">Autonomous multi-tenant agents, customer front-office, and executive back-office operations.</p>
-            </div>
-
-            <!-- Right: Small Compact Pills (Inline Flex, NOT Giant Cards) -->
-            <div class="flex flex-wrap items-center gap-2">
-              <!-- Pill 1: Active Agent -->
-              <div class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/95 border border-slate-200 shadow-xs text-xs text-slate-700 backdrop-blur hover:border-slate-300 transition">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                <span class="text-[11px] text-slate-500 font-medium">Active Agent:</span>
-                <span class="font-semibold text-slate-900" id="pill-active-agent">Odin-P3L</span>
-              </div>
-
-              <!-- Pill 2: Sessions Requests -->
-              <div class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/95 border border-slate-200 shadow-xs text-xs text-slate-700 backdrop-blur hover:border-slate-300 transition">
-                <i class="fa-solid fa-comments text-[10px] text-slate-400"></i>
-                <span class="text-[11px] text-slate-500 font-medium">Sessions Requests:</span>
-                <span class="font-semibold text-slate-900 font-mono" id="pill-sessions">14</span>
-              </div>
-
-              <!-- Pill 3: Average Response Time -->
-              <div class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/95 border border-slate-200 shadow-xs text-xs text-slate-700 backdrop-blur hover:border-slate-300 transition">
-                <i class="fa-solid fa-stopwatch text-[10px] text-slate-400"></i>
-                <span class="text-[11px] text-slate-500 font-medium">Avg Response:</span>
-                <span class="font-semibold text-slate-900 font-mono" id="pill-latency">3.1s</span>
-              </div>
-
-              <!-- Pill 4: Tokens Used Today -->
-              <div class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/95 border border-slate-200 shadow-xs text-xs text-slate-700 backdrop-blur hover:border-slate-300 transition">
-                <i class="fa-solid fa-microchip text-[10px] text-slate-400"></i>
-                <span class="text-[11px] text-slate-500 font-medium">Tokens Used Today:</span>
-                <span class="font-semibold text-slate-900 font-mono" id="pill-tokens">18.4k</span>
-              </div>
-
-              <!-- Hidden elements for script backwards-compatibility -->
-              <span id="ov-agents" class="hidden">1</span>
-              <span id="ov-runs" class="hidden">14</span>
-              <span id="ov-latency" class="hidden">3100 ms</span>
-              <span id="ov-tokens" class="hidden">18400</span>
-              <span id="ov-cost" class="hidden">$0.00120</span>
-              <span id="ov-wa-status" class="hidden"></span>
-              <span id="ov-wa-phone" class="hidden"></span>
-              <span id="ov-wa-user" class="hidden"></span>
-              <span id="ov-tg-status" class="hidden"></span>
-            </div>
-
+        <!-- WELCOME SECTION & STATUS PILLS (CLEAN, NO BACKGROUND CARDS) -->
+        <div class="py-2 flex flex-col lg:flex-row lg:items-center justify-between gap-5 border-b border-slate-200/80 pb-6">
+          
+          <!-- Left: Greeting and Title Only (No Taglines) -->
+          <div class="space-y-0.5">
+            <div id="greeting-time" class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Good afternoon</div>
+            <h2 class="text-2xl font-bold text-slate-900 tracking-tight">Welcome to guyesautomations.</h2>
           </div>
+
+          <!-- Right: Bigger, Modern Sleek Pills (Clean Borders, No Cluttered Cards) -->
+          <div class="flex flex-wrap items-center gap-2.5">
+            <!-- Pill 1: Active Agent -->
+            <div class="inline-flex items-center space-x-2 px-3.5 py-2 rounded-xl border border-slate-200/90 bg-white shadow-xs hover:border-slate-300 transition">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span class="text-xs text-slate-500 font-medium">Active Agent:</span>
+              <span class="font-semibold text-slate-900 text-xs" id="pill-active-agent">Odin-P3L</span>
+            </div>
+
+            <!-- Pill 2: Sessions Requests -->
+            <div class="inline-flex items-center space-x-2 px-3.5 py-2 rounded-xl border border-slate-200/90 bg-white shadow-xs hover:border-slate-300 transition">
+              <i class="fa-solid fa-comments text-xs text-slate-400"></i>
+              <span class="text-xs text-slate-500 font-medium">Sessions Requests:</span>
+              <span class="font-bold text-slate-900 text-xs font-mono" id="pill-sessions">20</span>
+            </div>
+
+            <!-- Pill 3: Average Response Time -->
+            <div class="inline-flex items-center space-x-2 px-3.5 py-2 rounded-xl border border-slate-200/90 bg-white shadow-xs hover:border-slate-300 transition">
+              <i class="fa-solid fa-stopwatch text-xs text-slate-400"></i>
+              <span class="text-xs text-slate-500 font-medium">Avg Response:</span>
+              <span class="font-bold text-slate-900 text-xs font-mono" id="pill-latency">3.4s</span>
+            </div>
+
+            <!-- Pill 4: Tokens Used Today -->
+            <div class="inline-flex items-center space-x-2 px-3.5 py-2 rounded-xl border border-slate-200/90 bg-white shadow-xs hover:border-slate-300 transition">
+              <i class="fa-solid fa-microchip text-xs text-slate-400"></i>
+              <span class="text-xs text-slate-500 font-medium">Tokens Used Today:</span>
+              <span class="font-bold text-slate-900 text-xs font-mono" id="pill-tokens">28.6k</span>
+            </div>
+
+            <!-- Hidden elements for script backwards-compatibility -->
+            <span id="ov-agents" class="hidden">2</span>
+            <span id="ov-runs" class="hidden">20</span>
+            <span id="ov-latency" class="hidden">3400 ms</span>
+            <span id="ov-tokens" class="hidden">28600</span>
+            <span id="ov-cost" class="hidden">$0.00160</span>
+            <span id="ov-wa-status" class="hidden"></span>
+            <span id="ov-wa-phone" class="hidden"></span>
+            <span id="ov-wa-user" class="hidden"></span>
+            <span id="ov-tg-status" class="hidden"></span>
+          </div>
+
         </div>
 
-        <!-- TWO BIG CARDS STANDING TOGETHER -->
+        <!-- TWO BIG CARDS STANDING TOGETHER (MODERN BORDERS, NO CLUTTERED BACKGROUNDS) -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
           <!-- 1. AGENT OVERVIEW CARD -->
-          <div class="bg-white/90 backdrop-blur border border-slate-200/90 rounded-2xl p-6 shadow-sm space-y-5 flex flex-col justify-between hover:shadow-md transition">
+          <div class="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-xs space-y-5 flex flex-col justify-between hover:border-slate-300 transition">
             
             <!-- Card Header with Agent Switcher -->
             <div class="flex items-center justify-between border-b border-slate-100 pb-3.5">
@@ -259,97 +254,97 @@
                   <i class="fa-solid fa-robot text-slate-600 text-xs"></i>
                   <h3 class="text-sm font-bold text-slate-900 tracking-tight">Agent Overview</h3>
                 </div>
-                <p class="text-[11px] text-slate-500">Model pipeline, usage telemetry, and operational status.</p>
+                <p class="text-xs text-slate-500">Live model status, tools, and recent activity.</p>
               </div>
 
               <!-- Agent Switcher Dropdown on Top -->
-              <div class="flex items-center space-x-1.5">
-                <span class="text-[11px] text-slate-400 font-medium">Switch:</span>
-                <select id="ov-agent-select" onchange="switchOverviewAgent(this.value)" class="bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg px-2.5 py-1 text-xs font-semibold text-slate-800 focus:outline-none focus:ring-1 focus:ring-slate-400 transition cursor-pointer">
+              <div class="flex items-center space-x-2">
+                <span class="text-xs text-slate-500 font-medium">Switch:</span>
+                <select id="ov-agent-select" onchange="switchOverviewAgent(this.value)" class="bg-white hover:bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 text-xs font-semibold text-slate-800 focus:outline-none focus:ring-1 focus:ring-slate-400 transition cursor-pointer">
                   <option value="agent-odin-p3l">Odin-P3L (P3L Tech & Hardware)</option>
                   <option value="agent-bella-luxe">Bella-Luxe (Luxe Nails & Spa)</option>
                 </select>
               </div>
             </div>
 
-            <!-- Real Models Section (Shows Both) -->
+            <!-- Active Real Models Section (Modern Crisp Borders, No Background Fills) -->
             <div class="space-y-2">
               <div class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Active Real Models</div>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-                <div class="p-3 rounded-xl bg-slate-50/80 border border-slate-200/80 space-y-1">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
+                <div class="p-3.5 rounded-xl border border-slate-200/90 space-y-1 bg-white hover:border-slate-300 transition">
                   <div class="flex items-center justify-between">
                     <span class="font-semibold text-slate-900">Google Gemini 3.5</span>
-                    <span class="px-1.5 py-0.5 text-[9px] font-bold bg-emerald-100 text-emerald-800 rounded">Live ReAct</span>
+                    <span class="px-2 py-0.5 text-[9px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-md">Live ReAct</span>
                   </div>
-                  <div class="text-[11px] text-slate-600">Model: <span class="font-mono text-slate-900 font-medium">gemini-3.5-flash-lite</span></div>
-                  <div class="text-[10px] text-slate-500">Autonomous reasoning & tool calling</div>
+                  <div class="text-xs text-slate-600">Model: <span class="font-mono text-slate-900 font-medium">gemini-3.5-flash-lite</span></div>
+                  <div class="text-[11px] text-slate-500">Autonomous reasoning & tool calling</div>
                 </div>
 
-                <div class="p-3 rounded-xl bg-slate-50/80 border border-slate-200/80 space-y-1">
+                <div class="p-3.5 rounded-xl border border-slate-200/90 space-y-1 bg-white hover:border-slate-300 transition">
                   <div class="flex items-center justify-between">
                     <span class="font-semibold text-slate-900">Google Gemini 1.5</span>
-                    <span class="px-1.5 py-0.5 text-[9px] font-bold bg-sky-100 text-sky-800 rounded">Audio & RAG</span>
+                    <span class="px-2 py-0.5 text-[9px] font-bold bg-sky-50 text-sky-700 border border-sky-200 rounded-md">Audio & RAG</span>
                   </div>
-                  <div class="text-[11px] text-slate-600">Model: <span class="font-mono text-slate-900 font-medium">gemini-1.5-pro</span></div>
-                  <div class="text-[10px] text-slate-500">Voice transcription & fallback</div>
+                  <div class="text-xs text-slate-600">Model: <span class="font-mono text-slate-900 font-medium">gemini-1.5-pro</span></div>
+                  <div class="text-[11px] text-slate-500">Voice transcription & fallback</div>
                 </div>
               </div>
             </div>
 
-            <!-- Endpoint & Telemetry -->
-            <div class="p-3 rounded-xl bg-slate-50/80 border border-slate-200/80 space-y-2 text-xs">
+            <!-- Endpoint & Tools (Clean Modern Border) -->
+            <div class="p-3.5 rounded-xl border border-slate-200/90 bg-white space-y-2 text-xs">
               <div class="flex items-center justify-between">
-                <span class="text-[11px] font-semibold text-slate-500">Endpoint:</span>
-                <span class="font-mono text-[10px] text-slate-700 bg-white px-2 py-0.5 rounded border border-slate-200">generativelanguage.googleapis.com/v1beta</span>
+                <span class="text-xs font-medium text-slate-500">Endpoint:</span>
+                <span class="font-mono text-[11px] text-slate-800 bg-slate-50 px-2 py-0.5 rounded border border-slate-200">generativelanguage.googleapis.com/v1beta</span>
               </div>
               <div class="flex items-center justify-between">
-                <span class="text-[11px] font-semibold text-slate-500">Autonomous Tools:</span>
-                <span class="font-mono text-[10px] text-slate-700" id="ov-agent-tools">search_catalog, mpesa_stk, human_escalate</span>
+                <span class="text-xs font-medium text-slate-500">Autonomous Tools:</span>
+                <span class="font-mono text-[11px] text-slate-800 font-medium" id="ov-agent-tools">search_catalog, mpesa_stk, human_escalate</span>
               </div>
               <div class="flex items-center justify-between">
-                <span class="text-[11px] font-semibold text-slate-500">Dialect & Language:</span>
-                <span class="text-slate-800 font-medium text-[11px]">Strict Clean Professional English</span>
+                <span class="text-xs font-medium text-slate-500">Dialect & Language:</span>
+                <span class="text-slate-800 font-medium text-xs">Strict Clean Professional English</span>
               </div>
             </div>
 
-            <!-- Last Usage of the Agent and by Who -->
-            <div class="p-3.5 rounded-xl bg-gradient-to-r from-slate-900 to-slate-800 text-white space-y-2 text-xs shadow-xs">
-              <div class="flex items-center justify-between border-b border-slate-700 pb-2">
-                <span class="text-[10px] font-bold tracking-wider uppercase text-slate-400">Last Agent Usage</span>
-                <span class="text-[10px] text-emerald-400 font-mono" id="ov-last-time">Today, 12:02 PM EAT</span>
+            <!-- Last Usage of the Agent (Clean Modern Border, No Heavy Dark Card) -->
+            <div class="p-3.5 rounded-xl border border-slate-200/90 bg-white space-y-2 text-xs">
+              <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+                <span class="text-[10px] font-bold tracking-wider uppercase text-slate-500">Last Agent Usage</span>
+                <span class="text-xs text-emerald-700 font-medium font-mono" id="ov-last-time">Today, 12:02 PM EAT</span>
               </div>
-              <div class="space-y-1">
+              <div class="space-y-1.5">
                 <div class="flex items-center justify-between text-xs">
-                  <span class="text-slate-300">Invoked By:</span>
-                  <span class="font-mono font-medium text-white" id="ov-last-user">Razak Guyo (+254768141129)</span>
+                  <span class="text-slate-500">Invoked By:</span>
+                  <span class="font-mono font-medium text-slate-900" id="ov-last-user">Razak Guyo (+254768141129)</span>
                 </div>
                 <div class="flex items-center justify-between text-xs">
-                  <span class="text-slate-300">Query:</span>
-                  <span class="text-slate-200 truncate max-w-[200px]" id="ov-last-query">HP Victus specs & pricing</span>
+                  <span class="text-slate-500">Query:</span>
+                  <span class="text-slate-800 truncate max-w-[220px]" id="ov-last-query">HP Victus specs & pricing</span>
                 </div>
                 <div class="flex items-center justify-between text-xs">
-                  <span class="text-slate-300">Execution Latency:</span>
-                  <span class="font-mono text-emerald-400 font-medium" id="ov-last-latency">2,822 ms</span>
+                  <span class="text-slate-500">Execution Latency:</span>
+                  <span class="font-mono text-slate-900 font-semibold" id="ov-last-latency">2,822 ms</span>
                 </div>
               </div>
             </div>
 
-            <!-- Errors and Issues Monitor -->
-            <div class="p-3 rounded-xl border border-slate-200/90 bg-white space-y-1.5 text-xs">
+            <!-- Errors and Issues Monitor (Clean Modern Border) -->
+            <div class="p-3.5 rounded-xl border border-slate-200/90 bg-white space-y-1 text-xs">
               <div class="flex items-center justify-between">
-                <span class="text-[11px] font-semibold text-slate-700 flex items-center space-x-1.5">
-                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                <span class="text-xs font-semibold text-slate-800 flex items-center space-x-1.5">
+                  <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
                   <span>Operational Status: 100% Uptime</span>
                 </span>
-                <span class="text-[10px] text-slate-500 font-mono">0 Unhandled Exceptions</span>
+                <span class="text-[11px] text-slate-500 font-mono">0 Unhandled Exceptions</span>
               </div>
-              <p class="text-[11px] text-slate-500">Telegram poller daemon actively monitoring @fv_rzkbot. WAHA engine awaiting Docker start.</p>
+              <p class="text-xs text-slate-500">Telegram daemon polling @fv_rzkbot. WAHA WhatsApp engine connected.</p>
             </div>
 
           </div>
 
-          <!-- 2. RAG AND GATEWAYS CONFIGURATION CARD -->
-          <div class="bg-white/90 backdrop-blur border border-slate-200/90 rounded-2xl p-6 shadow-sm space-y-5 flex flex-col justify-between hover:shadow-md transition">
+          <!-- 2. RAG AND GATEWAYS CONFIGURATION CARD (CLEAN MODERN BORDERS) -->
+          <div class="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-xs space-y-5 flex flex-col justify-between hover:border-slate-300 transition">
             
             <!-- Card Header -->
             <div class="flex items-center justify-between border-b border-slate-100 pb-3.5">
@@ -358,7 +353,7 @@
                   <i class="fa-solid fa-server text-slate-600 text-xs"></i>
                   <h3 class="text-sm font-bold text-slate-900 tracking-tight">RAG and Gateways Configuration</h3>
                 </div>
-                <p class="text-[11px] text-slate-500">Real-time database grounding engine and messaging gateways.</p>
+                <p class="text-xs text-slate-500">Real-time database grounding and active channels.</p>
               </div>
 
               <span class="inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-full text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
@@ -367,44 +362,48 @@
               </span>
             </div>
 
-            <!-- Database Engine Section -->
+            <!-- Database Engine Section (Clean Modern Border) -->
             <div class="space-y-2">
               <div class="flex items-center justify-between text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
                 <span>Database Engine (Real-Time)</span>
-                <span id="db-health-badge" class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800 flex items-center space-x-1">
+                <span id="db-health-badge" class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center space-x-1">
                   <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
-                  <span>Connected</span>
+                  <span id="db-health-text">Connected</span>
                 </span>
               </div>
 
-              <div class="p-3.5 rounded-xl bg-slate-50/80 border border-slate-200/80 space-y-2 text-xs">
+              <div class="p-3.5 rounded-xl border border-slate-200/90 bg-white space-y-2 text-xs">
                 <div class="flex items-center justify-between">
                   <span class="text-slate-500">Engine:</span>
-                  <span class="font-semibold text-slate-900">Supabase Cloud PostgreSQL (RLS Enforced)</span>
+                  <span class="font-semibold text-slate-900">Supabase Cloud PostgreSQL</span>
                 </div>
                 <div class="flex items-center justify-between">
                   <span class="text-slate-500">Host:</span>
                   <span class="font-mono text-[11px] text-slate-800">muratasgegqmbkhmsevt.supabase.co</span>
                 </div>
                 <div class="flex items-center justify-between">
+                  <span class="text-slate-500">Response Latency:</span>
+                  <span class="font-mono text-emerald-700 font-semibold" id="db-latency-display">120 ms</span>
+                </div>
+                <div class="flex items-center justify-between">
                   <span class="text-slate-500">Live Catalog:</span>
                   <span class="font-mono text-slate-900 font-semibold" id="rag-catalog-count">95 Verified Items</span>
                 </div>
                 <div class="flex items-center justify-between">
-                  <span class="text-slate-500">Service Verticals:</span>
-                  <span class="text-slate-800 font-medium">Electronics, Laptops & Luxury Beauty Spa</span>
+                  <span class="text-slate-500">Offering Type:</span>
+                  <span class="text-slate-800 font-medium" id="rag-offering-type">Product Catalog & Dev Blueprints</span>
                 </div>
               </div>
             </div>
 
-            <!-- Gateways Status (Real Life) -->
+            <!-- Gateways Status (Clean Modern Borders) -->
             <div class="space-y-2">
               <div class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Gateways (Real Life)</div>
               
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                 <!-- WhatsApp Gateway -->
-                <div class="p-3 rounded-xl bg-slate-50/80 border border-slate-200/80 space-y-2">
-                  <div class="flex items-center justify-between border-b border-slate-200 pb-1.5">
+                <div class="p-3.5 rounded-xl border border-slate-200/90 bg-white space-y-2 hover:border-slate-300 transition">
+                  <div class="flex items-center justify-between border-b border-slate-100 pb-1.5">
                     <span class="font-semibold text-slate-900 flex items-center space-x-1.5">
                       <i class="fa-brands fa-whatsapp text-emerald-600 text-xs"></i>
                       <span>WhatsApp Line</span>
@@ -419,13 +418,13 @@
                 </div>
 
                 <!-- Telegram Gateway -->
-                <div class="p-3 rounded-xl bg-slate-50/80 border border-slate-200/80 space-y-2">
-                  <div class="flex items-center justify-between border-b border-slate-200 pb-1.5">
+                <div class="p-3.5 rounded-xl border border-slate-200/90 bg-white space-y-2 hover:border-slate-300 transition">
+                  <div class="flex items-center justify-between border-b border-slate-100 pb-1.5">
                     <span class="font-semibold text-slate-900 flex items-center space-x-1.5">
                       <i class="fa-brands fa-telegram text-blue-500 text-xs"></i>
                       <span>Telegram Bot</span>
                     </span>
-                    <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-emerald-100 text-emerald-800">Active</span>
+                    <span class="px-2 py-0.5 rounded text-[9px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">Active</span>
                   </div>
                   <div class="space-y-1 text-[11px]">
                     <div>Bot: <span class="font-mono font-medium text-slate-900">@fv_rzkbot</span></div>
@@ -3926,8 +3925,23 @@
       }
     }
 
+    // Dynamic Time Greeting
+    function updateGreetingTime() {
+      const el = document.getElementById('greeting-time');
+      if (!el) return;
+      const hour = new Date().getHours();
+      if (hour < 12) {
+        el.textContent = 'Good morning';
+      } else if (hour < 17) {
+        el.textContent = 'Good afternoon';
+      } else {
+        el.textContent = 'Good evening';
+      }
+    }
+
     // Initialize
     window.addEventListener('DOMContentLoaded', () => {
+      updateGreetingTime();
       initializeOverviewChat();
       loadOverview();
       loadAgentsList();
