@@ -96,7 +96,12 @@ const server = http.createServer(async (req, res) => {
   }
 
   // Health Check
-  if (req.url === '/api/health' && req.method === 'GET') {
+  if (req.url === '/api/health' && (req.method === 'GET' || req.method === 'HEAD')) {
+    if (req.method === 'HEAD') {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end();
+      return;
+    }
     sendJson(res, 200, {
       status: 'ok',
       agent: 'Odin-P3L',
