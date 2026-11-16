@@ -42,12 +42,12 @@ async function sendTelegramMessage(chatId, text, parseMode = 'Markdown') {
  * Send escalation alert directly to owner Razak Guyo
  */
 async function sendOwnerEscalationAlert({ customerName, customerId, channel, userQuery, reason }) {
-  const alertText = `🚨 *[ODIN LIVE ESCALATION ALERT]*\n\n` +
+  const alertText = `*[ODIN LIVE ESCALATION ALERT]*\n\n` +
     `• *Customer:* ${customerName} (${customerId})\n` +
     `• *Channel:* ${channel}\n` +
     `• *Query:* "${userQuery}"\n` +
     `• *Reason:* ${reason || 'Customer requested human staff/founder'}\n\n` +
-    `⚡ *Status:* Escalated to operations desk. Please respond directly.`;
+    `*Status:* Escalated to operations desk. Please respond directly.`;
 
   return await sendTelegramMessage(TELEGRAM_OWNER_CHAT_ID, alertText);
 }
@@ -67,7 +67,7 @@ async function handleTelegramMessage(message) {
   if (userText.startsWith('/start')) {
     const isOwner = String(chatId) === String(TELEGRAM_OWNER_CHAT_ID);
     if (isOwner) {
-      await sendTelegramMessage(chatId, `*Welcome back, Founder Razak Guyo.* 🚀\n\nOdin Executive Co-Pilot is active and monitoring all systems.\n• WhatsApp Gateway: WAHA Core\n• Database: Supabase PostgreSQL (95 Catalog Items)\n• Live Lead Inquiries: Active\n\nType any operations query or command, e.g. "show pending orders", "inventory summary", or "today's metrics".`);
+      await sendTelegramMessage(chatId, `*Welcome back, Founder Razak Guyo.*\n\nOdin Executive Co-Pilot is active and monitoring all systems.\n• WhatsApp Gateway: WAHA Core\n• Database: Supabase PostgreSQL (95 Catalog Items)\n• Live Lead Inquiries: Active\n\nType any operations query or command, e.g. "show pending orders", "inventory summary", or "today's metrics".`);
       return;
     }
     await sendTelegramMessage(chatId, `Hello ${userName}! Welcome to *P3L Developers & Tech Shop* in Nairobi.\n\nI am *Odin*, your Technical Consultant. Ask me anything about our developer laptops, hardware specs, KES pricing, official warranties, or custom software automations.`);
@@ -147,7 +147,7 @@ async function handleTelegramMessage(message) {
 async function startTelegramPolling() {
   if (isPolling) return;
   isPolling = true;
-  console.log('🤖 Telegram Bot Poller active: @fv_rzkbot');
+  console.log('[Telegram Bot Poller Active] @fv_rzkbot');
 
   // Delete any existing webhook to enable getUpdates polling
   try {

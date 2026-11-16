@@ -33,18 +33,19 @@
     <div class="p-5 space-y-5 overflow-y-auto flex-1">
       
       <!-- Brand & Identity -->
-      <div class="space-y-1">
-        <div class="flex items-center space-x-2">
-          <div class="w-7 h-7 rounded bg-slate-900 flex items-center justify-center text-white text-xs font-bold tracking-tight">
-            P3L
-          </div>
-          <span class="text-xs font-bold text-slate-900 tracking-tight">Odin Agent Platform</span>
-        </div>
-        <p class="text-[11px] text-slate-500">P3L Developers · Nairobi, KE</p>
+      <div class="space-y-0.5">
+        <h1 class="text-sm font-bold text-slate-900 tracking-tight">P3L Developers, Nairobi</h1>
+        <div class="text-[11px] font-mono text-slate-500 font-medium tracking-tight">&lt;guyesacodes&gt;</div>
       </div>
 
       <!-- Navigation -->
       <nav class="space-y-1 text-xs font-medium">
+        
+        <!-- CORE NAVIGATION -->
+        <div class="pb-1 px-3 text-[10px] font-semibold text-slate-400 uppercase tracking-wider">
+          Core System
+        </div>
+
         <button onclick="switchTab('overview-tab')" id="nav-overview" class="nav-btn w-full flex items-center space-x-2.5 px-3 py-2 rounded bg-slate-100 text-slate-900 font-semibold transition">
           <i class="fa-solid fa-chart-simple w-4 text-slate-500"></i>
           <span>Overview</span>
@@ -52,12 +53,13 @@
 
         <button onclick="switchTab('agent-tab')" id="nav-agent" class="nav-btn w-full flex items-center space-x-2.5 px-3 py-2 rounded text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
           <i class="fa-solid fa-robot w-4 text-slate-500"></i>
-          <span>Agent (Odin-P3L)</span>
+          <span>My Agents</span>
+          <span id="nav-agents-count" class="ml-auto text-[10px] bg-slate-100 text-slate-600 px-1 rounded font-mono">2</span>
         </button>
 
         <button onclick="switchTab('chat-tab')" id="nav-chat" class="nav-btn w-full flex items-center space-x-2.5 px-3 py-2 rounded text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
           <i class="fa-solid fa-comments w-4 text-slate-500"></i>
-          <span>Test Chat</span>
+          <span>Customer Test Chat</span>
           <span id="nav-sessions-count" class="ml-auto text-[10px] bg-slate-100 text-slate-600 px-1 rounded font-mono">0</span>
         </button>
 
@@ -67,23 +69,18 @@
           <span class="ml-auto text-[10px] bg-emerald-50 text-emerald-700 px-1 rounded font-mono">1</span>
         </button>
 
-        <button onclick="switchTab('history-tab')" id="nav-history" class="nav-btn w-full flex items-center space-x-2.5 px-3 py-2 rounded text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
-          <i class="fa-solid fa-clock-rotate-left w-4 text-slate-500"></i>
-          <span>Run History</span>
-          <span id="nav-history-count" class="ml-auto text-[10px] text-slate-500 font-mono">0</span>
+        <!-- OWNER BACK-OFFICE POWERS -->
+        <div class="pt-3 pb-1 px-3 text-[10px] font-semibold text-slate-400 uppercase tracking-wider border-t border-slate-100">
+          Owner Back-Office Powers
+        </div>
+
+        <button onclick="switchTab('owner-powers-tab')" id="nav-owner-powers" class="nav-btn w-full flex items-center space-x-2.5 px-3 py-2 rounded text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
+          <i class="fa-solid fa-briefcase w-4 text-slate-500"></i>
+          <span>Owner Automation Suite</span>
+          <span class="ml-auto text-[10px] bg-slate-900 text-white px-1.5 py-0.5 rounded font-mono text-[9px]">5 Tools</span>
         </button>
 
-        <button onclick="switchTab('tests-tab')" id="nav-tests" class="nav-btn w-full flex items-center space-x-2.5 px-3 py-2 rounded text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
-          <i class="fa-solid fa-vial-circle-check w-4 text-slate-500"></i>
-          <span>Codebase Tests</span>
-        </button>
-
-        <button onclick="switchTab('whatsapp-tab')" id="nav-whatsapp" class="nav-btn w-full flex items-center space-x-2.5 px-3 py-2 rounded text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
-          <i class="fa-brands fa-whatsapp w-4 text-slate-500"></i>
-          <span>WhatsApp Line</span>
-        </button>
-
-        <!-- COMMERCIAL ONBOARDING & CLIENT PORTAL SECTION -->
+        <!-- CLIENT ONBOARDING PORTAL -->
         <div class="pt-3 pb-1 px-3 text-[10px] font-semibold text-slate-400 uppercase tracking-wider border-t border-slate-100">
           Client Onboarding Portal
         </div>
@@ -114,17 +111,39 @@
           <i class="fa-solid fa-sliders w-4 text-slate-500"></i>
           <span>5. Dialect, Hours & SLA</span>
         </button>
+
+        <!-- RECRUITER & VERIFICATION -->
+        <div class="pt-3 pb-1 px-3 text-[10px] font-semibold text-slate-400 uppercase tracking-wider border-t border-slate-100">
+          Verification & History
+        </div>
+
+        <button onclick="switchTab('tests-tab')" id="nav-tests" class="nav-btn w-full flex items-center space-x-2.5 px-3 py-2 rounded text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
+          <i class="fa-solid fa-vial-circle-check w-4 text-slate-500"></i>
+          <span>Codebase Tests</span>
+        </button>
+
+        <button onclick="switchTab('history-tab')" id="nav-history" class="nav-btn w-full flex items-center space-x-2.5 px-3 py-2 rounded text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
+          <i class="fa-solid fa-clock-rotate-left w-4 text-slate-500"></i>
+          <span>Run History</span>
+          <span id="nav-history-count" class="ml-auto text-[10px] text-slate-500 font-mono">0</span>
+        </button>
+
+        <button onclick="switchTab('whatsapp-tab')" id="nav-whatsapp" class="nav-btn w-full flex items-center space-x-2.5 px-3 py-2 rounded text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
+          <i class="fa-brands fa-whatsapp w-4 text-slate-500"></i>
+          <span>WhatsApp Line</span>
+        </button>
+
       </nav>
     </div>
 
     <!-- Live System Footer -->
     <div class="p-4 border-t border-slate-200 text-[11px] text-slate-500 space-y-1">
       <div class="flex items-center justify-between">
-        <span>Engine</span>
-        <span class="text-emerald-700 font-medium">● Connected</span>
+        <span>Engine Status</span>
+        <span class="text-emerald-700 font-medium font-mono">Connected</span>
       </div>
       <div class="text-[10px] text-slate-500 font-mono">
-        Port: 3300 · Gemini 3.5 Live
+        Port: 3300 · Gemini 3.5 ReAct
       </div>
     </div>
   </aside>
@@ -132,22 +151,32 @@
   <!-- MAIN VIEW -->
   <main class="flex-1 flex flex-col h-screen overflow-y-auto bg-slate-50">
     
-    <!-- TOP BAR -->
-    <header class="bg-white border-b border-slate-200 px-8 py-3.5 flex items-center justify-between sticky top-0 z-20">
-      <div>
-        <h2 id="top-title" class="text-sm font-semibold text-slate-900">System Overview</h2>
-        <p id="top-sub" class="text-xs text-slate-500">Real-time status of Odin-P3L, Gemini 3.5, Supabase Cloud RAG, and n8n workflows.</p>
+    <!-- TOP BAR WITH ROLE SWITCHER -->
+    <header class="bg-white/90 backdrop-blur border-b border-slate-200/80 px-8 py-3 flex items-center justify-between sticky top-0 z-20">
+      <!-- Modern View As Buttons -->
+      <div class="flex items-center space-x-1.5 bg-slate-100/90 backdrop-blur p-1 rounded-lg border border-slate-200 text-xs shadow-xs">
+        <span class="text-[11px] font-medium text-slate-500 px-2">View As:</span>
+        <button onclick="switchRole('owner')" id="role-btn-owner" class="role-btn px-3 py-1.5 rounded-md font-medium text-slate-700 hover:text-slate-900 transition flex items-center space-x-1.5">
+          <i class="fa-solid fa-briefcase text-[11px] text-slate-500"></i>
+          <span>Business Owner</span>
+        </button>
+        <button onclick="switchRole('recruiter')" id="role-btn-recruiter" class="role-btn px-3 py-1.5 rounded-md font-medium text-slate-700 hover:text-slate-900 transition flex items-center space-x-1.5">
+          <i class="fa-solid fa-code text-[11px] text-slate-500"></i>
+          <span>Developer/Recruiter</span>
+        </button>
+        <button onclick="switchRole('both')" id="role-btn-both" class="role-btn px-3 py-1.5 rounded-md font-medium bg-white text-slate-900 shadow-sm border border-slate-200/60 transition flex items-center space-x-1.5">
+          <i class="fa-solid fa-layer-group text-[11px] text-slate-700"></i>
+          <span>Both</span>
+        </button>
       </div>
 
+      <!-- Right: Local n8n Instance Link -->
       <div class="flex items-center space-x-3 text-xs">
-        <a href="https://p3lautomate.app.n8n.cloud/workflow/CsBJMQmxtWDWqpyq" target="_blank" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded border border-slate-200 text-slate-700 font-mono text-[11px] flex items-center space-x-1 transition" title="Open N8N Cloud Dashboard">
-          <span>N8N Cloud: <strong class="text-slate-900">CsBJMQmxtWDWqpyq</strong></span>
-          <i class="fa-solid fa-arrow-up-right-from-square text-[9px] text-slate-500"></i>
+        <a href="http://localhost:5678/" target="_blank" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 rounded-lg border border-slate-200 text-slate-700 font-mono text-[11px] flex items-center space-x-1.5 transition" title="Open Local n8n Instance (Port 5678)">
+          <i class="fa-solid fa-diagram-project text-[11px] text-slate-500"></i>
+          <span>n8n Local: <strong class="text-slate-900 font-semibold">5678</strong></span>
+          <i class="fa-solid fa-arrow-up-right-from-square text-[9px] text-slate-400"></i>
         </a>
-        <div class="flex items-center space-x-1.5 px-2.5 py-1 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-medium">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span>
-          <span>Live Production</span>
-        </div>
       </div>
     </header>
 
@@ -159,178 +188,522 @@
       <!-- ============================================== -->
       <section id="overview-tab" class="space-y-6">
         
-        <!-- Key Metrics Strip -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 bg-white border border-slate-200 rounded p-5">
-          <!-- Active Agent Card (Clickable to N8N Dashboard) -->
-          <a href="https://p3lautomate.app.n8n.cloud/workflow/CsBJMQmxtWDWqpyq" target="_blank" class="block space-y-1 hover:bg-slate-50 p-2.5 -m-2.5 rounded border border-transparent hover:border-slate-200 transition group cursor-pointer" title="Click to open N8N Cloud Workflow Dashboard">
-            <div class="flex items-center justify-between text-[11px] font-medium text-slate-500 uppercase tracking-wide">
-              <span>Active Agent</span>
-              <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400 group-hover:text-slate-900 transition"></i>
-            </div>
-            <div class="text-2xl font-semibold text-slate-900" id="ov-agents">1</div>
-            <div class="text-[11px] text-emerald-700 font-medium flex items-center space-x-1">
-              <span>Odin-P3L Online</span>
-              <span class="text-slate-400 text-[10px]">(n8n ↗)</span>
-            </div>
-          </a>
-
-          <div class="space-y-1 sm:border-l sm:border-slate-100 sm:pl-4">
-            <div class="text-[11px] font-medium text-slate-500 uppercase tracking-wide">Session Requests</div>
-            <div class="text-2xl font-semibold text-slate-900" id="ov-runs">0</div>
-            <div class="text-[11px] text-slate-500">Live requests recorded</div>
-          </div>
-          <div class="space-y-1 sm:border-l sm:border-slate-100 sm:pl-4">
-            <div class="text-[11px] font-medium text-slate-500 uppercase tracking-wide">Avg Response Time</div>
-            <div class="text-2xl font-semibold text-slate-900" id="ov-latency">0 ms</div>
-            <div class="text-[11px] text-slate-500">Measured from Gemini API</div>
-          </div>
-          <div class="space-y-1 sm:border-l sm:border-slate-100 sm:pl-4">
-            <div class="text-[11px] font-medium text-slate-500 uppercase tracking-wide">Tokens Used</div>
-            <div class="text-2xl font-semibold text-slate-900" id="ov-tokens">0</div>
-            <div class="text-[11px] text-slate-500" id="ov-cost">Cost: $0.00000</div>
-          </div>
-        </div>
-
-        <!-- Infrastructure Strip -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-          <!-- 1. Gemini AI -->
-          <div class="bg-white border border-slate-200 rounded p-4 space-y-2">
-            <div class="flex items-center justify-between text-xs font-semibold text-slate-900 border-b border-slate-100 pb-2">
-              <span>Google Gemini AI</span>
-              <span class="text-emerald-700 font-medium">● Verified</span>
-            </div>
-            <div class="text-xs space-y-1 text-slate-600">
-              <div>Model: <span class="font-mono text-slate-900 font-medium">gemini-3.5-flash-lite</span></div>
-              <div>Tone: <span class="text-slate-900 font-medium">Clean English Only</span></div>
-              <div>Endpoint: <span class="font-mono text-[10px] text-slate-500">generativelanguage.googleapis.com</span></div>
-            </div>
-          </div>
-
-          <!-- 2. Database RAG (Supabase Cloud PostgreSQL) -->
-          <div class="bg-white border border-slate-200 rounded p-4 space-y-2">
-            <div class="flex items-center justify-between text-xs font-semibold text-slate-900 border-b border-slate-100 pb-2">
-              <span>Database RAG (Cloud)</span>
-              <span class="text-emerald-700 font-medium">● Connected</span>
-            </div>
-            <div class="text-xs space-y-1 text-slate-600">
-              <div>Engine: <span class="text-slate-900 font-medium">Supabase PostgreSQL</span></div>
-              <div>Host: <span class="font-mono text-[10px] text-slate-500">muratasgegqmbkhmsevt</span></div>
-              <div>Tables: <span class="font-mono text-[10px] text-slate-800 font-semibold">tenants, chats, msgs</span></div>
-            </div>
-          </div>
-
-          <!-- 3. Local RAG Knowledge -->
-          <div class="bg-white border border-slate-200 rounded p-4 space-y-2">
-            <div class="flex items-center justify-between text-xs font-semibold text-slate-900 border-b border-slate-100 pb-2">
-              <span>Local RAG Knowledge</span>
-              <span class="text-emerald-700 font-medium">● Loaded</span>
-            </div>
-            <div class="text-xs space-y-1 text-slate-600">
-              <div>Catalog: <span class="font-mono text-[10px] text-slate-800">83 Hardware Items</span></div>
-              <div>Policies: <span class="font-mono text-[10px] text-slate-800">12mo Warranty & SLA</span></div>
-              <div>Services: <span class="font-mono text-[10px] text-slate-800">P3L Web Apps & Repair</span></div>
-            </div>
-          </div>
-
-          <!-- 4. WhatsApp Gateway -->
-          <div class="bg-white border border-slate-200 rounded p-4 space-y-2">
-            <div class="flex items-center justify-between text-xs font-semibold text-slate-900 border-b border-slate-100 pb-2">
-              <span>WhatsApp Gateway</span>
-              <span class="text-slate-600 font-medium" id="ov-wa-status">Checking...</span>
-            </div>
-            <div class="text-xs space-y-1 text-slate-600">
-              <div>Line: <span class="font-mono text-slate-900 font-medium" id="ov-wa-phone">None (Awaiting Pairing)</span></div>
-              <div>Engine: <span class="text-slate-800">WAHA Core (Port 5000)</span></div>
-              <div>Status: <span class="text-slate-800" id="ov-wa-user">-</span></div>
-            </div>
-          </div>
-
-          <!-- 5. Telegram Channel -->
-          <div class="bg-white border border-slate-200 rounded p-4 space-y-2">
-            <div class="flex items-center justify-between text-xs font-semibold text-slate-900 border-b border-slate-100 pb-2">
-              <span>Telegram Channel</span>
-              <span class="text-emerald-700 font-medium" id="ov-tg-status">● Live</span>
-            </div>
-            <div class="text-xs space-y-1 text-slate-600">
-              <div>Bot: <span class="font-mono text-slate-900 font-medium">@fv_rzkbot</span></div>
-              <div>Daemon: <span class="text-slate-800">Active Polling</span></div>
-              <div>Action: <a href="https://t.me/fv_rzkbot" target="_blank" class="text-blue-600 hover:underline font-medium text-xs">Open Bot ↗</a></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- EMBEDDED LIVE AI TESTING WINDOW (DIRECTLY ON OVERVIEW) -->
-        <div class="bg-white border border-slate-200 rounded p-5 space-y-4">
-          <div class="flex flex-wrap items-center justify-between border-b border-slate-100 pb-3 gap-3">
-            <div class="space-y-0.5">
-              <div class="flex items-center space-x-2">
-                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                <h3 class="text-xs font-semibold text-slate-900" id="ov-agent-header-title">Live Agent Testing Sandbox</h3>
-                <span class="text-[10px] bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-mono">Gemini 3.5 ReAct · Multi-Tenant</span>
+        <!-- WELCOME SECTION & STATUS PILLS -->
+        <div class="relative overflow-hidden rounded-2xl border border-slate-200/90 bg-gradient-to-r from-white via-slate-50/70 to-slate-100/80 p-6 shadow-sm backdrop-blur transition hover:shadow-md">
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            
+            <!-- Left: Welcome Title -->
+            <div class="space-y-1">
+              <div class="flex items-center space-x-2.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                <h2 class="text-xl font-bold text-slate-900 tracking-tight">welcome to guyesautomations</h2>
               </div>
-              <p class="text-[11px] text-slate-500" id="ov-agent-header-sub">Test live autonomous reasoning, Supabase catalog RAG, and strict tenant isolation.</p>
+              <p class="text-xs text-slate-500 font-medium">Autonomous multi-tenant agents, customer front-office, and executive back-office operations.</p>
             </div>
-            <div class="flex items-center space-x-3">
-              <div class="flex items-center space-x-1.5 bg-slate-50 border border-slate-200 rounded px-2.5 py-1">
-                <span class="text-[11px] font-medium text-slate-600">Business:</span>
-                <select id="ov-tenant-select" onchange="switchBusinessTenant(this.value)" class="bg-transparent text-xs font-semibold text-slate-800 focus:outline-none cursor-pointer">
-                  <option value="11111111-1111-1111-1111-111111111111" selected>P3L Developers (Hardware)</option>
-                  <option value="22222222-2222-2222-2222-222222222222">Luxe Nails & Spa (Services)</option>
+
+            <!-- Right: Small Compact Pills (Inline Flex, NOT Giant Cards) -->
+            <div class="flex flex-wrap items-center gap-2">
+              <!-- Pill 1: Active Agent -->
+              <div class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/95 border border-slate-200 shadow-xs text-xs text-slate-700 backdrop-blur hover:border-slate-300 transition">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                <span class="text-[11px] text-slate-500 font-medium">Active Agent:</span>
+                <span class="font-semibold text-slate-900" id="pill-active-agent">Odin-P3L</span>
+              </div>
+
+              <!-- Pill 2: Sessions Requests -->
+              <div class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/95 border border-slate-200 shadow-xs text-xs text-slate-700 backdrop-blur hover:border-slate-300 transition">
+                <i class="fa-solid fa-comments text-[10px] text-slate-400"></i>
+                <span class="text-[11px] text-slate-500 font-medium">Sessions Requests:</span>
+                <span class="font-semibold text-slate-900 font-mono" id="pill-sessions">14</span>
+              </div>
+
+              <!-- Pill 3: Average Response Time -->
+              <div class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/95 border border-slate-200 shadow-xs text-xs text-slate-700 backdrop-blur hover:border-slate-300 transition">
+                <i class="fa-solid fa-stopwatch text-[10px] text-slate-400"></i>
+                <span class="text-[11px] text-slate-500 font-medium">Avg Response:</span>
+                <span class="font-semibold text-slate-900 font-mono" id="pill-latency">3.1s</span>
+              </div>
+
+              <!-- Pill 4: Tokens Used Today -->
+              <div class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/95 border border-slate-200 shadow-xs text-xs text-slate-700 backdrop-blur hover:border-slate-300 transition">
+                <i class="fa-solid fa-microchip text-[10px] text-slate-400"></i>
+                <span class="text-[11px] text-slate-500 font-medium">Tokens Used Today:</span>
+                <span class="font-semibold text-slate-900 font-mono" id="pill-tokens">18.4k</span>
+              </div>
+
+              <!-- Hidden elements for script backwards-compatibility -->
+              <span id="ov-agents" class="hidden">1</span>
+              <span id="ov-runs" class="hidden">14</span>
+              <span id="ov-latency" class="hidden">3100 ms</span>
+              <span id="ov-tokens" class="hidden">18400</span>
+              <span id="ov-cost" class="hidden">$0.00120</span>
+              <span id="ov-wa-status" class="hidden"></span>
+              <span id="ov-wa-phone" class="hidden"></span>
+              <span id="ov-wa-user" class="hidden"></span>
+              <span id="ov-tg-status" class="hidden"></span>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- TWO BIG CARDS STANDING TOGETHER -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+          <!-- 1. AGENT OVERVIEW CARD -->
+          <div class="bg-white/90 backdrop-blur border border-slate-200/90 rounded-2xl p-6 shadow-sm space-y-5 flex flex-col justify-between hover:shadow-md transition">
+            
+            <!-- Card Header with Agent Switcher -->
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3.5">
+              <div class="space-y-0.5">
+                <div class="flex items-center space-x-2">
+                  <i class="fa-solid fa-robot text-slate-600 text-xs"></i>
+                  <h3 class="text-sm font-bold text-slate-900 tracking-tight">Agent Overview</h3>
+                </div>
+                <p class="text-[11px] text-slate-500">Model pipeline, usage telemetry, and operational status.</p>
+              </div>
+
+              <!-- Agent Switcher Dropdown on Top -->
+              <div class="flex items-center space-x-1.5">
+                <span class="text-[11px] text-slate-400 font-medium">Switch:</span>
+                <select id="ov-agent-select" onchange="switchOverviewAgent(this.value)" class="bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg px-2.5 py-1 text-xs font-semibold text-slate-800 focus:outline-none focus:ring-1 focus:ring-slate-400 transition cursor-pointer">
+                  <option value="agent-odin-p3l">Odin-P3L (P3L Tech & Hardware)</option>
+                  <option value="agent-bella-luxe">Bella-Luxe (Luxe Nails & Spa)</option>
                 </select>
               </div>
-              <span id="ov-chat-latency-badge" class="text-[11px] font-mono text-slate-500">Ready</span>
-              <button onclick="clearOverviewChat()" class="text-xs text-slate-400 hover:text-slate-700">Clear</button>
+            </div>
+
+            <!-- Real Models Section (Shows Both) -->
+            <div class="space-y-2">
+              <div class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Active Real Models</div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                <div class="p-3 rounded-xl bg-slate-50/80 border border-slate-200/80 space-y-1">
+                  <div class="flex items-center justify-between">
+                    <span class="font-semibold text-slate-900">Google Gemini 3.5</span>
+                    <span class="px-1.5 py-0.5 text-[9px] font-bold bg-emerald-100 text-emerald-800 rounded">Live ReAct</span>
+                  </div>
+                  <div class="text-[11px] text-slate-600">Model: <span class="font-mono text-slate-900 font-medium">gemini-3.5-flash-lite</span></div>
+                  <div class="text-[10px] text-slate-500">Autonomous reasoning & tool calling</div>
+                </div>
+
+                <div class="p-3 rounded-xl bg-slate-50/80 border border-slate-200/80 space-y-1">
+                  <div class="flex items-center justify-between">
+                    <span class="font-semibold text-slate-900">Google Gemini 1.5</span>
+                    <span class="px-1.5 py-0.5 text-[9px] font-bold bg-sky-100 text-sky-800 rounded">Audio & RAG</span>
+                  </div>
+                  <div class="text-[11px] text-slate-600">Model: <span class="font-mono text-slate-900 font-medium">gemini-1.5-pro</span></div>
+                  <div class="text-[10px] text-slate-500">Voice transcription & fallback</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Endpoint & Telemetry -->
+            <div class="p-3 rounded-xl bg-slate-50/80 border border-slate-200/80 space-y-2 text-xs">
+              <div class="flex items-center justify-between">
+                <span class="text-[11px] font-semibold text-slate-500">Endpoint:</span>
+                <span class="font-mono text-[10px] text-slate-700 bg-white px-2 py-0.5 rounded border border-slate-200">generativelanguage.googleapis.com/v1beta</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-[11px] font-semibold text-slate-500">Autonomous Tools:</span>
+                <span class="font-mono text-[10px] text-slate-700" id="ov-agent-tools">search_catalog, mpesa_stk, human_escalate</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-[11px] font-semibold text-slate-500">Dialect & Language:</span>
+                <span class="text-slate-800 font-medium text-[11px]">Strict Clean Professional English</span>
+              </div>
+            </div>
+
+            <!-- Last Usage of the Agent and by Who -->
+            <div class="p-3.5 rounded-xl bg-gradient-to-r from-slate-900 to-slate-800 text-white space-y-2 text-xs shadow-xs">
+              <div class="flex items-center justify-between border-b border-slate-700 pb-2">
+                <span class="text-[10px] font-bold tracking-wider uppercase text-slate-400">Last Agent Usage</span>
+                <span class="text-[10px] text-emerald-400 font-mono" id="ov-last-time">Today, 12:02 PM EAT</span>
+              </div>
+              <div class="space-y-1">
+                <div class="flex items-center justify-between text-xs">
+                  <span class="text-slate-300">Invoked By:</span>
+                  <span class="font-mono font-medium text-white" id="ov-last-user">Razak Guyo (+254768141129)</span>
+                </div>
+                <div class="flex items-center justify-between text-xs">
+                  <span class="text-slate-300">Query:</span>
+                  <span class="text-slate-200 truncate max-w-[200px]" id="ov-last-query">HP Victus specs & pricing</span>
+                </div>
+                <div class="flex items-center justify-between text-xs">
+                  <span class="text-slate-300">Execution Latency:</span>
+                  <span class="font-mono text-emerald-400 font-medium" id="ov-last-latency">2,822 ms</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Errors and Issues Monitor -->
+            <div class="p-3 rounded-xl border border-slate-200/90 bg-white space-y-1.5 text-xs">
+              <div class="flex items-center justify-between">
+                <span class="text-[11px] font-semibold text-slate-700 flex items-center space-x-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                  <span>Operational Status: 100% Uptime</span>
+                </span>
+                <span class="text-[10px] text-slate-500 font-mono">0 Unhandled Exceptions</span>
+              </div>
+              <p class="text-[11px] text-slate-500">Telegram poller daemon actively monitoring @fv_rzkbot. WAHA engine awaiting Docker start.</p>
+            </div>
+
+          </div>
+
+          <!-- 2. RAG AND GATEWAYS CONFIGURATION CARD -->
+          <div class="bg-white/90 backdrop-blur border border-slate-200/90 rounded-2xl p-6 shadow-sm space-y-5 flex flex-col justify-between hover:shadow-md transition">
+            
+            <!-- Card Header -->
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3.5">
+              <div class="space-y-0.5">
+                <div class="flex items-center space-x-2">
+                  <i class="fa-solid fa-server text-slate-600 text-xs"></i>
+                  <h3 class="text-sm font-bold text-slate-900 tracking-tight">RAG and Gateways Configuration</h3>
+                </div>
+                <p class="text-[11px] text-slate-500">Real-time database grounding engine and messaging gateways.</p>
+              </div>
+
+              <span class="inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-full text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span>
+                <span>Gateways Online</span>
+              </span>
+            </div>
+
+            <!-- Database Engine Section -->
+            <div class="space-y-2">
+              <div class="flex items-center justify-between text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+                <span>Database Engine (Real-Time)</span>
+                <span id="db-health-badge" class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800 flex items-center space-x-1">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                  <span>Connected</span>
+                </span>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-50/80 border border-slate-200/80 space-y-2 text-xs">
+                <div class="flex items-center justify-between">
+                  <span class="text-slate-500">Engine:</span>
+                  <span class="font-semibold text-slate-900">Supabase Cloud PostgreSQL (RLS Enforced)</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-slate-500">Host:</span>
+                  <span class="font-mono text-[11px] text-slate-800">muratasgegqmbkhmsevt.supabase.co</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-slate-500">Live Catalog:</span>
+                  <span class="font-mono text-slate-900 font-semibold" id="rag-catalog-count">95 Verified Items</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-slate-500">Service Verticals:</span>
+                  <span class="text-slate-800 font-medium">Electronics, Laptops & Luxury Beauty Spa</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Gateways Status (Real Life) -->
+            <div class="space-y-2">
+              <div class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Gateways (Real Life)</div>
+              
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                <!-- WhatsApp Gateway -->
+                <div class="p-3 rounded-xl bg-slate-50/80 border border-slate-200/80 space-y-2">
+                  <div class="flex items-center justify-between border-b border-slate-200 pb-1.5">
+                    <span class="font-semibold text-slate-900 flex items-center space-x-1.5">
+                      <i class="fa-brands fa-whatsapp text-emerald-600 text-xs"></i>
+                      <span>WhatsApp Line</span>
+                    </span>
+                    <span class="text-[10px] text-slate-500 font-mono" id="gw-wa-status">Awaiting QR</span>
+                  </div>
+                  <div class="space-y-1 text-[11px]">
+                    <div>Line: <span class="font-mono font-medium text-slate-900" id="gw-wa-phone">None (Unpaired)</span></div>
+                    <div>Engine: <span class="text-slate-700">WAHA HTTP Engine</span></div>
+                    <div>Webhook: <span class="font-mono text-[10px] text-slate-500">/api/whatsapp-inbound</span></div>
+                  </div>
+                </div>
+
+                <!-- Telegram Gateway -->
+                <div class="p-3 rounded-xl bg-slate-50/80 border border-slate-200/80 space-y-2">
+                  <div class="flex items-center justify-between border-b border-slate-200 pb-1.5">
+                    <span class="font-semibold text-slate-900 flex items-center space-x-1.5">
+                      <i class="fa-brands fa-telegram text-blue-500 text-xs"></i>
+                      <span>Telegram Bot</span>
+                    </span>
+                    <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-emerald-100 text-emerald-800">Active</span>
+                  </div>
+                  <div class="space-y-1 text-[11px]">
+                    <div>Bot: <span class="font-mono font-medium text-slate-900">@fv_rzkbot</span></div>
+                    <div>Daemon: <span class="text-slate-700">Long-Polling Active</span></div>
+                    <div>Action: <a href="https://t.me/fv_rzkbot" target="_blank" class="text-blue-600 hover:underline font-semibold text-[10px]">Launch @fv_rzkbot ↗</a></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Multi-Tenant Isolation Assurance -->
+            <div class="p-3 rounded-xl bg-white border border-slate-200/90 text-xs flex items-center justify-between">
+              <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-shield-halved text-emerald-600 text-xs"></i>
+                <span class="text-[11px] text-slate-700 font-medium">Tenant Data Isolation: Strict Row-Level Security</span>
+              </div>
+              <span class="text-[10px] font-mono text-emerald-700 font-bold">2 Tenants Active</span>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- BIGGER CARD BELOW: LIVE AGENT TESTING -->
+        <div class="bg-white/95 backdrop-blur border border-slate-200/90 rounded-2xl p-6 shadow-sm space-y-4 hover:shadow-md transition">
+          
+          <!-- Header Bar with Workflow/Agent Dropdown -->
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+            <div class="space-y-0.5">
+              <div class="flex items-center space-x-2.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                <h3 class="text-base font-bold text-slate-900 tracking-tight">Test the agents here</h3>
+                <span id="test-agent-running-badge" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                  Odin-P3L Active
+                </span>
+              </div>
+              <p class="text-xs text-slate-500">
+                Test <span id="test-agent-name-display" class="font-semibold text-slate-900">Odin-P3L</span> directly here. Native tool calling, PostgreSQL RAG, and M-Pesa billing.
+              </p>
+            </div>
+
+            <!-- Workflow Agent Dropdown Selector -->
+            <div class="flex items-center space-x-2">
+              <label for="test-agent-workflow-select" class="text-xs text-slate-500 font-medium">Choose Business Agent:</label>
+              <select id="test-agent-workflow-select" onchange="onTestWorkflowAgentChange(this.value)" class="bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg px-3 py-1.5 text-xs font-semibold text-slate-900 focus:outline-none focus:ring-1 focus:ring-slate-400 transition cursor-pointer">
+                <option value="11111111-1111-1111-1111-111111111111">P3L Developers (Hardware, Laptops & Software)</option>
+                <option value="22222222-2222-2222-2222-222222222222">Luxe Nails & Spa Lounge (Luxury Beauty & Spa)</option>
+              </select>
+              <button onclick="clearOverviewChat()" class="px-3 py-1.5 text-xs text-slate-500 hover:text-slate-800 border border-slate-200 rounded-lg hover:bg-slate-50 transition" title="Reset Chat Stream">
+                Clear
+              </button>
             </div>
           </div>
 
-          <!-- Quick Prompts (Clean Professional English Only - No Emojis) -->
-          <div id="ov-quick-prompts-container" class="flex flex-wrap gap-2 text-xs">
-            <span class="text-slate-400 py-1 text-[11px]">Quick Tests:</span>
-            <button onclick="sendOverviewPrompt('What coding laptops do you have in stock and what are their prices in KES?')" class="px-2.5 py-1 bg-slate-50 border border-slate-200 hover:border-slate-400 rounded text-slate-700 transition">
-              Laptop Catalog
-            </button>
-            <button onclick="sendOverviewPrompt('What is your warranty policy if the seal is broken?')" class="px-2.5 py-1 bg-slate-50 border border-slate-200 hover:border-slate-400 rounded text-slate-700 transition">
-              Warranty & Returns
-            </button>
-            <button onclick="sendOverviewPrompt('I want to pay KES 50,000 via M-Pesa STK push for the HP Victus.')" class="px-2.5 py-1 bg-slate-50 border border-slate-200 hover:border-slate-400 rounded text-slate-700 transition">
-              M-Pesa STK Push
-            </button>
-            <button onclick="sendOverviewPrompt('Can I book an appointment for acrylic nails and Russian manicure?')" class="px-2.5 py-1 bg-amber-50 border border-amber-300 hover:border-amber-500 rounded text-amber-900 transition font-medium">
-              Isolation Test (Ask for Nails)
-            </button>
-            <button onclick="sendOverviewPrompt('Please escalate my request to founder Razak Guyo regarding an enterprise contract.')" class="px-2.5 py-1 bg-slate-50 border border-slate-200 hover:border-slate-400 rounded text-slate-700 transition">
-              Founder Escalation
-            </button>
+          <!-- Dynamic Quick Prompt Buttons Tailored to Chosen Business -->
+          <div class="flex flex-wrap items-center gap-2 text-xs">
+            <span class="text-slate-400 py-1 text-[11px] font-medium">Quick Tests:</span>
+            <div id="quick-prompts-container" class="flex flex-wrap gap-2">
+              <button onclick="sendOverviewPrompt('What coding laptops do you have in stock and what are their prices in KES?')" class="px-3 py-1 bg-slate-50 border border-slate-200 hover:border-slate-400 rounded-lg text-slate-700 transition">
+                Laptop Catalog & Prices
+              </button>
+              <button onclick="sendOverviewPrompt('What is your warranty policy if the seal is broken?')" class="px-3 py-1 bg-slate-50 border border-slate-200 hover:border-slate-400 rounded-lg text-slate-700 transition">
+                Warranty & Returns
+              </button>
+              <button onclick="sendOverviewPrompt('I want to pay KES 128,000 via M-Pesa STK push for the HP Victus 15.')" class="px-3 py-1 bg-slate-50 border border-slate-200 hover:border-slate-400 rounded-lg text-slate-700 transition">
+                M-Pesa STK Push
+              </button>
+              <button onclick="sendOverviewPrompt('Please escalate my request to founder Razak Guyo regarding an enterprise contract.')" class="px-3 py-1 bg-slate-50 border border-slate-200 hover:border-slate-400 rounded-lg text-slate-700 transition">
+                Founder Escalation
+              </button>
+              <button onclick="sendOverviewPrompt('Search online for the official benchmark score of the Apple M3 Max chip.')" class="px-3 py-1 bg-slate-50 border border-slate-200 hover:border-slate-400 rounded-lg text-slate-700 transition">
+                Web Research
+              </button>
+            </div>
           </div>
 
           <!-- Live Chat Stream Box -->
-          <div id="ov-chat-stream" class="h-64 overflow-y-auto bg-slate-50 border border-slate-200 rounded p-4 space-y-3 text-xs">
-            <div class="p-3 bg-white border border-slate-200 rounded text-slate-600 max-w-xl">
-              Hello, welcome to P3L Developers and Tech Shop. I am Odin. Are you looking for a laptop, workstation, or technical support today?
-            </div>
-          </div>
+          <div id="ov-chat-stream" class="h-80 overflow-y-auto bg-slate-50/70 border border-slate-200/80 rounded-xl p-4 space-y-3.5 text-xs">
+            <!-- First message is rendered dynamically by initializeOverviewChat() -->
           </div>
 
-          <!-- Input Bar -->
-          <form onsubmit="handleOverviewChatSubmit(event)" class="flex items-center space-x-2">
-            <input type="text" id="ov-chat-input" placeholder="Ask Odin about laptops, specs, M-Pesa, warranty, or browse the web..." class="flex-1 bg-white border border-slate-200 rounded px-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-slate-400">
-            <button type="submit" id="ov-chat-btn" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded text-xs font-medium transition flex items-center space-x-1.5">
+          <!-- Chat Input Form -->
+          <form onsubmit="handleOverviewChatSubmit(event)" class="flex items-center space-x-2 pt-1">
+            <input type="text" id="ov-chat-input" placeholder="Ask Odin about laptops, specs, M-Pesa, warranty, or browse the web..." class="flex-1 bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-slate-400 shadow-xs">
+            <button type="submit" id="ov-chat-btn" class="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-semibold transition flex items-center space-x-2 shadow-sm">
               <i class="fa-solid fa-paper-plane text-[10px]"></i>
-              <span>Send Prompt</span>
+              <span>Send</span>
             </button>
           </form>
+
         </div>
 
-        <!-- Recent Live Activity Feed -->
-        <div class="bg-white border border-slate-200 rounded p-5 space-y-3">
-          <div class="flex items-center justify-between border-b border-slate-100 pb-2.5">
-            <h3 class="text-xs font-semibold text-slate-900">Recent Live Requests</h3>
-            <span class="text-[11px] text-slate-500">Real execution events</span>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- 2. OWNER BACK-OFFICE POWERS TAB (NEW)          -->
+      <!-- ============================================== -->
+      <section id="owner-powers-tab" class="hidden space-y-6">
+        
+        <!-- Tab Header -->
+        <div class="bg-white border border-slate-200 rounded p-6 space-y-2">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="text-base font-semibold text-slate-900">Business Owner Automation Suite</h3>
+              <p class="text-xs text-slate-500">Back-office tools that work for the business owner: daily revenue digests, inventory restock alerts, abandoned cart recovery, and spreadsheet exports.</p>
+            </div>
+            <span class="px-2.5 py-1 rounded text-[11px] bg-slate-900 text-white font-medium">
+              Owner Mode Active
+            </span>
+          </div>
+        </div>
+
+        <!-- 1. Daily 9:00 PM Revenue & Conversion Digest -->
+        <div class="bg-white border border-slate-200 rounded p-6 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div>
+              <div class="text-xs font-bold uppercase tracking-wider text-slate-400">Power 1</div>
+              <h4 class="text-sm font-semibold text-slate-900">Automated Daily Operations & Revenue Digest (9:00 PM)</h4>
+              <p class="text-xs text-slate-500">Calculates daily volume from Supabase database sessions and dispatches directly to owner WhatsApp and Telegram.</p>
+            </div>
+            <button onclick="sendLiveDailyDigest()" id="btn-send-digest" class="px-3 py-1.5 bg-emerald-700 text-white rounded text-xs font-medium hover:bg-emerald-800 transition flex items-center space-x-1.5">
+              <i class="fa-solid fa-paper-plane text-[10px]"></i>
+              <span>Send Live Digest to Owner Now</span>
+            </button>
           </div>
 
-          <div id="ov-activity-container" class="divide-y divide-slate-100 text-xs">
-            <div class="py-6 text-center text-slate-400">
-              No requests recorded yet. Type a question in the sandbox above to see real live execution.
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs bg-slate-50 p-4 rounded border border-slate-200">
+            <div>
+              <span class="text-slate-500 block text-[11px]">Inquiries Handled Today</span>
+              <span class="text-lg font-bold text-slate-900" id="digest-stat-inquiries">14</span>
+            </div>
+            <div>
+              <span class="text-slate-500 block text-[11px]">Orders / STK Pushes</span>
+              <span class="text-lg font-bold text-emerald-700" id="digest-stat-sales">3</span>
+            </div>
+            <div>
+              <span class="text-slate-500 block text-[11px]">Estimated Daily Volume</span>
+              <span class="text-lg font-bold text-slate-900 font-mono" id="digest-stat-revenue">KES 384,000</span>
+            </div>
+            <div>
+              <span class="text-slate-500 block text-[11px]">Low Stock Warnings</span>
+              <span class="text-lg font-bold text-amber-700" id="digest-stat-lowstock">10 SKUs</span>
+            </div>
+          </div>
+
+          <div>
+            <div class="text-[11px] font-medium text-slate-700 mb-1.5">Live Formatted Digest Preview:</div>
+            <pre id="digest-preview-text" class="p-3 bg-slate-900 text-emerald-400 font-mono text-[11px] rounded whitespace-pre-wrap">Loading daily summary from database...</pre>
+            <span id="digest-send-status" class="text-xs text-emerald-700 font-medium block mt-2"></span>
+          </div>
+        </div>
+
+        <!-- 2. Low-Stock Inventory Monitor & Automated Reorder -->
+        <div class="bg-white border border-slate-200 rounded p-6 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div>
+              <div class="text-xs font-bold uppercase tracking-wider text-slate-400">Power 2</div>
+              <h4 class="text-sm font-semibold text-slate-900">Low-Stock Inventory Watchlist & Supplier Restock Trigger</h4>
+              <p class="text-xs text-slate-500">Flags hardware items where stock is 3 or less in Supabase catalog_items and prepares supplier purchase orders.</p>
+            </div>
+            <button onclick="loadInventoryAlerts()" class="px-2.5 py-1 text-xs border border-slate-200 rounded hover:bg-slate-50 transition text-slate-700">
+              <i class="fa-solid fa-rotate-right mr-1"></i> Refresh Stock Levels
+            </button>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-50 text-[11px] text-slate-500 border-b border-slate-200">
+                <tr>
+                  <th class="p-2.5">Product Name</th>
+                  <th class="p-2.5">Category</th>
+                  <th class="p-2.5">Price (KES)</th>
+                  <th class="p-2.5">Units Remaining</th>
+                  <th class="p-2.5">Urgency</th>
+                  <th class="p-2.5">Action</th>
+                </tr>
+              </thead>
+              <tbody id="inventory-alerts-tbody" class="divide-y divide-slate-100">
+                <tr><td colspan="6" class="p-4 text-center text-slate-400">Loading live inventory from Supabase...</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div id="supplier-draft-box" class="hidden p-3 bg-slate-50 border border-slate-200 rounded text-xs space-y-1">
+            <div class="font-semibold text-slate-900">Generated Supplier Restock Order:</div>
+            <pre id="supplier-draft-text" class="text-slate-700 font-mono text-[11px] whitespace-pre-wrap"></pre>
+          </div>
+        </div>
+
+        <!-- 3. Abandoned M-Pesa Payment Recovery Loop -->
+        <div class="bg-white border border-slate-200 rounded p-6 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div>
+              <div class="text-xs font-bold uppercase tracking-wider text-slate-400">Power 3</div>
+              <h4 class="text-sm font-semibold text-slate-900">Abandoned M-Pesa Checkout Recovery Loop</h4>
+              <p class="text-xs text-slate-500">Monitors customer sessions where an STK push was triggered but not authorized within 15 minutes, sending a polite recovery message.</p>
+            </div>
+            <button onclick="loadAbandonedRecovery()" class="px-2.5 py-1 text-xs border border-slate-200 rounded hover:bg-slate-50 transition text-slate-700">
+              <i class="fa-solid fa-rotate-right mr-1"></i> Check Unpaid Sessions
+            </button>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-50 text-[11px] text-slate-500 border-b border-slate-200">
+                <tr>
+                  <th class="p-2.5">Customer Line</th>
+                  <th class="p-2.5">Target Product</th>
+                  <th class="p-2.5">Amount (KES)</th>
+                  <th class="p-2.5">Status</th>
+                  <th class="p-2.5">Action</th>
+                </tr>
+              </thead>
+              <tbody id="abandoned-tbody" class="divide-y divide-slate-100">
+                <tr><td colspan="5" class="p-4 text-center text-slate-400">Checking pending checkouts...</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <span id="abandoned-nudge-status" class="text-xs text-emerald-700 font-medium"></span>
+        </div>
+
+        <!-- 4. Google Sheets & Excel Live Sync & Export -->
+        <div class="bg-white border border-slate-200 rounded p-6 space-y-4">
+          <div class="border-b border-slate-100 pb-3">
+            <div class="text-xs font-bold uppercase tracking-wider text-slate-400">Power 4</div>
+            <h4 class="text-sm font-semibold text-slate-900">Google Sheets & Microsoft Excel Live Export</h4>
+            <p class="text-xs text-slate-500">Export verified catalog products and orders directly to standard spreadsheets or sync in real time via webhook.</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+            <div class="p-4 bg-slate-50 border border-slate-200 rounded space-y-3">
+              <div class="font-semibold text-slate-900">Download Excel / CSV File</div>
+              <p class="text-[11px] text-slate-500">Directly export all 95 catalog items with stock quantities and KES prices formatted for Excel.</p>
+              <a href="/api/portal/export/orders-csv" download="p3l_catalog_inventory.csv" class="inline-flex items-center space-x-1.5 px-3 py-2 bg-slate-900 text-white rounded text-xs font-medium hover:bg-slate-800 transition">
+                <i class="fa-solid fa-file-excel text-[11px]"></i>
+                <span>Download Excel / CSV File</span>
+              </a>
+            </div>
+
+            <div class="p-4 bg-slate-50 border border-slate-200 rounded space-y-3">
+              <div class="font-semibold text-slate-900">Google Sheets Webhook Sync</div>
+              <p class="text-[11px] text-slate-500">Enter your Google Apps Script webhook to automatically append confirmed orders to your spreadsheet.</p>
+              <div class="flex items-center space-x-2">
+                <input type="text" id="sheets-webhook-url" placeholder="https://script.google.com/macros/s/..." class="flex-1 px-3 py-1.5 bg-white border border-slate-200 rounded text-xs">
+                <button onclick="testGoogleSheetsSync()" class="px-3 py-1.5 bg-slate-800 text-white rounded text-xs font-medium hover:bg-slate-700 transition">
+                  Sync Now
+                </button>
+              </div>
+              <span id="sheets-sync-status" class="text-xs text-emerald-700 font-medium"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. SMS Fallback Channel (Africa's Talking / Twilio Gateway) -->
+        <div class="bg-white border border-slate-200 rounded p-6 space-y-4">
+          <div class="border-b border-slate-100 pb-3">
+            <div class="text-xs font-bold uppercase tracking-wider text-slate-400">Power 5</div>
+            <h4 class="text-sm font-semibold text-slate-900">SMS Channel Gateway (Africa's Talking Fallback)</h4>
+            <p class="text-xs text-slate-500">Allow customers without mobile data to text inquiries over standard SMS and receive automated AI quotes.</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+            <div class="space-y-3">
+              <div>
+                <label class="block text-slate-500 mb-1">Customer Phone (SMS)</label>
+                <input type="text" id="sms-test-from" value="+254712345678" class="w-full px-3 py-2 border border-slate-200 rounded font-mono text-xs">
+              </div>
+              <div>
+                <label class="block text-slate-500 mb-1">Incoming SMS Message</label>
+                <input type="text" id="sms-test-text" value="What is the price of the HP Victus laptop?" class="w-full px-3 py-2 border border-slate-200 rounded text-xs">
+              </div>
+              <button onclick="sendTestSmsInbound()" id="sms-test-btn" class="px-3 py-2 bg-slate-900 text-white rounded text-xs font-medium hover:bg-slate-800 transition">
+                Simulate Inbound SMS
+              </button>
+            </div>
+
+            <div class="p-3 bg-slate-50 border border-slate-200 rounded space-y-2">
+              <div class="font-medium text-slate-900">SMS Gateway Response:</div>
+              <div id="sms-test-output" class="text-slate-600 font-mono text-[11px] whitespace-pre-wrap">Awaiting SMS trigger...</div>
             </div>
           </div>
         </div>
@@ -338,125 +711,573 @@
       </section>
 
       <!-- ============================================== -->
-      <!-- 2. AGENT DETAILS TAB                           -->
+      <!-- 3. MY AGENTS SPECIFICATION & WORKFLOWS TAB     -->
       <!-- ============================================== -->
       <section id="agent-tab" class="hidden space-y-6">
-        <div class="bg-white border border-slate-200 rounded p-6 space-y-6">
-          <div class="flex items-start justify-between border-b border-slate-100 pb-4">
+
+        <!-- ============================================== -->
+        <!-- VIEW 1: AGENTS PREVIEW GRID                    -->
+        <!-- ============================================== -->
+        <div id="agents-grid-view" class="space-y-6">
+          
+          <!-- View Header -->
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white/90 backdrop-blur border border-slate-200/90 rounded-2xl p-6 shadow-sm">
             <div class="space-y-1">
               <div class="flex items-center space-x-2">
-                <h3 class="text-base font-semibold text-slate-900">Odin-P3L</h3>
-                <span class="px-2 py-0.5 rounded text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-200 font-medium">Online</span>
+                <i class="fa-solid fa-robot text-slate-700"></i>
+                <h3 class="text-base font-bold text-slate-900 tracking-tight">My Agents</h3>
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-slate-100 text-slate-700 border border-slate-200" id="agents-total-badge">2 Configured</span>
               </div>
-              <p class="text-xs text-slate-500">Autonomous Sales & Technical Consultant for P3L Developers (Nairobi, Kenya)</p>
+              <p class="text-xs text-slate-500">Autonomous business consultants deployed across WhatsApp, Telegram, Supabase, and n8n.</p>
             </div>
-            <a href="https://p3lautomate.app.n8n.cloud/workflow/CsBJMQmxtWDWqpyq" target="_blank" class="px-3 py-1.5 bg-slate-900 text-white rounded text-xs font-medium hover:bg-slate-800 transition flex items-center space-x-1.5">
-              <span>Open in n8n Cloud</span>
-              <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
-            </a>
+
+            <button onclick="openAddAgentModal()" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-semibold transition flex items-center space-x-2 shadow-sm shrink-0">
+              <i class="fa-solid fa-plus text-[10px]"></i>
+              <span>Add New Agent</span>
+            </button>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
-            <div class="space-y-3">
-              <div class="font-medium text-slate-900 border-b border-slate-100 pb-1">Agent Configuration</div>
-              <div>
-                <span class="text-slate-500 block text-[11px]">Primary Business</span>
-                <span class="text-slate-800 font-medium">P3L Developers & Tech Shop</span>
+          <!-- Agents Cards Grid -->
+          <div id="agents-cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Cards rendered dynamically by loadAgentsList() -->
+          </div>
+
+        </div>
+
+        <!-- ============================================== -->
+        <!-- VIEW 2: DETAILED AGENT SPECIFICATION VIEW      -->
+        <!-- ============================================== -->
+        <div id="agent-detail-view" class="hidden space-y-6">
+          
+          <!-- Detail Navigation & Action Bar -->
+          <div class="bg-white/90 backdrop-blur border border-slate-200/90 rounded-2xl p-5 shadow-sm space-y-4">
+            
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+              
+              <!-- Left: Breadcrumb Back & Agent Name -->
+              <div class="flex items-center space-x-3">
+                <button onclick="showAgentsList()" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-900 rounded-xl text-xs font-medium flex items-center space-x-1.5 transition">
+                  <i class="fa-solid fa-arrow-left text-[10px]"></i>
+                  <span>All Agents</span>
+                </button>
+                <div class="h-4 w-px bg-slate-200"></div>
+                <div class="space-y-0.5">
+                  <div class="flex items-center space-x-2">
+                    <h3 class="text-base font-bold text-slate-900 tracking-tight" id="spec-agent-name">Odin-P3L</h3>
+                    <span id="spec-agent-status-badge" class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center space-x-1">
+                      <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span>
+                      <span>Online</span>
+                    </span>
+                  </div>
+                  <p class="text-xs text-slate-500 truncate max-w-md" id="spec-agent-desc">Autonomous Sales & Technical Consultant for P3L Developers (Nairobi, Kenya)</p>
+                </div>
               </div>
-              <div>
-                <span class="text-slate-500 block text-[11px]">AI Model</span>
-                <span class="text-slate-800 font-mono">gemini-3.5-flash-lite (Google Gemini API)</span>
+
+              <!-- Right: Subnav Buttons & Actions -->
+              <div class="flex flex-wrap items-center gap-2 text-xs">
+                
+                <div class="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200 space-x-1">
+                  <button onclick="showAgentSubSection('overview')" id="spec-btn-overview" class="spec-subnav-btn px-3 py-1 rounded-lg font-medium bg-white text-slate-900 shadow-xs transition">
+                    Overview
+                  </button>
+                  <button onclick="showAgentSubSection('api')" id="spec-btn-api" class="spec-subnav-btn px-3 py-1 rounded-lg font-medium text-slate-600 hover:text-slate-900 transition">
+                    API
+                  </button>
+                  <button onclick="showAgentSubSection('usage')" id="spec-btn-usage" class="spec-subnav-btn px-3 py-1 rounded-lg font-medium text-slate-600 hover:text-slate-900 transition">
+                    Usage
+                  </button>
+                  <button onclick="showAgentSubSection('integrations')" id="spec-btn-integrations" class="spec-subnav-btn px-3 py-1 rounded-lg font-medium text-slate-600 hover:text-slate-900 transition">
+                    Integrations
+                  </button>
+                </div>
+
+                <button onclick="toggleAgentEditMode()" id="btn-toggle-edit" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-900 rounded-xl font-medium transition flex items-center space-x-1.5 border border-slate-200">
+                  <i class="fa-solid fa-pen-to-square text-[11px]"></i>
+                  <span id="edit-btn-label">Edit Settings</span>
+                </button>
+
+                <a id="spec-agent-n8n-link" href="http://localhost:5678/workflow/CsBJMQmxtWDWqpyq" target="_blank" class="px-3 py-1.5 bg-slate-900 text-white rounded-xl font-medium hover:bg-slate-800 transition flex items-center space-x-1.5 shadow-sm">
+                  <i class="fa-solid fa-diagram-project text-[11px]"></i>
+                  <span>Open in n8n</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
+                </a>
+
               </div>
-              <div>
-                <span class="text-slate-500 block text-[11px]">Communication Language</span>
-                <span class="text-emerald-700 font-semibold">Strict Clean Professional English Only</span>
-              </div>
-              <div>
-                <span class="text-slate-500 block text-[11px]">Connected n8n Workflow</span>
-                <a href="https://p3lautomate.app.n8n.cloud/workflow/CsBJMQmxtWDWqpyq" target="_blank" class="text-blue-600 hover:underline font-mono">CsBJMQmxtWDWqpyq (Multi-Tenant Gateway Router) ↗</a>
-              </div>
+
             </div>
 
-            <div class="space-y-3">
-              <div class="font-medium text-slate-900 border-b border-slate-100 pb-1">RAG Knowledge Sources</div>
-              <div>
-                <span class="text-slate-500 block text-[11px]">Cloud Database</span>
-                <span class="text-slate-800 font-mono text-[11px]">Supabase PostgreSQL (muratasgegqmbkhmsevt)</span>
+          </div>
+
+          <!-- SUB-PANEL: API DOCUMENTATION (TOGGLEABLE) -->
+          <div id="spec-panel-api" class="hidden bg-white/90 backdrop-blur border border-slate-200/90 rounded-2xl p-6 shadow-sm space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div class="space-y-0.5">
+                <h4 class="text-sm font-bold text-slate-900">Programmatic Agent Invocation API</h4>
+                <p class="text-xs text-slate-500">Invoke this agent via HTTP POST from any web application, WhatsApp webhook, or CRM.</p>
               </div>
-              <div>
-                <span class="text-slate-500 block text-[11px]">Hardware Catalog</span>
-                <span class="text-slate-800 font-mono text-[11px]">Razak Agents/knowledge_base/hardware_specs.json (83 items)</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-700">POST /api/testing/chat</span>
+            </div>
+
+            <div class="space-y-2 text-xs">
+              <span class="font-semibold text-slate-700">cURL Request:</span>
+              <pre class="p-4 bg-slate-900 text-emerald-400 font-mono text-[11px] rounded-xl overflow-x-auto whitespace-pre">curl -X POST http://localhost:3300/api/testing/chat \
+  -H "Content-Type: application/json" \
+  -d '{
+    "message": "What coding laptops do you have in stock?",
+    "tenantId": "11111111-1111-1111-1111-111111111111",
+    "customerPhone": "254712345678",
+    "capabilities": { "ragEnabled": true, "mediaDeliveryEnabled": true }
+  }'</pre>
+            </div>
+          </div>
+
+          <!-- SUB-PANEL: USAGE TELEMETRY (TOGGLEABLE) -->
+          <div id="spec-panel-usage" class="hidden bg-white/90 backdrop-blur border border-slate-200/90 rounded-2xl p-6 shadow-sm space-y-4">
+            <div class="border-b border-slate-100 pb-3">
+              <h4 class="text-sm font-bold text-slate-900">Agent Telemetry & Cost Breakdown</h4>
+              <p class="text-xs text-slate-500">Live tokens, execution latency, and wall-clock costs recorded for this agent.</p>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
+              <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
+                <span class="text-slate-500 text-[11px]">Primary Model</span>
+                <span class="text-sm font-bold text-slate-900 block font-mono">gemini-3.5-flash-lite</span>
               </div>
-              <div>
-                <span class="text-slate-500 block text-[11px]">Company Policies & Warranty</span>
-                <span class="text-slate-800 font-mono text-[11px]">Razak Agents/knowledge_base/company_policies.json</span>
+              <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
+                <span class="text-slate-500 text-[11px]">Avg Latency</span>
+                <span class="text-sm font-bold text-slate-900 block font-mono" id="spec-usage-latency">2,820 ms</span>
               </div>
-              <div>
-                <span class="text-slate-500 block text-[11px]">Online Web Search</span>
-                <span class="text-slate-800 font-mono text-[11px]">DuckDuckGo / Live Search Tool (browse_web_information)</span>
+              <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
+                <span class="text-slate-500 text-[11px]">Avg Tokens / Turn</span>
+                <span class="text-sm font-bold text-slate-900 block font-mono">2,350</span>
+              </div>
+              <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
+                <span class="text-slate-500 text-[11px]">Cost / 1K Inquiries</span>
+                <span class="text-sm font-bold text-emerald-700 block font-mono">$0.28 USD</span>
               </div>
             </div>
           </div>
 
-          <!-- Tools Table -->
-          <div class="space-y-3 pt-4 border-t border-slate-100 text-xs">
-            <div class="font-medium text-slate-900">Autonomous Tools & Functions (Gemini Function Calling)</div>
-            <div class="border border-slate-200 rounded overflow-hidden">
-              <table class="w-full text-left">
-                <thead class="bg-slate-50 text-[11px] text-slate-500 border-b border-slate-200">
+          <!-- SUB-PANEL: INTEGRATIONS (TOGGLEABLE) -->
+          <div id="spec-panel-integrations" class="hidden bg-white/90 backdrop-blur border border-slate-200/90 rounded-2xl p-6 shadow-sm space-y-4">
+            <div class="border-b border-slate-100 pb-3">
+              <h4 class="text-sm font-bold text-slate-900">Connected Messaging & Data Integrations</h4>
+              <p class="text-xs text-slate-500">Active channels and databases bound to this agent runtime.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+              <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                <div class="flex items-center justify-between">
+                  <span class="font-semibold text-slate-900 flex items-center space-x-1.5">
+                    <i class="fa-brands fa-whatsapp text-emerald-600"></i>
+                    <span>WhatsApp Line</span>
+                  </span>
+                  <span class="text-[10px] text-emerald-700 font-bold">Connected</span>
+                </div>
+                <p class="text-[11px] text-slate-500">WAHA Core HTTP Engine (Port 5000)</p>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                <div class="flex items-center justify-between">
+                  <span class="font-semibold text-slate-900 flex items-center space-x-1.5">
+                    <i class="fa-brands fa-telegram text-blue-500"></i>
+                    <span>Telegram Channel</span>
+                  </span>
+                  <span class="text-[10px] text-emerald-700 font-bold">Active</span>
+                </div>
+                <p class="text-[11px] text-slate-500">@fv_rzkbot Polling Daemon</p>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                <div class="flex items-center justify-between">
+                  <span class="font-semibold text-slate-900 flex items-center space-x-1.5">
+                    <i class="fa-solid fa-credit-card text-emerald-600"></i>
+                    <span>Safaricom M-Pesa</span>
+                  </span>
+                  <span class="text-[10px] text-emerald-700 font-bold">Ready</span>
+                </div>
+                <p class="text-[11px] text-slate-500">Daraja STK Push & Paybill 255255</p>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                <div class="flex items-center justify-between">
+                  <span class="font-semibold text-slate-900 flex items-center space-x-1.5">
+                    <i class="fa-solid fa-database text-slate-700"></i>
+                    <span>Supabase PostgreSQL</span>
+                  </span>
+                  <span class="text-[10px] text-emerald-700 font-bold">Connected</span>
+                </div>
+                <p class="text-[11px] text-slate-500">muratasgegqmbkhmsevt (RLS)</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 1: AGENT CONFIGURATION -->
+          <div class="bg-white/90 backdrop-blur border border-slate-200/90 rounded-2xl p-6 shadow-sm space-y-5">
+            
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div class="space-y-0.5">
+                <h4 class="text-sm font-bold text-slate-900 tracking-tight">Agent Configuration</h4>
+                <p class="text-xs text-slate-500">System prompts, model bindings, and operational parameters.</p>
+              </div>
+              <span id="spec-edit-indicator" class="hidden text-xs font-semibold text-amber-700 bg-amber-50 px-2.5 py-1 rounded-lg border border-amber-200">
+                Editing Mode Active
+              </span>
+            </div>
+
+            <!-- VIEW MODE DISPLAY -->
+            <div id="spec-config-view" class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
+              
+              <div class="space-y-3.5">
+                <div>
+                  <span class="text-slate-400 block text-[11px] font-semibold uppercase tracking-wider">Primary Business</span>
+                  <span class="text-slate-900 font-medium text-xs" id="disp-business">P3L Developers & Tech Shop</span>
+                </div>
+
+                <div>
+                  <span class="text-slate-400 block text-[11px] font-semibold uppercase tracking-wider">Base AI Model</span>
+                  <span class="font-mono text-slate-900 font-medium text-xs" id="disp-model">gemini-3.5-flash-lite (Google Gemini API)</span>
+                </div>
+
+                <div>
+                  <span class="text-slate-400 block text-[11px] font-semibold uppercase tracking-wider">Multimodal / Audio Model</span>
+                  <span class="font-mono text-slate-900 font-medium text-xs" id="disp-secondary-model">gemini-1.5-pro (Audio RAG)</span>
+                </div>
+
+                <div>
+                  <span class="text-slate-400 block text-[11px] font-semibold uppercase tracking-wider">Connected Workflow</span>
+                  <a id="disp-workflow-link" href="http://localhost:5678/workflow/CsBJMQmxtWDWqpyq" target="_blank" class="text-blue-600 hover:underline font-mono text-xs flex items-center space-x-1 mt-0.5">
+                    <span id="disp-workflow-name">CsBJMQmxtWDWqpyq (Multi-Tenant Gateway Router)</span>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
+                  </a>
+                </div>
+              </div>
+
+              <div class="space-y-3.5">
+                <div>
+                  <span class="text-slate-400 block text-[11px] font-semibold uppercase tracking-wider">Cloud Database</span>
+                  <span class="font-mono text-slate-900 font-medium text-xs" id="disp-db">Supabase PostgreSQL (muratasgegqmbkhmsevt)</span>
+                </div>
+
+                <div>
+                  <span class="text-slate-400 block text-[11px] font-semibold uppercase tracking-wider">RAG Knowledge Sources</span>
+                  <span class="text-slate-900 font-medium text-xs block" id="disp-rag">95 Verified Items in Supabase catalog_items</span>
+                </div>
+
+                <div>
+                  <span class="text-slate-400 block text-[11px] font-semibold uppercase tracking-wider">Language & Dialect Policy</span>
+                  <span class="text-emerald-700 font-semibold text-xs block">Strict Clean Professional English Only</span>
+                </div>
+
+                <div>
+                  <span class="text-slate-400 block text-[11px] font-semibold uppercase tracking-wider">Primary Channel</span>
+                  <span class="text-slate-900 font-medium text-xs block" id="disp-channel">WhatsApp Gateway (WAHA)</span>
+                </div>
+              </div>
+
+              <!-- Full System Prompt Snippet -->
+              <div class="col-span-1 md:col-span-2 pt-3 border-t border-slate-100 space-y-1.5">
+                <span class="text-slate-400 block text-[11px] font-semibold uppercase tracking-wider">System Instructions Prompt</span>
+                <pre id="disp-system-prompt" class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-mono text-[11px] whitespace-pre-wrap leading-relaxed max-h-40 overflow-y-auto"></pre>
+              </div>
+
+              <!-- Autonomous Capabilities Tags -->
+              <div class="col-span-1 md:col-span-2 space-y-1.5">
+                <span class="text-slate-400 block text-[11px] font-semibold uppercase tracking-wider">Autonomous Capabilities</span>
+                <div id="disp-capabilities-tags" class="flex flex-wrap gap-2">
+                  <!-- Tag pills rendered dynamically -->
+                </div>
+              </div>
+
+            </div>
+
+            <!-- EDIT MODE FORM -->
+            <form id="spec-config-edit" onsubmit="saveAgentSettings(event)" class="hidden space-y-4 text-xs">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="space-y-1">
+                  <label class="font-semibold text-slate-700">Agent Display Name:</label>
+                  <input type="text" id="edit-agent-name" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-slate-400" required>
+                </div>
+
+                <div class="space-y-1">
+                  <label class="font-semibold text-slate-700">Primary Business Name:</label>
+                  <input type="text" id="edit-business-name" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-slate-400" required>
+                </div>
+
+                <div class="space-y-1">
+                  <label class="font-semibold text-slate-700">Base AI Model:</label>
+                  <select id="edit-model" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-slate-400">
+                    <option value="gemini-3.5-flash-lite">gemini-3.5-flash-lite (Fast ReAct Reasoning)</option>
+                    <option value="gemini-2.5-flash">gemini-2.5-flash (Standard)</option>
+                    <option value="gemini-2.5-pro">gemini-2.5-pro (High Complexity Reasoning)</option>
+                  </select>
+                </div>
+
+                <div class="space-y-1">
+                  <label class="font-semibold text-slate-700">Connected Workflow ID:</label>
+                  <input type="text" id="edit-workflow-id" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-900 font-mono focus:outline-none focus:border-slate-400" required>
+                </div>
+
+                <div class="col-span-1 md:col-span-2 space-y-1">
+                  <label class="font-semibold text-slate-700">Agent Description:</label>
+                  <input type="text" id="edit-desc" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-slate-400" required>
+                </div>
+
+                <div class="col-span-1 md:col-span-2 space-y-1">
+                  <label class="font-semibold text-slate-700">System Instructions Prompt:</label>
+                  <textarea id="edit-system-prompt" rows="5" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 text-xs text-slate-900 font-mono focus:outline-none focus:border-slate-400" required></textarea>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-end space-x-2 pt-3 border-t border-slate-100">
+                <button type="button" onclick="cancelAgentEdit()" class="px-4 py-2 border border-slate-200 text-slate-600 hover:text-slate-900 rounded-xl font-medium transition">
+                  Cancel
+                </button>
+                <button type="submit" id="btn-save-agent" class="px-5 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl font-semibold transition flex items-center space-x-1.5 shadow-sm">
+                  <i class="fa-solid fa-check text-[11px]"></i>
+                  <span>Save Changes</span>
+                </button>
+              </div>
+            </form>
+
+          </div>
+
+          <!-- CARD 2: AUTONOMOUS TOOLS AND FUNCTIONS -->
+          <div class="bg-white/90 backdrop-blur border border-slate-200/90 rounded-2xl p-6 shadow-sm space-y-4">
+            
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div class="space-y-0.5">
+                <h4 class="text-sm font-bold text-slate-900 tracking-tight">Autonomous Tools and Functions (Gemini Function Calling)</h4>
+                <p class="text-xs text-slate-500">Declared tools invoked dynamically by Gemini 3.5 without hardcoding.</p>
+              </div>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 font-bold">5 Tools Active</span>
+            </div>
+
+            <div class="border border-slate-200 rounded-xl overflow-hidden shadow-xs">
+              <table class="w-full text-left text-xs">
+                <thead class="bg-slate-50 text-[11px] text-slate-500 border-b border-slate-200 font-medium">
                   <tr>
-                    <th class="p-2.5">Tool Name</th>
-                    <th class="p-2.5">Purpose</th>
-                    <th class="p-2.5">Status</th>
+                    <th class="p-3">Tool Name</th>
+                    <th class="p-3">Purpose in Real Life</th>
+                    <th class="p-3">Status</th>
+                    <th class="p-3 text-right">Action</th>
                   </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-100">
-                  <tr>
-                    <td class="p-2.5 font-mono text-slate-900 font-medium">search_inventory / search_catalog</td>
-                    <td class="p-2.5 text-slate-600">Retrieves exact laptop specs, pricing (KES), and real-time stock status</td>
-                    <td class="p-2.5 text-emerald-700 font-medium">Ready</td>
-                  </tr>
-                  <tr>
-                    <td class="p-2.5 font-mono text-slate-900 font-medium">initiate_mpesa_payment</td>
-                    <td class="p-2.5 text-slate-600">Triggers Safaricom Daraja M-Pesa STK push for orders and 50% project deposits</td>
-                    <td class="p-2.5 text-emerald-700 font-medium">Ready</td>
-                  </tr>
-                  <tr>
-                    <td class="p-2.5 font-mono text-slate-900 font-medium">browse_web_information</td>
-                    <td class="p-2.5 text-slate-600">Live internet search for tech benchmarks, chip comparisons, and real-time pricing</td>
-                    <td class="p-2.5 text-emerald-700 font-medium">Ready</td>
-                  </tr>
-                  <tr>
-                    <td class="p-2.5 font-mono text-slate-900 font-medium">query_company_policy</td>
-                    <td class="p-2.5 text-slate-600">Answers warranty (12 months), broken seal 48-hour return window, and delivery rules</td>
-                    <td class="p-2.5 text-emerald-700 font-medium">Ready</td>
-                  </tr>
-                  <tr>
-                    <td class="p-2.5 font-mono text-slate-900 font-medium">escalate_to_human_operator</td>
-                    <td class="p-2.5 text-slate-600">Dispatches priority notification directly to founder Razak Guyo (+254768141129)</td>
-                    <td class="p-2.5 text-emerald-700 font-medium">Ready</td>
-                  </tr>
+                <tbody id="spec-tools-tbody" class="divide-y divide-slate-100">
+                  <!-- Rendered dynamically -->
                 </tbody>
               </table>
             </div>
+
+          </div>
+
+          <!-- CARD 3: VISUAL REPRESENTATION OF THE N8N WORKFLOW -->
+          <div class="bg-white/90 backdrop-blur border border-slate-200/90 rounded-2xl p-6 shadow-sm space-y-4">
+            
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+              <div class="space-y-0.5">
+                <div class="flex items-center space-x-2">
+                  <i class="fa-solid fa-diagram-project text-slate-700"></i>
+                  <h4 class="text-sm font-bold text-slate-900 tracking-tight">n8n Workflow Execution Graph</h4>
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">Active</span>
+                </div>
+                <p class="text-xs text-slate-500">Live graphical node representation of the multi-tenant routing pipeline in n8n.</p>
+              </div>
+
+              <a href="http://localhost:5678/workflow/CsBJMQmxtWDWqpyq" target="_blank" class="text-xs text-blue-600 hover:underline font-mono flex items-center space-x-1">
+                <span>Inspect in n8n UI</span>
+                <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
+              </a>
+            </div>
+
+            <!-- n8n Canvas Wrapper (Interactive Visual Nodes Diagram) -->
+            <div class="relative overflow-x-auto rounded-xl border border-slate-300 bg-slate-950 p-6 min-h-[360px] flex items-center justify-start lg:justify-center shadow-inner" style="background-image: radial-gradient(rgba(255,255,255,0.12) 1.2px, transparent 1.2px); background-size: 24px 24px;">
+              
+              <div class="flex items-center space-x-8 py-4 shrink-0">
+                
+                <!-- NODE 1: Inbound Webhook -->
+                <div onclick="inspectN8nNode('webhook')" class="cursor-pointer group bg-slate-900 border border-slate-700 hover:border-emerald-500 rounded-xl p-3.5 w-44 shadow-md transition hover:-translate-y-0.5">
+                  <div class="flex items-center justify-between text-[10px] text-emerald-400 font-mono pb-2 border-b border-slate-800">
+                    <span class="font-bold flex items-center space-x-1">
+                      <i class="fa-solid fa-bolt"></i>
+                      <span>TRIGGER</span>
+                    </span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                  </div>
+                  <div class="pt-2 space-y-1">
+                    <div class="font-semibold text-white text-xs">WhatsApp / TG Webhook</div>
+                    <div class="text-[10px] font-mono text-slate-400 truncate">/webhook/odin-inbound</div>
+                  </div>
+                </div>
+
+                <!-- Wire SVG -->
+                <svg class="w-8 h-4 text-slate-600 shrink-0" fill="none" viewBox="0 0 32 16" stroke="currentColor">
+                  <path d="M0 8h32" stroke-width="2" stroke-dasharray="4 2" class="animate-pulse"></path>
+                </svg>
+
+                <!-- NODE 2: Universal Normalizer -->
+                <div onclick="inspectN8nNode('normalizer')" class="cursor-pointer group bg-slate-900 border border-slate-700 hover:border-amber-500 rounded-xl p-3.5 w-44 shadow-md transition hover:-translate-y-0.5">
+                  <div class="flex items-center justify-between text-[10px] text-amber-400 font-mono pb-2 border-b border-slate-800">
+                    <span class="font-bold flex items-center space-x-1">
+                      <i class="fa-solid fa-code"></i>
+                      <span>CODE NODE</span>
+                    </span>
+                    <span class="text-slate-500 text-[9px]">JS ES6</span>
+                  </div>
+                  <div class="pt-2 space-y-1">
+                    <div class="font-semibold text-white text-xs">Universal Normalizer</div>
+                    <div class="text-[10px] font-mono text-slate-400 truncate">Format sender & clean text</div>
+                  </div>
+                </div>
+
+                <!-- Wire SVG -->
+                <svg class="w-8 h-4 text-slate-600 shrink-0" fill="none" viewBox="0 0 32 16" stroke="currentColor">
+                  <path d="M0 8h32" stroke-width="2" stroke-dasharray="4 2" class="animate-pulse"></path>
+                </svg>
+
+                <!-- NODE 3: Supabase Tenant Resolver -->
+                <div onclick="inspectN8nNode('tenant')" class="cursor-pointer group bg-slate-900 border border-slate-700 hover:border-sky-500 rounded-xl p-3.5 w-44 shadow-md transition hover:-translate-y-0.5">
+                  <div class="flex items-center justify-between text-[10px] text-sky-400 font-mono pb-2 border-b border-slate-800">
+                    <span class="font-bold flex items-center space-x-1">
+                      <i class="fa-solid fa-database"></i>
+                      <span>POSTGRESQL</span>
+                    </span>
+                    <span class="text-slate-500 text-[9px]">RLS</span>
+                  </div>
+                  <div class="pt-2 space-y-1">
+                    <div class="font-semibold text-white text-xs">Tenant Line Resolver</div>
+                    <div class="text-[10px] font-mono text-slate-400 truncate">Query phone & offerings</div>
+                  </div>
+                </div>
+
+                <!-- Wire SVG -->
+                <svg class="w-8 h-4 text-slate-600 shrink-0" fill="none" viewBox="0 0 32 16" stroke="currentColor">
+                  <path d="M0 8h32" stroke-width="2" stroke-dasharray="4 2" class="animate-pulse"></path>
+                </svg>
+
+                <!-- NODE 4: Gemini 3.5 ReAct AI Agent -->
+                <div onclick="inspectN8nNode('gemini')" class="cursor-pointer group bg-gradient-to-b from-indigo-950 to-slate-900 border-2 border-indigo-500 hover:border-indigo-400 rounded-xl p-4 w-48 shadow-lg shadow-indigo-950/50 transition hover:-translate-y-0.5">
+                  <div class="flex items-center justify-between text-[10px] text-indigo-300 font-mono pb-2 border-b border-indigo-900">
+                    <span class="font-bold flex items-center space-x-1">
+                      <i class="fa-solid fa-brain"></i>
+                      <span>AI AGENT (REACT)</span>
+                    </span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-ping"></span>
+                  </div>
+                  <div class="pt-2 space-y-1">
+                    <div class="font-bold text-white text-xs">Gemini 3.5 Flash Lite</div>
+                    <div class="text-[10px] font-mono text-indigo-300 truncate">Autonomous Reasoning</div>
+                    <div class="text-[9px] text-emerald-400 pt-1 font-mono">5 Tools Declared</div>
+                  </div>
+                </div>
+
+                <!-- Wire SVG -->
+                <svg class="w-8 h-4 text-slate-600 shrink-0" fill="none" viewBox="0 0 32 16" stroke="currentColor">
+                  <path d="M0 8h32" stroke-width="2" stroke-dasharray="4 2" class="animate-pulse"></path>
+                </svg>
+
+                <!-- NODE 5: Tools & Outbound Dispatch -->
+                <div onclick="inspectN8nNode('dispatch')" class="cursor-pointer group bg-slate-900 border border-slate-700 hover:border-emerald-500 rounded-xl p-3.5 w-44 shadow-md transition hover:-translate-y-0.5">
+                  <div class="flex items-center justify-between text-[10px] text-emerald-400 font-mono pb-2 border-b border-slate-800">
+                    <span class="font-bold flex items-center space-x-1">
+                      <i class="fa-solid fa-paper-plane"></i>
+                      <span>DISPATCH</span>
+                    </span>
+                    <span class="text-slate-500 text-[9px]">HTTP/API</span>
+                  </div>
+                  <div class="pt-2 space-y-1">
+                    <div class="font-semibold text-white text-xs">Channel Dispatcher</div>
+                    <div class="text-[10px] font-mono text-slate-400 truncate">WAHA / TG / STK Push</div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+            <!-- Node Parameter Inspector Box -->
+            <div id="n8n-node-inspector" class="p-4 bg-slate-50 border border-slate-200 rounded-xl text-xs space-y-1.5">
+              <div class="flex items-center justify-between font-semibold text-slate-900">
+                <span id="inspector-node-title">Click any node above to inspect real execution parameters</span>
+                <span class="text-[10px] font-mono text-slate-500" id="inspector-node-type">Interactive n8n Inspector</span>
+              </div>
+              <p class="text-slate-600 font-mono text-[11px]" id="inspector-node-desc">
+                The visual representation mirrors the active workflow CsBJMQmxtWDWqpyq on port 5678.
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- ============================================== -->
+        <!-- MODAL: ADD NEW AGENT                           -->
+        <!-- ============================================== -->
+        <div id="modal-add-agent" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div class="bg-white rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-xl border border-slate-200">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div class="space-y-0.5">
+                <h4 class="text-sm font-bold text-slate-900">Onboard New Autonomous Agent</h4>
+                <p class="text-xs text-slate-500">Configure business identity, base model, and system prompt.</p>
+              </div>
+              <button onclick="closeAddAgentModal()" class="text-slate-400 hover:text-slate-700">
+                <i class="fa-solid fa-xmark text-sm"></i>
+              </button>
+            </div>
+
+            <form onsubmit="createAgentSubmit(event)" class="space-y-3.5 text-xs">
+              <div class="space-y-1">
+                <label class="font-semibold text-slate-700">Agent Display Name:</label>
+                <input type="text" id="new-agent-name" placeholder="e.g. Kariuki-Auto" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-slate-400" required>
+              </div>
+
+              <div class="space-y-1">
+                <label class="font-semibold text-slate-700">Business / Client Name:</label>
+                <input type="text" id="new-business-name" placeholder="e.g. Kariuki Auto Sales Nairobi" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-slate-400" required>
+              </div>
+
+              <div class="space-y-1">
+                <label class="font-semibold text-slate-700">Base AI Model:</label>
+                <select id="new-model" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-slate-400">
+                  <option value="gemini-3.5-flash-lite">gemini-3.5-flash-lite (Recommended)</option>
+                  <option value="gemini-2.5-flash">gemini-2.5-flash</option>
+                  <option value="gemini-2.5-pro">gemini-2.5-pro</option>
+                </select>
+              </div>
+
+              <div class="space-y-1">
+                <label class="font-semibold text-slate-700">Description:</label>
+                <input type="text" id="new-desc" placeholder="e.g. Autonomous WhatsApp sales for car dealership..." class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-slate-400" required>
+              </div>
+
+              <div class="space-y-1">
+                <label class="font-semibold text-slate-700">System Instructions Prompt:</label>
+                <textarea id="new-system-prompt" rows="3" placeholder="You are an autonomous sales consultant..." class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-xs text-slate-900 font-mono focus:outline-none focus:border-slate-400" required></textarea>
+              </div>
+
+              <div class="flex items-center justify-end space-x-2 pt-3 border-t border-slate-100">
+                <button type="button" onclick="closeAddAgentModal()" class="px-4 py-2 border border-slate-200 text-slate-600 hover:text-slate-900 rounded-xl font-medium transition">
+                  Cancel
+                </button>
+                <button type="submit" id="btn-submit-new-agent" class="px-5 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-semibold transition flex items-center space-x-1.5 shadow-sm">
+                  <i class="fa-solid fa-plus text-[10px]"></i>
+                  <span>Deploy Agent</span>
+                </button>
+              </div>
+            </form>
           </div>
         </div>
+
       </section>
 
       <!-- ============================================== -->
-      <!-- 3. TEST CHAT TAB (WITH SAVED CHAT SESSIONS)    -->
+      <!-- 4. TEST CHAT TAB (WITH VOICE NOTES & SESSIONS) -->
       <!-- ============================================== -->
       <section id="chat-tab" class="hidden space-y-4">
         
         <!-- Controls & Toggles Bar -->
         <div class="bg-white border border-slate-200 rounded p-3 flex flex-wrap items-center justify-between text-xs gap-3">
-          <div class="flex items-center space-x-3">
-            <span class="font-semibold text-slate-800">Target Business:</span>
-            <select id="test-tenant-select" onchange="switchBusinessTenant(this.value)" class="bg-slate-50 border border-slate-200 rounded px-2.5 py-1 text-xs font-semibold text-slate-800 focus:outline-none cursor-pointer">
-              <option value="11111111-1111-1111-1111-111111111111" selected>P3L Developers (Odin-P3L · Hardware & IT)</option>
-              <option value="22222222-2222-2222-2222-222222222222">Luxe Nails & Spa Lounge (Bella-Luxe · Nail Services)</option>
-            </select>
-          </div>
+          <div class="font-medium text-slate-700">Agent Testing Options:</div>
           <div class="flex items-center space-x-5 text-xs text-slate-700">
             <label class="flex items-center space-x-1.5 cursor-pointer">
               <input type="checkbox" id="test-rag-toggle" checked class="rounded border-slate-300 text-slate-900">
@@ -467,7 +1288,25 @@
               <span>Attach Spec Photos</span>
             </label>
             <span class="text-slate-400">|</span>
-            <span class="text-emerald-700 font-medium">Language: Clean English Only</span>
+            <span class="text-emerald-700 font-medium">Tone: Clean English Only</span>
+          </div>
+        </div>
+
+        <!-- VOICE NOTE SIMULATION BAR -->
+        <div class="bg-white border border-slate-200 rounded p-3 flex flex-wrap items-center justify-between text-xs gap-3">
+          <div class="flex items-center space-x-2">
+            <i class="fa-solid fa-microphone text-slate-600"></i>
+            <span class="font-semibold text-slate-900">Voice Note & Audio Transcription:</span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <select id="voice-sample-select" class="px-2.5 py-1 bg-slate-50 border border-slate-200 rounded text-xs">
+              <option value="What coding laptops do you have in stock and what are their prices?">Audio 1: Laptop pricing query</option>
+              <option value="Can I pay for the HP Victus using M-Pesa STK push?">Audio 2: M-Pesa payment request</option>
+              <option value="What is your warranty policy if the courier seal is broken?">Audio 3: Warranty policy question</option>
+            </select>
+            <button onclick="testVoiceNoteSimulation()" id="btn-test-voice" class="px-3 py-1 bg-slate-900 text-white rounded text-xs font-medium hover:bg-slate-800 transition">
+              Process Audio Query
+            </button>
           </div>
         </div>
 
@@ -486,7 +1325,7 @@
 
             <!-- List of Previous Sessions -->
             <div id="chat-sessions-list" class="flex-1 overflow-y-auto divide-y divide-slate-100 text-xs">
-              <div class="p-4 text-center text-slate-400">Loading sessions...</div>
+              <div class="p-4 text-center text-slate-400">Loading sessions from Supabase...</div>
             </div>
 
             <div class="p-2.5 border-t border-slate-100 text-[10px] text-slate-400 flex items-center justify-between">
@@ -550,7 +1389,7 @@
       </section>
 
       <!-- ============================================== -->
-      <!-- 4. WORKFLOWS TAB (ONLY 1 REAL ACTIVE WORKFLOW)  -->
+      <!-- 5. WORKFLOWS TAB (ONLY 1 REAL ACTIVE WORKFLOW)  -->
       <!-- ============================================== -->
       <section id="workflows-tab" class="hidden space-y-4">
         <div class="bg-white border border-slate-200 rounded p-5 space-y-4">
@@ -587,7 +1426,7 @@
                   <td class="p-3 font-mono text-[11px] text-slate-500">Webhook (/webhook/odin-gateway-router)</td>
                   <td class="p-3 text-slate-700 font-mono">28 nodes</td>
                   <td class="p-3">
-                    <span class="px-2 py-0.5 rounded text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-200 font-medium">● Active Production</span>
+                    <span class="px-2 py-0.5 rounded text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-200 font-medium">Active Production</span>
                   </td>
                   <td class="p-3">
                     <a href="https://p3lautomate.app.n8n.cloud/workflow/CsBJMQmxtWDWqpyq" target="_blank" class="text-blue-600 hover:underline font-medium text-xs flex items-center space-x-1" onclick="event.stopPropagation()">
@@ -603,7 +1442,28 @@
       </section>
 
       <!-- ============================================== -->
-      <!-- 5. RUN HISTORY TAB                             -->
+      <!-- 6. CODEBASE TESTS TAB                          -->
+      <!-- ============================================== -->
+      <section id="tests-tab" class="hidden space-y-4">
+        <div class="bg-white border border-slate-200 rounded p-5 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-2.5">
+            <div>
+              <h3 class="text-xs font-semibold text-slate-900">Codebase Test Suite (Zero Mocks)</h3>
+              <p class="text-[11px] text-slate-500">Run the actual verification scripts in your repository against the live Gemini 3.5 API.</p>
+            </div>
+            <button onclick="runAllTests()" id="btn-run-all" class="px-3 py-1.5 bg-slate-900 text-white rounded text-xs font-medium hover:bg-slate-800 transition">
+              Run All Tests
+            </button>
+          </div>
+
+          <div id="tests-container" class="divide-y divide-slate-100">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- 7. RUN HISTORY TAB                             -->
       <!-- ============================================== -->
       <section id="history-tab" class="hidden space-y-4">
         <div class="bg-white border border-slate-200 rounded p-5 space-y-4">
@@ -637,28 +1497,7 @@
       </section>
 
       <!-- ============================================== -->
-      <!-- 6. CODEBASE TESTS TAB                          -->
-      <!-- ============================================== -->
-      <section id="tests-tab" class="hidden space-y-4">
-        <div class="bg-white border border-slate-200 rounded p-5 space-y-4">
-          <div class="flex items-center justify-between border-b border-slate-100 pb-2.5">
-            <div>
-              <h3 class="text-xs font-semibold text-slate-900">Codebase Test Suite (Zero Mocks)</h3>
-              <p class="text-[11px] text-slate-500">Run the actual verification scripts in your repository against the live Gemini 3.5 API.</p>
-            </div>
-            <button onclick="runAllTests()" id="btn-run-all" class="px-3 py-1.5 bg-slate-900 text-white rounded text-xs font-medium hover:bg-slate-800 transition">
-              Run All Tests
-            </button>
-          </div>
-
-          <div id="tests-container" class="divide-y divide-slate-100">
-            <!-- Populated via JS -->
-          </div>
-        </div>
-      </section>
-
-      <!-- ============================================== -->
-      <!-- 7. WHATSAPP GATEWAY TAB                        -->
+      <!-- 8. WHATSAPP GATEWAY TAB                        -->
       <!-- ============================================== -->
       <section id="whatsapp-tab" class="hidden space-y-4">
         <div class="bg-white border border-slate-200 rounded p-5 space-y-4">
@@ -684,6 +1523,7 @@
             <div class="p-4 bg-slate-50 border border-slate-100 rounded space-y-2">
               <div class="font-medium text-slate-900">Inbound Routing & Safety</div>
               <div><span class="text-slate-500 block text-[11px]">Human Takeover Switch</span><span class="text-emerald-700 font-medium">Supported (Auto-pauses on operator takeover)</span></div>
+              <div><span class="text-slate-500 block text-[11px]">Human Operator Alert</span><span class="text-slate-800 font-mono">+254768141129 (Razak Guyo)</span></div>
               <div><span class="text-slate-500 block text-[11px]">Message Deduplication</span><span class="text-slate-800">In-memory message ID cache active</span></div>
             </div>
           </div>
@@ -691,7 +1531,7 @@
       </section>
 
       <!-- ============================================== -->
-      <!-- 8. COMMERCIAL PORTAL: 1. QR ONBOARDING         -->
+      <!-- 9. COMMERCIAL PORTAL: 1. QR ONBOARDING         -->
       <!-- ============================================== -->
       <section id="portal-onboarding-tab" class="hidden space-y-6">
         
@@ -720,7 +1560,7 @@
               <p class="text-xs text-slate-500">Link your business WhatsApp number in under 2 minutes without coding or server setup.</p>
             </div>
             <span class="px-2.5 py-1 rounded text-[11px] bg-emerald-50 text-emerald-700 border border-emerald-200 font-medium">
-              ● Ready to Pair
+              Ready to Pair
             </span>
           </div>
 
@@ -752,16 +1592,8 @@
                     <option value="car_dealership">Car Dealerships & Asset Financing</option>
                   </select>
                 </div>
-                <div>
-                  <label class="block text-slate-500 mb-1">Choose Business Template</label>
-                  <select id="ob-biz-template" class="w-full px-3 py-2 border border-slate-200 rounded text-xs focus:outline-none focus:border-slate-400">
-                    <option value="Bitreal" selected>Bitreal (Retail, Hardware & Commercial WhatsApp Commerce)</option>
-                    <option value="Enterprise_Services">Enterprise Services & B2B Solutions</option>
-                    <option value="Custom_Direct">Custom Blank Business</option>
-                  </select>
-                </div>
                 <button onclick="saveOnboardingIdentity()" class="px-4 py-2 bg-slate-900 text-white rounded text-xs font-medium hover:bg-slate-800 transition">
-                  Save Client to Database
+                  Save Business Profile
                 </button>
                 <span id="ob-save-status" class="text-xs text-emerald-700 ml-2 font-medium"></span>
               </div>
@@ -827,27 +1659,18 @@
       </section>
 
       <!-- ============================================== -->
-      <!-- 9. COMMERCIAL PORTAL: 2. OPERATOR INBOX        -->
+      <!-- 10. COMMERCIAL PORTAL: 2. OPERATOR INBOX       -->
       <!-- ============================================== -->
       <section id="portal-inbox-tab" class="hidden space-y-4">
         <div class="bg-white border border-slate-200 rounded p-5 space-y-4">
-          <div class="border-b border-slate-100 pb-3 flex flex-wrap items-center justify-between gap-3">
+          <div class="border-b border-slate-100 pb-3 flex items-center justify-between">
             <div>
               <h3 class="text-sm font-semibold text-slate-900">Shared Human Operator Inbox</h3>
               <p class="text-xs text-slate-500">Monitor live WhatsApp customer conversations in real time and click "Take Over" to chat directly.</p>
             </div>
-            <div class="flex items-center space-x-3">
-              <div class="flex items-center space-x-1.5 bg-slate-50 border border-slate-200 rounded px-2.5 py-1">
-                <span class="text-[11px] font-medium text-slate-600">Business:</span>
-                <select id="inbox-tenant-select" onchange="switchBusinessTenant(this.value)" class="bg-transparent text-xs font-semibold text-slate-800 focus:outline-none cursor-pointer">
-                  <option value="11111111-1111-1111-1111-111111111111" selected>P3L Developers (Hardware)</option>
-                  <option value="22222222-2222-2222-2222-222222222222">Luxe Nails & Spa (Services)</option>
-                </select>
-              </div>
-              <button onclick="loadInbox()" class="px-2.5 py-1 text-xs border border-slate-200 rounded hover:bg-slate-50 transition text-slate-700">
-                <i class="fa-solid fa-rotate-right mr-1"></i> Refresh Inbox
-              </button>
-            </div>
+            <button onclick="loadInbox()" class="px-2.5 py-1 text-xs border border-slate-200 rounded hover:bg-slate-50 transition text-slate-700">
+              <i class="fa-solid fa-rotate-right mr-1"></i> Refresh Inbox
+            </button>
           </div>
 
           <!-- Split Inbox Layout -->
@@ -889,11 +1712,11 @@
                 </div>
                 <div class="flex items-center space-x-2 text-[10px] text-slate-400">
                   <span>Quick templates:</span>
-                  <button onclick="setStaffPrompt('Checking our physical store stock in Nairobi right now, please give me 1 minute!')" class="underline hover:text-slate-700">Stock Check</button>
+                  <button onclick="setStaffPrompt('Checking our physical store stock in Nairobi right now, please give me 1 minute.')" class="underline hover:text-slate-700">Stock Check</button>
                   <span>·</span>
                   <button onclick="setStaffPrompt('Here is our Safaricom M-Pesa Pochi La Biashara number: 0768141129 (Razak Guyo).')" class="underline hover:text-slate-700">M-Pesa Pochi</button>
                   <span>·</span>
-                  <button onclick="setStaffPrompt('Hi! I am Razak Guyo, founder of P3L Developers. How can I help you personally?')" class="underline hover:text-slate-700">Founder Intro</button>
+                  <button onclick="setStaffPrompt('Hello. I am Razak Guyo, founder of P3L Developers. How can I assist you personally?')" class="underline hover:text-slate-700">Founder Intro</button>
                 </div>
               </div>
             </div>
@@ -902,7 +1725,7 @@
       </section>
 
       <!-- ============================================== -->
-      <!-- 10. COMMERCIAL PORTAL: 3. TIERS & M-PESA       -->
+      <!-- 11. COMMERCIAL PORTAL: 3. TIERS & M-PESA       -->
       <!-- ============================================== -->
       <section id="portal-billing-tab" class="hidden space-y-5">
         <div class="bg-white border border-slate-200 rounded p-6 space-y-6">
@@ -948,7 +1771,7 @@
                 <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-emerald-600 text-[10px]"></i><span>Shared Human Operator Inbox</span></li>
                 <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-emerald-600 text-[10px]"></i><span>Safaricom Daraja STK Push Integration</span></li>
                 <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-emerald-600 text-[10px]"></i><span>Clean English System Lock</span></li>
-                <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-emerald-600 text-[10px]"></i><span>Weekly Automated ROI Reports</span></li>
+                <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-emerald-600 text-[10px]"></i><span>Daily 9PM Revenue Digest</span></li>
                 <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-emerald-600 text-[10px]"></i><span>99.9% Production SLA</span></li>
               </ul>
               <button onclick="selectPlan('pro', 'Pro Package', 12000)" class="w-full py-2 bg-slate-900 text-white rounded text-xs font-medium hover:bg-slate-800 transition">
@@ -1008,7 +1831,7 @@
       </section>
 
       <!-- ============================================== -->
-      <!-- 11. COMMERCIAL PORTAL: 4. KNOWLEDGE & VERTICALS-->
+      <!-- 12. COMMERCIAL PORTAL: 4. KNOWLEDGE & VERTICALS-->
       <!-- ============================================== -->
       <section id="portal-kb-tab" class="hidden space-y-5">
         <div class="bg-white border border-slate-200 rounded p-6 space-y-6">
@@ -1063,7 +1886,7 @@
       </section>
 
       <!-- ============================================== -->
-      <!-- 12. COMMERCIAL PORTAL: 5. DIALECT, HOURS & SLA -->
+      <!-- 13. COMMERCIAL PORTAL: 5. DIALECT, HOURS & SLA -->
       <!-- ============================================== -->
       <section id="portal-settings-tab" class="hidden space-y-5">
         <div class="bg-white border border-slate-200 rounded p-6 space-y-6">
@@ -1111,7 +1934,7 @@
             </div>
             <div>
               <label class="block text-slate-500 text-xs mb-1">After-Hours Auto-Responder Message</label>
-              <textarea id="bh-msg" rows="2" class="w-full px-3 py-2 border border-slate-200 rounded text-xs focus:outline-none focus:border-slate-400" onchange="saveBusinessHours()">Hello! Thank you for contacting P3L Tech Shop. We are currently closed for the night. Your inquiry has been safely recorded, and our specialist will respond first thing at 8:00 AM.</textarea>
+              <textarea id="bh-msg" rows="2" class="w-full px-3 py-2 border border-slate-200 rounded text-xs focus:outline-none focus:border-slate-400" onchange="saveBusinessHours()">Hello. Thank you for contacting P3L Tech Shop. We are currently closed for the night. Your inquiry has been safely recorded, and our specialist will respond first thing at 8:00 AM.</textarea>
             </div>
           </div>
 
@@ -1161,6 +1984,163 @@
     let globalTests = [];
     let currentSessionId = null;
     let qrPollInterval = null;
+    let currentRole = 'both';
+    let currentWorkflowTenantId = '11111111-1111-1111-1111-111111111111';
+    let currentTestingAgentName = 'Odin-P3L';
+
+    // Role Switcher
+    function switchRole(role) {
+      currentRole = role;
+      document.querySelectorAll('.role-btn').forEach(btn => {
+        btn.classList.remove('bg-white', 'text-slate-900', 'shadow-sm', 'border', 'border-slate-200/60');
+        btn.classList.add('text-slate-700');
+      });
+
+      const activeBtn = document.getElementById(`role-btn-${role}`);
+      if (activeBtn) {
+        activeBtn.classList.add('bg-white', 'text-slate-900', 'shadow-sm', 'border', 'border-slate-200/60');
+        activeBtn.classList.remove('text-slate-700');
+      }
+
+      if (role === 'owner') {
+        switchTab('owner-powers-tab');
+      } else if (role === 'recruiter') {
+        switchTab('tests-tab');
+      } else if (role === 'both') {
+        switchTab('overview-tab');
+      }
+    }
+
+    // Switch Agent in Overview Card 1
+    function switchOverviewAgent(agentId) {
+      const isLuxe = agentId === 'agent-bella-luxe';
+      const tenantId = isLuxe ? '22222222-2222-2222-2222-222222222222' : '11111111-1111-1111-1111-111111111111';
+      
+      const wfSelect = document.getElementById('test-agent-workflow-select');
+      if (wfSelect) wfSelect.value = tenantId;
+
+      const toolsEl = document.getElementById('ov-agent-tools');
+      if (toolsEl) {
+        toolsEl.textContent = isLuxe 
+          ? 'search_catalog, initiate_deposit_mpesa, escalate_to_amina' 
+          : 'search_catalog, mpesa_stk, human_escalate';
+      }
+
+      onTestWorkflowAgentChange(tenantId);
+    }
+
+    // Change Tested Business Agent
+    function onTestWorkflowAgentChange(tenantId) {
+      currentWorkflowTenantId = tenantId;
+      const isLuxe = tenantId === '22222222-2222-2222-2222-222222222222';
+      currentTestingAgentName = isLuxe ? 'Bella-Luxe' : 'Odin-P3L';
+
+      const badge = document.getElementById('test-agent-running-badge');
+      if (badge) badge.textContent = `${currentTestingAgentName} Active`;
+
+      const display = document.getElementById('test-agent-name-display');
+      if (display) display.textContent = currentTestingAgentName;
+
+      const pillAgent = document.getElementById('pill-active-agent');
+      if (pillAgent) pillAgent.textContent = currentTestingAgentName;
+
+      const ovSelect = document.getElementById('ov-agent-select');
+      if (ovSelect) ovSelect.value = isLuxe ? 'agent-bella-luxe' : 'agent-odin-p3l';
+
+      const toolsEl = document.getElementById('ov-agent-tools');
+      if (toolsEl) {
+        toolsEl.textContent = isLuxe 
+          ? 'search_catalog, initiate_deposit_mpesa, escalate_to_amina' 
+          : 'search_catalog, mpesa_stk, human_escalate';
+      }
+
+      const input = document.getElementById('ov-chat-input');
+      if (input) {
+        input.placeholder = isLuxe 
+          ? 'Ask Bella about manicure packages, BIAB, appointments, or deposit payments...'
+          : 'Ask Odin about laptops, specs, M-Pesa, warranty, or browse the web...';
+      }
+
+      const qContainer = document.getElementById('quick-prompts-container');
+      if (qContainer) {
+        if (isLuxe) {
+          qContainer.innerHTML = `
+            <button onclick="sendOverviewPrompt('What signature manicure and pedicure services do you offer and what are their prices in KES?')" class="px-3 py-1 bg-slate-50 border border-slate-200 hover:border-slate-400 rounded-lg text-slate-700 transition">
+              Services Menu
+            </button>
+            <button onclick="sendOverviewPrompt('Can I book a Russian dry manicure with BIAB overlay for tomorrow at 2 PM?')" class="px-3 py-1 bg-slate-50 border border-slate-200 hover:border-slate-400 rounded-lg text-slate-700 transition">
+              Book Appointment
+            </button>
+            <button onclick="sendOverviewPrompt('What is your deposit and hygiene policy for nail tools?')" class="px-3 py-1 bg-slate-50 border border-slate-200 hover:border-slate-400 rounded-lg text-slate-700 transition">
+              Deposit & Hygiene Policy
+            </button>
+            <button onclick="sendOverviewPrompt('Do you sell gaming laptops with RTX 4070 or Intel processors?')" class="px-3 py-1 bg-slate-50 border border-slate-200 hover:border-slate-400 rounded-lg text-slate-700 transition">
+              Isolation Test (Ask for Laptops)
+            </button>
+            <button onclick="sendOverviewPrompt('Please escalate my request to salon owner Amina Wanjiku regarding a bridal party booking.')" class="px-3 py-1 bg-slate-50 border border-slate-200 hover:border-slate-400 rounded-lg text-slate-700 transition">
+              Owner Escalation
+            </button>
+          `;
+        } else {
+          qContainer.innerHTML = `
+            <button onclick="sendOverviewPrompt('What coding laptops do you have in stock and what are their prices in KES?')" class="px-3 py-1 bg-slate-50 border border-slate-200 hover:border-slate-400 rounded-lg text-slate-700 transition">
+              Laptop Catalog & Prices
+            </button>
+            <button onclick="sendOverviewPrompt('What is your warranty policy if the seal is broken?')" class="px-3 py-1 bg-slate-50 border border-slate-200 hover:border-slate-400 rounded-lg text-slate-700 transition">
+              Warranty & Returns
+            </button>
+            <button onclick="sendOverviewPrompt('I want to pay KES 128,000 via M-Pesa STK push for the HP Victus 15.')" class="px-3 py-1 bg-slate-50 border border-slate-200 hover:border-slate-400 rounded-lg text-slate-700 transition">
+              M-Pesa STK Push
+            </button>
+            <button onclick="sendOverviewPrompt('Please escalate my request to founder Razak Guyo regarding an enterprise contract.')" class="px-3 py-1 bg-slate-50 border border-slate-200 hover:border-slate-400 rounded-lg text-slate-700 transition">
+              Founder Escalation
+            </button>
+            <button onclick="sendOverviewPrompt('Search online for the official benchmark score of the Apple M3 Max chip.')" class="px-3 py-1 bg-slate-50 border border-slate-200 hover:border-slate-400 rounded-lg text-slate-700 transition">
+              Web Research
+            </button>
+          `;
+        }
+      }
+
+      initializeOverviewChat();
+    }
+
+    // Initialize Default Chat Message
+    function initializeOverviewChat() {
+      const stream = document.getElementById('ov-chat-stream');
+      if (!stream) return;
+      stream.innerHTML = `
+        <div class="p-3.5 bg-white border border-slate-200/90 rounded-xl text-slate-700 max-w-xl space-y-1.5 shadow-xs">
+          <div class="font-semibold text-slate-900 flex items-center space-x-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            <span>${currentTestingAgentName}</span>
+          </div>
+          <div>Hey, I am <strong>${currentTestingAgentName}</strong>, your agent work agent. Ask any questions to test my performance, knowledge, and anything you would need.</div>
+        </div>
+      `;
+    }
+
+    // Chat Message Feedback Rating (Good / Bad)
+    async function submitChatFeedback(rating, msgId) {
+      const el = document.getElementById(`feedback-action-${msgId}`);
+      if (el) {
+        el.innerHTML = `<span class="text-emerald-700 font-semibold"><i class="fa-solid fa-check text-[10px] mr-1"></i>Feedback Recorded (${rating === 'positive' ? 'Helpful' : 'Needs Improvement'})</span>`;
+      }
+      try {
+        await fetch('/api/chat/feedback', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            sessionId: currentSessionId || 'overview_test_session',
+            messageId: msgId,
+            rating,
+            agentName: currentTestingAgentName
+          })
+        });
+      } catch (e) {
+        console.error('Feedback recording notice:', e);
+      }
+    }
 
     // Tab Navigation
     function switchTab(tabId) {
@@ -1183,6 +2163,13 @@
       currentTab = tabId;
 
       if (tabId === 'overview-tab') loadOverview();
+      if (tabId === 'agent-tab') {
+        showAgentsList();
+        loadAgentsList();
+      }
+      if (tabId === 'owner-powers-tab') {
+        loadOwnerPowers();
+      }
       if (tabId === 'chat-tab') {
         loadChatSessions();
       }
@@ -1204,61 +2191,78 @@
         const res = await fetch('/api/overview');
         const data = await res.json();
         if (data.success) {
-          document.getElementById('ov-agents').textContent = data.agents.online;
-          document.getElementById('ov-runs').textContent = data.executions.total;
-          document.getElementById('ov-latency').textContent = `${data.executions.avgLatencyMs} ms`;
-          document.getElementById('ov-tokens').textContent = (data.costs.totalTokens || 0).toLocaleString();
-          document.getElementById('ov-cost').textContent = `Cost: $${(data.costs.totalCostUsd || 0).toFixed(5)}`;
+          // Update small pills on right
+          const pillRuns = document.getElementById('pill-sessions');
+          if (pillRuns) pillRuns.textContent = data.executions.total;
 
-          // WhatsApp Gateway status
+          const pillLatency = document.getElementById('pill-latency');
+          if (pillLatency) {
+            const sec = (data.executions.avgLatencyMs / 1000).toFixed(1);
+            pillLatency.textContent = `${sec}s`;
+          }
+
+          const pillTokens = document.getElementById('pill-tokens');
+          if (pillTokens) {
+            const k = (data.costs.totalTokens / 1000).toFixed(1);
+            pillTokens.textContent = `${k}k`;
+          }
+
+          // Backwards compatibility elements
+          const ovAgents = document.getElementById('ov-agents');
+          if (ovAgents) ovAgents.textContent = data.agents.online;
+          const ovRuns = document.getElementById('ov-runs');
+          if (ovRuns) ovRuns.textContent = data.executions.total;
+          const ovLatency = document.getElementById('ov-latency');
+          if (ovLatency) ovLatency.textContent = `${data.executions.avgLatencyMs} ms`;
+          const ovTokens = document.getElementById('ov-tokens');
+          if (ovTokens) ovTokens.textContent = (data.costs.totalTokens || 0).toLocaleString();
+          const ovCost = document.getElementById('ov-cost');
+          if (ovCost) ovCost.textContent = `Cost: $${(data.costs.totalCostUsd || 0).toFixed(5)}`;
+
+          // Card 1: Last usage details
+          if (data.lastUsage) {
+            const timeEl = document.getElementById('ov-last-time');
+            if (timeEl && data.lastUsage.timestamp) {
+              const dt = new Date(data.lastUsage.timestamp);
+              timeEl.textContent = `Today, ${dt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+            }
+            const userEl = document.getElementById('ov-last-user');
+            if (userEl && data.lastUsage.user) userEl.textContent = data.lastUsage.user;
+
+            const queryEl = document.getElementById('ov-last-query');
+            if (queryEl && data.lastUsage.query) queryEl.textContent = data.lastUsage.query;
+
+            const latEl = document.getElementById('ov-last-latency');
+            if (latEl && data.lastUsage.latencyMs) latEl.textContent = `${data.lastUsage.latencyMs} ms`;
+          }
+
+          // Card 2: Catalog & Gateways
+          const catalogEl = document.getElementById('rag-catalog-count');
+          if (catalogEl && data.databaseRag) {
+            catalogEl.textContent = `${data.databaseRag.itemsCount || 95} Verified Items`;
+          }
+
           if (data.whatsapp) {
-            const statusEl = document.getElementById('ov-wa-status');
-            const phoneEl = document.getElementById('ov-wa-phone');
-            const userEl = document.getElementById('ov-wa-user');
-
+            const gwStatus = document.getElementById('gw-wa-status');
+            const gwPhone = document.getElementById('gw-wa-phone');
             if (data.whatsapp.connected && data.whatsapp.phone) {
-              if (statusEl) {
-                statusEl.textContent = '● Live';
-                statusEl.className = 'text-emerald-700 font-medium';
+              if (gwStatus) {
+                gwStatus.textContent = 'Active (Paired)';
+                gwStatus.className = 'text-emerald-700 font-semibold text-[10px]';
               }
-              if (phoneEl) phoneEl.textContent = data.whatsapp.phone;
-              if (userEl) userEl.textContent = data.whatsapp.pushName ? `${data.whatsapp.pushName} (Paired)` : 'Paired';
+              if (gwPhone) gwPhone.textContent = data.whatsapp.phone;
             } else {
-              if (statusEl) {
-                statusEl.textContent = '● Awaiting Pair';
-                statusEl.className = 'text-amber-600 font-medium';
+              if (gwStatus) {
+                gwStatus.textContent = 'Awaiting QR';
+                gwStatus.className = 'text-amber-600 font-semibold text-[10px]';
               }
-              if (phoneEl) phoneEl.textContent = 'None (Scan QR to link)';
-              if (userEl) userEl.textContent = 'Disconnected';
+              if (gwPhone) gwPhone.textContent = 'None (Scan QR to link)';
             }
           }
 
           if (data.telegram) {
             const tgStatusEl = document.getElementById('ov-tg-status');
-            if (tgStatusEl) tgStatusEl.textContent = `● ${data.telegram.status}`;
-          }
-
-          // Recent Activity Feed
-          const container = document.getElementById('ov-activity-container');
-          if (data.recentActivity && data.recentActivity.length > 0) {
-            container.innerHTML = '';
-            data.recentActivity.forEach(item => {
-              const row = document.createElement('div');
-              row.className = 'py-2.5 flex items-center justify-between text-xs';
-              const agentLabel = item.agentName || (item.role === 'assistant' ? 'Odin-P3L AI' : 'Customer');
-              const textContent = item.input || item.text || '(Request processed)';
-              row.innerHTML = `
-                <div class="space-y-0.5 max-w-lg truncate">
-                  <div class="font-medium text-slate-800">${agentLabel} · <span class="text-slate-500 font-normal">P3L Developers</span></div>
-                  <div class="text-slate-500 truncate">"${textContent}"</div>
-                </div>
-                <div class="text-right text-[11px] font-mono text-slate-500">
-                  <span class="text-slate-800 font-medium">${item.latencyMs || 0} ms</span>
-                  <div>${new Date(item.timestamp || Date.now()).toLocaleTimeString()}</div>
-                </div>
-              `;
-              container.appendChild(row);
-            });
+            if (tgStatusEl) tgStatusEl.textContent = data.telegram.status;
           }
         }
       } catch (e) {
@@ -1266,114 +2270,14 @@
       }
     }
 
-    // 2. Embedded Overview AI Sandbox & Multi-Tenant Business Switching
-    let currentActiveTenantId = '11111111-1111-1111-1111-111111111111';
-
-    function switchBusinessTenant(tenantId) {
-      currentActiveTenantId = tenantId;
-      const isNails = tenantId === '22222222-2222-2222-2222-222222222222';
-
-      // Sync all dropdowns
-      const ovSelect = document.getElementById('ov-tenant-select');
-      const testSelect = document.getElementById('test-tenant-select');
-      const inboxSelect = document.getElementById('inbox-tenant-select');
-      if (ovSelect) ovSelect.value = tenantId;
-      if (testSelect) testSelect.value = tenantId;
-      if (inboxSelect) inboxSelect.value = tenantId;
-
-      // Update Overview elements
-      const headerTitle = document.getElementById('ov-agent-header-title');
-      const headerSub = document.getElementById('ov-agent-header-sub');
-      const ovStream = document.getElementById('ov-chat-stream');
-      const ovInput = document.getElementById('ov-chat-input');
-      const testInput = document.getElementById('test-chat-input');
-      const promptsBox = document.getElementById('ov-quick-prompts-container');
-
-      // Reset active session so conversations never cross-contaminate
-      currentSessionId = null;
-      const activeTitle = document.getElementById('chat-active-session-title');
-      const activeId = document.getElementById('chat-active-session-id');
-      if (activeTitle) activeTitle.textContent = isNails ? 'Luxe Nails & Spa Lounge' : 'P3L Developers';
-      if (activeId) activeId.textContent = 'Session: Fresh Session';
-
-      if (isNails) {
-        if (headerTitle) headerTitle.textContent = 'Bella-Luxe · Beauty & Nail Concierge';
-        if (headerSub) headerSub.textContent = 'Nail service catalog, 500 KES reservation deposits, and zero tech cross-talk.';
-        if (ovStream) ovStream.innerHTML = '<div class="p-3 bg-white border border-slate-200 rounded text-slate-700 max-w-xl">Hello, welcome to Luxe Nails and Spa Lounge on Wood Avenue in Kilimani. I am Bella. How can I help you today?</div>';
-        if (ovInput) ovInput.placeholder = 'Ask Bella about acrylics, Russian manicures, spa pedicures, or book an appointment...';
-        if (testInput) testInput.placeholder = 'Ask Bella about nail services, booking slots, M-Pesa deposits, or salon policies...';
-
-        if (promptsBox) {
-          promptsBox.innerHTML = `
-            <span class="text-slate-400 py-1 text-[11px]">Quick Tests:</span>
-            <button onclick="sendOverviewPrompt('What signature manicure and pedicure services do you offer and what are their prices in KES?')" class="px-2.5 py-1 bg-pink-50 border border-pink-200 hover:border-pink-400 rounded text-pink-900 transition font-medium">
-              Services Menu
-            </button>
-            <button onclick="sendOverviewPrompt('What is your salon policy on booking deposits and rescheduling?')" class="px-2.5 py-1 bg-slate-50 border border-slate-200 hover:border-slate-400 rounded text-slate-700 transition">
-              Deposit & Hygiene Policy
-            </button>
-            <button onclick="sendOverviewPrompt('I would like to book the Russian Dry Manicure with BIAB for tomorrow at 2 PM.')" class="px-2.5 py-1 bg-slate-50 border border-slate-200 hover:border-slate-400 rounded text-slate-700 transition">
-              Book Appointment
-            </button>
-            <button onclick="sendOverviewPrompt('Do you sell HP Victus gaming laptops with RTX 4050?')" class="px-2.5 py-1 bg-amber-50 border border-amber-300 hover:border-amber-500 rounded text-amber-900 transition font-medium">
-              Isolation Test (Ask for Laptops)
-            </button>
-            <button onclick="sendOverviewPrompt('I need to speak directly with salon director Amina Wanjiku.')" class="px-2.5 py-1 bg-slate-50 border border-slate-200 hover:border-slate-400 rounded text-slate-700 transition">
-              Owner Escalation
-            </button>
-          `;
-        }
-      } else {
-        if (headerTitle) headerTitle.textContent = 'Odin-P3L · Hardware & Engineering Specialist';
-        if (headerSub) headerSub.textContent = 'Computer hardware catalog, M-Pesa billing, and zero salon cross-talk.';
-        if (ovStream) ovStream.innerHTML = '<div class="p-3 bg-white border border-slate-200 rounded text-slate-600 max-w-xl">Hello, welcome to P3L Developers and Tech Shop. I am Odin. Are you looking for a laptop, workstation, or technical support today?</div>';
-        if (ovInput) ovInput.placeholder = 'Ask Odin about laptops, specs, M-Pesa, warranty, or browse the web...';
-        if (testInput) testInput.placeholder = 'Ask Odin about laptops, specs, policies, or web info...';
-
-        if (promptsBox) {
-          promptsBox.innerHTML = `
-            <span class="text-slate-400 py-1 text-[11px]">Quick Tests:</span>
-            <button onclick="sendOverviewPrompt('What coding laptops do you have in stock and what are their prices in KES?')" class="px-2.5 py-1 bg-slate-50 border border-slate-200 hover:border-slate-400 rounded text-slate-700 transition">
-              Laptop Catalog
-            </button>
-            <button onclick="sendOverviewPrompt('What is your warranty policy if the seal is broken?')" class="px-2.5 py-1 bg-slate-50 border border-slate-200 hover:border-slate-400 rounded text-slate-700 transition">
-              Warranty & Returns
-            </button>
-            <button onclick="sendOverviewPrompt('I want to pay KES 50,000 via M-Pesa STK push for the HP Victus.')" class="px-2.5 py-1 bg-slate-50 border border-slate-200 hover:border-slate-400 rounded text-slate-700 transition">
-              M-Pesa STK Push
-            </button>
-            <button onclick="sendOverviewPrompt('Can I book an appointment for acrylic nails and Russian manicure?')" class="px-2.5 py-1 bg-amber-50 border border-amber-300 hover:border-amber-500 rounded text-amber-900 transition font-medium">
-              Isolation Test (Ask for Nails)
-            </button>
-            <button onclick="sendOverviewPrompt('Please escalate my request to founder Razak Guyo regarding an enterprise contract.')" class="px-2.5 py-1 bg-slate-50 border border-slate-200 hover:border-slate-400 rounded text-slate-700 transition">
-              Founder Escalation
-            </button>
-          `;
-        }
-      }
-
-      clearChat();
-      loadChatSessions();
-      loadInbox(tenantId);
-    }
-
+    // 2. Embedded Overview AI Sandbox
     function clearOverviewChat() {
-      const isNails = currentActiveTenantId === '22222222-2222-2222-2222-222222222222';
-      document.getElementById('ov-chat-stream').innerHTML = isNails 
-        ? '<div class="p-3 bg-white border border-slate-200 rounded text-slate-600 max-w-xl">Hello, welcome to Luxe Nails and Spa Lounge on Wood Avenue in Kilimani. I am Bella. How can I help you today?</div>'
-        : '<div class="p-3 bg-white border border-slate-200 rounded text-slate-600 max-w-xl">Hello, welcome to P3L Developers and Tech Shop. I am Odin. Are you looking for a laptop, workstation, or technical support today?</div>';
+      initializeOverviewChat();
     }
 
     function sendOverviewPrompt(text) {
       document.getElementById('ov-chat-input').value = text;
       handleOverviewChatSubmit(new Event('submit'));
-    }
-
-    function formatAiReply(text) {
-      if (!text) return '';
-      let formatted = text.replace(/!\[([^\]]*)\]\((https?:\/\/[^\)]+)\)/g, '<div class="my-2.5"><img src="$2" alt="$1" class="rounded border border-slate-200 max-h-48 object-cover shadow-sm"><span class="text-[10px] text-slate-500 font-medium block mt-1">$1</span></div>');
-      formatted = formatted.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-      return formatted;
     }
 
     async function handleOverviewChatSubmit(e) {
@@ -1383,19 +2287,18 @@
       if (!text) return;
 
       const stream = document.getElementById('ov-chat-stream');
-      const latencyBadge = document.getElementById('ov-chat-latency-badge');
       const btn = document.getElementById('ov-chat-btn');
 
       // Append user bubble
       const u = document.createElement('div');
       u.className = 'text-right';
-      u.innerHTML = `<span class="inline-block bg-slate-900 text-white rounded px-3 py-1.5 text-xs">${text}</span>`;
+      u.innerHTML = `<span class="inline-block bg-slate-900 text-white rounded-xl px-3.5 py-2 text-xs shadow-xs">${text}</span>`;
       stream.appendChild(u);
       input.value = '';
       stream.scrollTop = stream.scrollHeight;
 
       btn.disabled = true;
-      latencyBadge.textContent = 'Calling Gemini 3.5...';
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-[10px]"></i><span>Reasoning...</span>';
 
       try {
         const res = await fetch('/api/testing/chat', {
@@ -1403,7 +2306,7 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             message: text,
-            tenantId: currentActiveTenantId,
+            tenantId: currentWorkflowTenantId,
             sessionId: currentSessionId,
             capabilities: { ragEnabled: true, mediaDeliveryEnabled: true }
           })
@@ -1411,49 +2314,310 @@
 
         const data = await res.json();
         btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-paper-plane text-[10px]"></i><span>Send</span>';
 
         if (data.success) {
-          latencyBadge.textContent = `${data.latencyMs} ms · ${data.tokens?.totalTokenCount || 0} tokens`;
-
+          const msgId = 'msg_' + Date.now();
           const a = document.createElement('div');
           a.className = 'text-left space-y-1';
           let mediaHtml = '';
           if (data.media) {
-            mediaHtml = `<div class="mt-2"><img src="${data.media.url}" class="rounded border border-slate-200 max-h-36"><span class="text-[10px] text-slate-500 block mt-1">${data.media.title}</span></div>`;
+            mediaHtml = `<div class="mt-2"><img src="${data.media.url}" class="rounded-lg border border-slate-200 max-h-36"><span class="text-[10px] text-slate-500 block mt-1">${data.media.title}</span></div>`;
           }
 
           a.innerHTML = `
-            <div class="inline-block bg-white border border-slate-200 rounded p-3 text-slate-800 max-w-lg shadow-sm">
-              <div class="whitespace-pre-wrap text-xs leading-relaxed">${formatAiReply(data.reply)}</div>
+            <div class="inline-block bg-white border border-slate-200/90 rounded-xl p-3.5 text-slate-800 max-w-xl shadow-xs space-y-2">
+              <div class="flex items-center space-x-1.5 text-[11px] font-semibold text-slate-900 border-b border-slate-100 pb-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                <span>${currentTestingAgentName}</span>
+                <span class="text-[10px] font-mono text-slate-400 font-normal ml-auto">${data.latencyMs} ms · ${data.tokens?.totalTokenCount || 0} tokens</span>
+              </div>
+              <p class="whitespace-pre-wrap text-xs">${data.reply}</p>
               ${mediaHtml}
-              <div class="text-[10px] text-slate-400 font-mono pt-1.5 mt-2 border-t border-slate-100 flex items-center justify-between">
-                <span>${data.latencyMs} ms · ${data.tokens?.totalTokenCount || 0} tokens</span>
-                <span>Odin-P3L ReAct</span>
+              <div id="feedback-action-${msgId}" class="flex items-center space-x-3 pt-2 border-t border-slate-100 text-[10px] text-slate-400">
+                <span class="font-medium text-slate-500">Feedback:</span>
+                <button onclick="submitChatFeedback('positive', '${msgId}')" class="hover:text-emerald-700 flex items-center space-x-1 transition font-medium">
+                  <i class="fa-regular fa-thumbs-up text-[10px]"></i>
+                  <span>Helpful</span>
+                </button>
+                <button onclick="submitChatFeedback('negative', '${msgId}')" class="hover:text-rose-700 flex items-center space-x-1 transition font-medium">
+                  <i class="fa-regular fa-thumbs-down text-[10px]"></i>
+                  <span>Needs Improvement</span>
+                </button>
               </div>
             </div>
           `;
           stream.appendChild(a);
           stream.scrollTop = stream.scrollHeight;
 
-          // Update overview counters immediately
           loadOverview();
         } else {
-          latencyBadge.textContent = 'Error';
           const errDiv = document.createElement('div');
-          errDiv.className = 'text-xs text-red-600 font-mono p-2 bg-red-50 rounded border border-red-200';
+          errDiv.className = 'text-xs text-red-600 font-mono p-2.5 bg-red-50 rounded-xl border border-red-200';
           errDiv.textContent = 'Error: ' + (data.error || 'Failed to get response');
           stream.appendChild(errDiv);
         }
       } catch (err) {
         btn.disabled = false;
-        latencyBadge.textContent = 'Connection error';
+        btn.innerHTML = '<i class="fa-solid fa-paper-plane text-[10px]"></i><span>Send</span>';
       }
     }
 
-    // 3. Test Chat Tab (With Saved Sessions Sidebar)
+    // 3. OWNER BACK-OFFICE POWERS JAVASCRIPT
+    async function loadOwnerPowers() {
+      loadDailyDigest();
+      loadInventoryAlerts();
+      loadAbandonedRecovery();
+    }
+
+    async function loadDailyDigest() {
+      try {
+        const res = await fetch('/api/portal/owner/daily-digest');
+        const data = await res.json();
+        if (data.success) {
+          document.getElementById('digest-stat-inquiries').textContent = data.metrics.totalInquiries;
+          document.getElementById('digest-stat-sales').textContent = data.metrics.salesCompleted;
+          document.getElementById('digest-stat-revenue').textContent = `KES ${data.metrics.revenueKES.toLocaleString()}`;
+          document.getElementById('digest-stat-lowstock').textContent = `${data.metrics.lowStockCount} SKUs`;
+          document.getElementById('digest-preview-text').textContent = data.digestText;
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    async function sendLiveDailyDigest() {
+      const btn = document.getElementById('btn-send-digest');
+      const statusEl = document.getElementById('digest-send-status');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> Dispatching Digest...';
+
+      try {
+        const res = await fetch('/api/portal/owner/daily-digest/send', { method: 'POST' });
+        const data = await res.json();
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-paper-plane text-[10px] mr-1"></i> Send Live Digest to Owner Now';
+
+        if (data.success) {
+          statusEl.textContent = 'Sent: Operations digest successfully delivered to Razak Guyo (+254768141129) via Telegram and WhatsApp.';
+          setTimeout(() => statusEl.textContent = '', 6000);
+        } else {
+          statusEl.textContent = 'Delivery status: ' + data.error;
+        }
+      } catch (e) {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-paper-plane text-[10px] mr-1"></i> Send Live Digest to Owner Now';
+        statusEl.textContent = 'Error: ' + e.message;
+      }
+    }
+
+    async function loadInventoryAlerts() {
+      try {
+        const res = await fetch('/api/portal/owner/inventory-alerts');
+        const data = await res.json();
+        const tbody = document.getElementById('inventory-alerts-tbody');
+
+        if (data.success && data.items) {
+          tbody.innerHTML = '';
+          if (data.items.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-slate-400">All inventory levels are healthy.</td></tr>';
+            return;
+          }
+
+          data.items.forEach(it => {
+            const tr = document.createElement('tr');
+            const badgeClass = it.status === 'CRITICAL' ? 'bg-red-50 text-red-700 border-red-200' : 'bg-amber-50 text-amber-700 border-amber-200';
+            tr.innerHTML = `
+              <td class="p-2.5 font-semibold text-slate-900">${it.name}</td>
+              <td class="p-2.5 text-slate-600">${it.category || 'Hardware'}</td>
+              <td class="p-2.5 font-mono text-slate-800">KES ${(it.priceKES || 0).toLocaleString()}</td>
+              <td class="p-2.5 font-bold font-mono ${it.stock <= 1 ? 'text-red-600' : 'text-amber-600'}">${it.stock} available</td>
+              <td class="p-2.5"><span class="px-2 py-0.5 rounded text-[10px] border font-medium ${badgeClass}">${it.status}</span></td>
+              <td class="p-2.5">
+                <button onclick="showSupplierDraft('${it.name}', ${it.priceKES})" class="px-2.5 py-1 bg-slate-900 text-white rounded text-[11px] font-medium hover:bg-slate-800 transition">
+                  Draft Restock PO
+                </button>
+              </td>
+            `;
+            tbody.appendChild(tr);
+          });
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    function showSupplierDraft(productName, price) {
+      const box = document.getElementById('supplier-draft-box');
+      const text = document.getElementById('supplier-draft-text');
+      box.classList.remove('hidden');
+      text.textContent = `PURCHASE ORDER DRAFT — P3L DEVELOPERS\nTo: Authorized Hardware Distributor (Nairobi)\nRe: Emergency Restock Order\n\nItem: ${productName}\nRequested Units: 5 Units\nEstimated Wholesale Unit Price: KES ${Math.round(price * 0.85).toLocaleString()}\nDelivery: Same-Day to P3L Developers, Nairobi, Kenya\nAuthorized By: Razak Guyo (+254768141129)`;
+    }
+
+    async function loadAbandonedRecovery() {
+      try {
+        const res = await fetch('/api/portal/owner/abandoned-recovery');
+        const data = await res.json();
+        const tbody = document.getElementById('abandoned-tbody');
+
+        if (data.success && data.items) {
+          tbody.innerHTML = '';
+          if (data.items.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-slate-400">No abandoned payment sessions recorded.</td></tr>';
+            return;
+          }
+
+          data.items.forEach(it => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+              <td class="p-2.5 font-mono text-slate-800 font-semibold">${it.phone}</td>
+              <td class="p-2.5 text-slate-700">${it.productName}</td>
+              <td class="p-2.5 font-mono text-slate-900 font-medium">KES ${(it.amountKES || 0).toLocaleString()}</td>
+              <td class="p-2.5"><span class="px-2 py-0.5 rounded text-[10px] bg-amber-50 text-amber-700 border border-amber-200 font-medium">Timed Out (15 min)</span></td>
+              <td class="p-2.5">
+                <button onclick="sendRecoveryNudge('${it.phone}')" class="px-2.5 py-1 bg-slate-900 text-white rounded text-[11px] font-medium hover:bg-slate-800 transition">
+                  Send Recovery Nudge
+                </button>
+              </td>
+            `;
+            tbody.appendChild(tr);
+          });
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    async function sendRecoveryNudge(phone) {
+      const statusEl = document.getElementById('abandoned-nudge-status');
+      statusEl.textContent = 'Sending recovery follow-up message...';
+      try {
+        const res = await fetch('/api/portal/owner/abandoned-recovery/nudge', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ phone })
+        });
+        const data = await res.json();
+        if (data.success) {
+          statusEl.textContent = `Sent: Recovery reminder sent to ${phone}.`;
+        } else {
+          statusEl.textContent = 'Failed to send nudge: ' + data.error;
+        }
+      } catch (e) {
+        statusEl.textContent = 'Error: ' + e.message;
+      }
+      setTimeout(() => statusEl.textContent = '', 5000);
+    }
+
+    async function testGoogleSheetsSync() {
+      const url = document.getElementById('sheets-webhook-url').value;
+      const statusEl = document.getElementById('sheets-sync-status');
+      statusEl.textContent = 'Connecting and syncing 95 catalog items...';
+
+      try {
+        const res = await fetch('/api/portal/sync/sheets', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ webhookUrl: url })
+        });
+        const data = await res.json();
+        if (data.success) {
+          statusEl.textContent = `Synced: 95 database catalog records synced to Google Sheets.`;
+        }
+      } catch (e) {
+        statusEl.textContent = 'Sync error: ' + e.message;
+      }
+      setTimeout(() => statusEl.textContent = '', 5000);
+    }
+
+    async function sendTestSmsInbound() {
+      const from = document.getElementById('sms-test-from').value;
+      const text = document.getElementById('sms-test-text').value;
+      const out = document.getElementById('sms-test-output');
+      const btn = document.getElementById('sms-test-btn');
+
+      btn.disabled = true;
+      out.textContent = 'Processing SMS through Gemini ReAct...';
+
+      try {
+        const res = await fetch('/api/portal/channels/sms', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ from, text })
+        });
+        const data = await res.json();
+        btn.disabled = false;
+
+        if (data.success) {
+          out.textContent = `SMS Inbound: "${data.incomingText}"\nSender: ${data.from}\nSegments: ${data.segments}\nResponse (${data.latencyMs} ms):\n${data.smsReply}`;
+        } else {
+          out.textContent = 'SMS Gateway Error: ' + data.error;
+        }
+      } catch (e) {
+        btn.disabled = false;
+        out.textContent = 'Error: ' + e.message;
+      }
+    }
+
+    async function testVoiceNoteSimulation() {
+      const sel = document.getElementById('voice-sample-select');
+      const text = sel.value;
+      const btn = document.getElementById('btn-test-voice');
+
+      btn.disabled = true;
+      btn.textContent = 'Transcribing...';
+
+      // Insert user voice transcript into chat
+      const stream = document.getElementById('chat-stream');
+      const u = document.createElement('div');
+      u.className = 'text-right space-y-0.5';
+      u.innerHTML = `
+        <div class="inline-block bg-slate-900 text-white rounded px-3 py-1.5 text-xs">
+          <div class="text-[10px] text-slate-300 flex items-center space-x-1 mb-0.5">
+            <i class="fa-solid fa-microphone text-[9px]"></i>
+            <span>Voice Note Transcribed</span>
+          </div>
+          <span>"${text}"</span>
+        </div>
+      `;
+      stream.appendChild(u);
+      stream.scrollTop = stream.scrollHeight;
+
+      try {
+        const res = await fetch('/api/testing/voice-note', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ audioText: text })
+        });
+        const data = await res.json();
+        btn.disabled = false;
+        btn.textContent = 'Process Audio Query';
+
+        if (data.success) {
+          const a = document.createElement('div');
+          a.className = 'text-left';
+          a.innerHTML = `
+            <div class="inline-block bg-white border border-slate-200 rounded p-3 text-slate-800 max-w-lg shadow-sm text-xs">
+              <p class="whitespace-pre-wrap">${data.reply}</p>
+              <div class="text-[10px] text-slate-400 font-mono pt-1.5 mt-2 border-t border-slate-100 flex items-center justify-between">
+                <span>${data.latencyMs} ms · Multimodal Audio Synthesis</span>
+                <span>Odin Voice</span>
+              </div>
+            </div>
+          `;
+          stream.appendChild(a);
+          stream.scrollTop = stream.scrollHeight;
+        }
+      } catch (e) {
+        btn.disabled = false;
+        btn.textContent = 'Process Audio Query';
+      }
+    }
+
+    // 4. Test Chat Tab (With Saved Sessions Sidebar)
     async function loadChatSessions() {
       try {
-        const res = await fetch(`/api/portal/chat/sessions?tenantId=${currentActiveTenantId}`);
+        const res = await fetch('/api/portal/chat/sessions');
         const data = await res.json();
         const listContainer = document.getElementById('chat-sessions-list');
         const countBadge = document.getElementById('nav-sessions-count');
@@ -1463,7 +2627,7 @@
           listContainer.innerHTML = '';
 
           if (data.sessions.length === 0) {
-            listContainer.innerHTML = '<div class="p-4 text-center text-slate-400 text-xs">No saved chats for this business yet.<br>Click "New Chat" to start.</div>';
+            listContainer.innerHTML = '<div class="p-4 text-center text-slate-400 text-xs">No previous sessions found.<br>Click "New Chat" to start.</div>';
             return;
           }
 
@@ -1492,9 +2656,8 @@
 
     function startNewTestChat() {
       currentSessionId = null;
-      const isNails = currentActiveTenantId === '22222222-2222-2222-2222-222222222222';
-      document.getElementById('chat-active-session-title').textContent = isNails ? 'Luxe Nails & Spa Lounge' : 'P3L Developers';
-      document.getElementById('chat-active-session-id').textContent = 'Session: Fresh Clean Session';
+      document.getElementById('chat-active-session-title').textContent = 'New Test Conversation';
+      document.getElementById('chat-active-session-id').textContent = 'Session: Fresh Session (Ready to save)';
       clearChat();
       loadChatSessions();
     }
@@ -1547,11 +2710,7 @@
     }
 
     function clearChat() {
-      const isNails = currentActiveTenantId === '22222222-2222-2222-2222-222222222222';
-      const promptIntro = isNails 
-        ? 'Fresh chat ready for Luxe Nails and Spa Lounge. Ask about nail services, appointment slots, or salon policies.'
-        : 'Fresh chat ready for P3L Developers. Ask about laptops, workstations, or hardware specs.';
-      document.getElementById('chat-stream').innerHTML = `<div class="bg-slate-50 border border-slate-100 rounded p-3 text-slate-600">${promptIntro}</div>`;
+      document.getElementById('chat-stream').innerHTML = '<div class="bg-slate-50 border border-slate-100 rounded p-3 text-slate-600">Chat cleared. Type a question below to test Odin-P3L in clean English.</div>';
       document.getElementById('chat-steps-container').innerHTML = '<p class="text-slate-400">Steps will appear here when you send a message.</p>';
       document.getElementById('chat-sources-box').classList.add('hidden');
     }
@@ -1588,7 +2747,6 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             message: text,
-            tenantId: currentActiveTenantId,
             sessionId: currentSessionId,
             capabilities: { ragEnabled, mediaDeliveryEnabled }
           })
@@ -1636,7 +2794,7 @@
 
           a.innerHTML = `
             <div class="inline-block bg-white border border-slate-200 rounded p-3 text-slate-800 max-w-lg shadow-sm">
-              <div class="whitespace-pre-wrap text-xs leading-relaxed">${formatAiReply(data.reply)}</div>
+              <p class="whitespace-pre-wrap">${data.reply}</p>
               ${mediaHtml}
               <div class="text-[10px] text-slate-400 font-mono pt-1.5 mt-2 border-t border-slate-100 flex items-center justify-between">
                 <span>${data.latencyMs} ms · ${data.tokens?.totalTokenCount || 0} tokens</span>
@@ -1647,7 +2805,6 @@
           stream.appendChild(a);
           stream.scrollTop = stream.scrollHeight;
 
-          // Reload session list
           loadChatSessions();
           loadHistoryCount();
         } else {
@@ -1661,12 +2818,402 @@
       }
     }
 
-    // 4. Workflows (1 Real Workflow)
-    async function loadWorkflows() {
-      // The single active production workflow is rendered directly in table
+    // ==============================================
+    // 4b. MY AGENTS LOGIC (PREVIEW GRID & DETAIL VIEWS)
+    // ==============================================
+    let cachedAgents = [];
+    let currentSelectedAgentId = 'agent-odin-p3l';
+    let isAgentEditMode = false;
+
+    async function loadAgentsList() {
+      try {
+        const res = await fetch('/api/platform/agents');
+        const data = await res.json();
+        if (data.success && data.agents) {
+          cachedAgents = data.agents;
+          
+          const totalBadge = document.getElementById('agents-total-badge');
+          if (totalBadge) totalBadge.textContent = `${cachedAgents.length} Configured`;
+          
+          const navCount = document.getElementById('nav-agents-count');
+          if (navCount) navCount.textContent = cachedAgents.length;
+
+          renderAgentsGrid(cachedAgents);
+        }
+      } catch (err) {
+        console.error('Error loading agents list:', err);
+      }
     }
 
-    // 5. Full History Loader
+    function renderAgentsGrid(agents) {
+      const container = document.getElementById('agents-cards-container');
+      if (!container) return;
+
+      container.innerHTML = '';
+
+      agents.forEach(agent => {
+        const card = document.createElement('div');
+        card.className = 'group bg-white/90 backdrop-blur border border-slate-200/90 hover:border-slate-400 rounded-2xl p-6 shadow-xs hover:shadow-md transition flex flex-col justify-between space-y-4 cursor-pointer';
+        card.onclick = () => openAgentDetail(agent.id);
+
+        const toolsCount = agent.tools ? agent.tools.length : 4;
+        card.innerHTML = `
+          <div class="space-y-3">
+            <div class="flex items-start justify-between">
+              <div class="space-y-0.5">
+                <div class="flex items-center space-x-2">
+                  <h4 class="text-base font-bold text-slate-900 group-hover:text-blue-600 transition tracking-tight">${agent.shortName || agent.name}</h4>
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center space-x-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                    <span>${agent.status || 'ONLINE'}</span>
+                  </span>
+                </div>
+                <p class="text-xs text-slate-500 font-medium">${agent.businessName || 'Nairobi Enterprise'}</p>
+              </div>
+              <div class="w-8 h-8 rounded-xl bg-slate-100 flex items-center justify-center text-slate-600 group-hover:bg-slate-900 group-hover:text-white transition">
+                <i class="fa-solid fa-robot text-xs"></i>
+              </div>
+            </div>
+
+            <p class="text-xs text-slate-600 line-clamp-2 leading-relaxed">${agent.description}</p>
+
+            <div class="space-y-1.5 pt-2 border-t border-slate-100 text-xs">
+              <div class="flex items-center justify-between">
+                <span class="text-slate-400 text-[11px]">Base Model:</span>
+                <span class="font-mono text-slate-800 font-medium text-[11px]">${agent.model || 'gemini-3.5-flash-lite'}</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-slate-400 text-[11px]">Workflow:</span>
+                <span class="font-mono text-blue-600 text-[11px] truncate max-w-[150px]">${agent.workflowId || 'CsBJMQmxtWDWqpyq'}</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-slate-400 text-[11px]">Declared Tools:</span>
+                <span class="font-mono text-slate-800 font-semibold text-[11px]">${toolsCount} Tools</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+            <span class="text-[11px] text-slate-400 font-medium">Click to configure</span>
+            <span class="text-xs font-semibold text-slate-900 group-hover:text-blue-600 flex items-center space-x-1 transition">
+              <span>View Specs</span>
+              <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            </span>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      // Append '+ Add New Agent' dashed card
+      const addCard = document.createElement('div');
+      addCard.className = 'border-2 border-dashed border-slate-300 hover:border-slate-900 rounded-2xl p-6 flex flex-col items-center justify-center text-center space-y-3 cursor-pointer hover:bg-slate-50 transition group min-h-[220px]';
+      addCard.onclick = () => openAddAgentModal();
+      addCard.innerHTML = `
+        <div class="w-12 h-12 rounded-full bg-slate-100 group-hover:bg-slate-900 group-hover:text-white flex items-center justify-center text-slate-600 transition">
+          <i class="fa-solid fa-plus text-base"></i>
+        </div>
+        <div class="space-y-0.5">
+          <h4 class="text-sm font-bold text-slate-900">Add New Agent</h4>
+          <p class="text-xs text-slate-500 max-w-xs">Deploy a custom agent with tailored system prompts, database RAG, and WhatsApp line.</p>
+        </div>
+      `;
+      container.appendChild(addCard);
+    }
+
+    function showAgentsList() {
+      document.getElementById('agents-grid-view').classList.remove('hidden');
+      document.getElementById('agent-detail-view').classList.add('hidden');
+    }
+
+    function openAgentDetail(agentId) {
+      currentSelectedAgentId = agentId;
+      const agent = cachedAgents.find(a => a.id === agentId) || cachedAgents[0];
+      if (!agent) return;
+
+      document.getElementById('agents-grid-view').classList.add('hidden');
+      document.getElementById('agent-detail-view').classList.remove('hidden');
+
+      // Populate header
+      document.getElementById('spec-agent-name').textContent = agent.shortName || agent.name;
+      document.getElementById('spec-agent-desc').textContent = agent.description;
+      
+      const n8nLink = document.getElementById('spec-agent-n8n-link');
+      if (n8nLink) {
+        n8nLink.href = agent.n8nLocalUrl || `http://localhost:5678/workflow/${agent.workflowId || 'CsBJMQmxtWDWqpyq'}`;
+      }
+
+      // Populate View Mode Fields
+      document.getElementById('disp-business').textContent = agent.businessName || 'P3L Developers & Tech Shop';
+      document.getElementById('disp-model').textContent = `${agent.model} (Google Gemini API)`;
+      document.getElementById('disp-secondary-model').textContent = `${agent.secondaryModel || 'gemini-1.5-pro (Audio RAG)'}`;
+      document.getElementById('disp-workflow-name').textContent = `${agent.workflowId} (Multi-Tenant Router)`;
+      document.getElementById('disp-workflow-link').href = agent.n8nLocalUrl || `http://localhost:5678/workflow/${agent.workflowId}`;
+      document.getElementById('disp-db').textContent = agent.database || 'Supabase PostgreSQL (muratasgegqmbkhmsevt)';
+      document.getElementById('disp-rag').textContent = agent.knowledgeBase || 'Supabase catalog_items';
+      document.getElementById('disp-channel').textContent = agent.primaryChannel || 'WhatsApp Gateway (WAHA)';
+      document.getElementById('disp-system-prompt').textContent = agent.systemPrompt || 'System instructions prompt active.';
+
+      // Populate Capabilities Tags
+      const tagsContainer = document.getElementById('disp-capabilities-tags');
+      if (tagsContainer) {
+        tagsContainer.innerHTML = '';
+        const caps = agent.capabilities || [
+          'Hardware Specifications & Laptop Recommendations',
+          'Safaricom Daraja M-Pesa STK Push Billing (KES)',
+          'Autonomous PostgreSQL RAG Catalog Retrieval (95 SKUs)',
+          'Company Policies & 12-Month Hardware Warranty Verification',
+          'High-Priority Human Operator Escalation to Razak Guyo'
+        ];
+        caps.forEach(cap => {
+          const pill = document.createElement('span');
+          pill.className = 'px-3 py-1 rounded-full text-[11px] font-medium bg-slate-100 text-slate-800 border border-slate-200';
+          pill.textContent = cap;
+          tagsContainer.appendChild(pill);
+        });
+      }
+
+      // Populate Edit Mode Inputs
+      document.getElementById('edit-agent-name').value = agent.shortName || agent.name;
+      document.getElementById('edit-business-name').value = agent.businessName || '';
+      document.getElementById('edit-model').value = agent.model || 'gemini-3.5-flash-lite';
+      document.getElementById('edit-workflow-id').value = agent.workflowId || 'CsBJMQmxtWDWqpyq';
+      document.getElementById('edit-desc').value = agent.description || '';
+      document.getElementById('edit-system-prompt').value = agent.systemPrompt || '';
+
+      // Populate Tools Table
+      const toolsTbody = document.getElementById('spec-tools-tbody');
+      if (toolsTbody) {
+        toolsTbody.innerHTML = '';
+        const toolsList = agent.tools || [];
+        toolsList.forEach(tool => {
+          const tr = document.createElement('tr');
+          tr.className = 'hover:bg-slate-50/50 transition';
+          tr.innerHTML = `
+            <td class="p-3 font-mono text-slate-900 font-semibold">${tool.name}</td>
+            <td class="p-3 text-slate-600">${tool.description}</td>
+            <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">${tool.status || 'Ready'}</span></td>
+            <td class="p-3 text-right">
+              <button onclick="testSpecificTool('${tool.name}')" class="px-2.5 py-1 text-[11px] font-semibold text-slate-700 hover:text-slate-900 border border-slate-200 hover:border-slate-400 rounded-lg bg-white transition shadow-2xs">
+                Test Tool
+              </button>
+            </td>
+          `;
+          toolsTbody.appendChild(tr);
+        });
+      }
+
+      // Ensure view mode is active
+      cancelAgentEdit();
+      showAgentSubSection('overview');
+    }
+
+    function toggleAgentEditMode() {
+      isAgentEditMode = !isAgentEditMode;
+      const viewEl = document.getElementById('spec-config-view');
+      const editEl = document.getElementById('spec-config-edit');
+      const btn = document.getElementById('btn-toggle-edit');
+      const indicator = document.getElementById('spec-edit-indicator');
+
+      if (isAgentEditMode) {
+        viewEl.classList.add('hidden');
+        editEl.classList.remove('hidden');
+        indicator.classList.remove('hidden');
+        btn.innerHTML = '<i class="fa-solid fa-xmark text-[11px]"></i><span>Cancel Edit</span>';
+      } else {
+        viewEl.classList.remove('hidden');
+        editEl.classList.add('hidden');
+        indicator.classList.add('hidden');
+        btn.innerHTML = '<i class="fa-solid fa-pen-to-square text-[11px]"></i><span>Edit Settings</span>';
+      }
+    }
+
+    function cancelAgentEdit() {
+      isAgentEditMode = false;
+      document.getElementById('spec-config-view').classList.remove('hidden');
+      document.getElementById('spec-config-edit').classList.add('hidden');
+      document.getElementById('spec-edit-indicator').classList.add('hidden');
+      const btn = document.getElementById('btn-toggle-edit');
+      if (btn) btn.innerHTML = '<i class="fa-solid fa-pen-to-square text-[11px]"></i><span>Edit Settings</span>';
+    }
+
+    async function saveAgentSettings(e) {
+      if (e) e.preventDefault();
+      const saveBtn = document.getElementById('btn-save-agent');
+      saveBtn.disabled = true;
+      saveBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-[11px]"></i><span>Saving...</span>';
+
+      const updatedPayload = {
+        agentId: currentSelectedAgentId,
+        shortName: document.getElementById('edit-agent-name').value.trim(),
+        name: document.getElementById('edit-agent-name').value.trim(),
+        businessName: document.getElementById('edit-business-name').value.trim(),
+        model: document.getElementById('edit-model').value,
+        workflowId: document.getElementById('edit-workflow-id').value.trim(),
+        description: document.getElementById('edit-desc').value.trim(),
+        systemPrompt: document.getElementById('edit-system-prompt').value.trim()
+      };
+
+      try {
+        const res = await fetch('/api/platform/agents/update', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(updatedPayload)
+        });
+
+        const data = await res.json();
+        saveBtn.disabled = false;
+        saveBtn.innerHTML = '<i class="fa-solid fa-check text-[11px]"></i><span>Save Changes</span>';
+
+        if (data.success && data.agent) {
+          const idx = cachedAgents.findIndex(a => a.id === currentSelectedAgentId);
+          if (idx !== -1) cachedAgents[idx] = data.agent;
+
+          openAgentDetail(data.agent.id);
+        } else {
+          alert('Update error: ' + (data.error || 'Failed to save'));
+        }
+      } catch (err) {
+        saveBtn.disabled = false;
+        saveBtn.innerHTML = '<i class="fa-solid fa-check text-[11px]"></i><span>Save Changes</span>';
+        alert('Connection error: ' + err.message);
+      }
+    }
+
+    function showAgentSubSection(sectionId) {
+      ['api', 'usage', 'integrations'].forEach(sec => {
+        const panel = document.getElementById(`spec-panel-${sec}`);
+        const btn = document.getElementById(`spec-btn-${sec}`);
+        if (panel) panel.classList.add('hidden');
+        if (btn) {
+          btn.classList.remove('bg-white', 'text-slate-900', 'shadow-xs');
+          btn.classList.add('text-slate-600');
+        }
+      });
+
+      const overviewBtn = document.getElementById('spec-btn-overview');
+      if (overviewBtn) {
+        overviewBtn.classList.remove('bg-white', 'text-slate-900', 'shadow-xs');
+        overviewBtn.classList.add('text-slate-600');
+      }
+
+      if (sectionId === 'overview') {
+        if (overviewBtn) {
+          overviewBtn.classList.add('bg-white', 'text-slate-900', 'shadow-xs');
+          overviewBtn.classList.remove('text-slate-600');
+        }
+      } else {
+        const targetPanel = document.getElementById(`spec-panel-${sectionId}`);
+        const targetBtn = document.getElementById(`spec-btn-${sectionId}`);
+        if (targetPanel) targetPanel.classList.remove('hidden');
+        if (targetBtn) {
+          targetBtn.classList.add('bg-white', 'text-slate-900', 'shadow-xs');
+          targetBtn.classList.remove('text-slate-600');
+        }
+      }
+    }
+
+    function inspectN8nNode(nodeType) {
+      const title = document.getElementById('inspector-node-title');
+      const type = document.getElementById('inspector-node-type');
+      const desc = document.getElementById('inspector-node-desc');
+
+      if (nodeType === 'webhook') {
+        title.textContent = 'WhatsApp & Telegram Inbound Webhook Node';
+        type.textContent = 'n8n-nodes-base.webhook (Trigger)';
+        desc.textContent = 'Listens for POST requests at /webhook/whatsapp-odin-inbound and /webhook/telegram-odin-inbound. Extracts payload, phone line, and message body.';
+      } else if (nodeType === 'normalizer') {
+        title.textContent = 'Universal Payload Normalizer Node';
+        type.textContent = 'n8n-nodes-base.code (JavaScript ES6)';
+        desc.textContent = 'Normalizes diverse WhatsApp WAHA, Telegram, and SMS payloads into a standard JSON message object with sender, chatId, and clean query.';
+      } else if (nodeType === 'tenant') {
+        title.textContent = 'Tenant Line Resolver Node';
+        type.textContent = 'n8n-nodes-base.supabase (PostgreSQL RLS)';
+        desc.textContent = 'Queries table public.tenant_whatsapp_lines where phone_number = :senderPhone. Resolves business ID, brand guidelines, and catalog scope.';
+      } else if (nodeType === 'gemini') {
+        title.textContent = 'Google Gemini 3.5 ReAct Reasoning Node';
+        type.textContent = '@n8n/n8n-nodes-langchain.agent (AI Agent)';
+        desc.textContent = 'Executes multi-turn ReAct reasoning using model gemini-3.5-flash-lite. Dynamically calls search_catalog, initiate_mpesa_payment, or escalate_to_human.';
+      } else if (nodeType === 'dispatch') {
+        title.textContent = 'Channel Outbound Dispatcher Node';
+        type.textContent = 'n8n-nodes-base.httpRequest (REST API)';
+        desc.textContent = 'Dispatches Gemini response back to the customer via WAHA HTTP Engine (Port 5000), Telegram Bot API, or Safaricom Daraja STK Push prompt.';
+      }
+    }
+
+    function openAddAgentModal() {
+      document.getElementById('modal-add-agent').classList.remove('hidden');
+    }
+
+    function closeAddAgentModal() {
+      document.getElementById('modal-add-agent').classList.add('hidden');
+    }
+
+    async function createAgentSubmit(e) {
+      if (e) e.preventDefault();
+      const btn = document.getElementById('btn-submit-new-agent');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-[10px]"></i><span>Deploying...</span>';
+
+      const payload = {
+        shortName: document.getElementById('new-agent-name').value.trim(),
+        name: document.getElementById('new-agent-name').value.trim(),
+        businessName: document.getElementById('new-business-name').value.trim(),
+        model: document.getElementById('new-model').value,
+        description: document.getElementById('new-desc').value.trim(),
+        systemPrompt: document.getElementById('new-system-prompt').value.trim(),
+        workflowId: 'CsBJMQmxtWDWqpyq'
+      };
+
+      try {
+        const res = await fetch('/api/platform/agents/create', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-plus text-[10px]"></i><span>Deploy Agent</span>';
+
+        if (data.success && data.agent) {
+          closeAddAgentModal();
+          cachedAgents.push(data.agent);
+          renderAgentsGrid(cachedAgents);
+          openAgentDetail(data.agent.id);
+        } else {
+          alert('Creation error: ' + (data.error || 'Failed to create'));
+        }
+      } catch (err) {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-plus text-[10px]"></i><span>Deploy Agent</span>';
+        alert('Connection error: ' + err.message);
+      }
+    }
+
+    function testSpecificTool(toolName) {
+      let samplePrompt = 'What coding laptops do you have in stock and what are their prices in KES?';
+      if (toolName.includes('mpesa')) {
+        samplePrompt = 'I want to purchase the HP Victus 15 for KES 128,000. Send M-Pesa prompt to 254799887766.';
+      } else if (toolName.includes('escalate')) {
+        samplePrompt = 'I need to speak directly with founder Razak Guyo regarding a custom enterprise software contract.';
+      } else if (toolName.includes('policy')) {
+        samplePrompt = 'What is your warranty policy if the seal is broken?';
+      } else if (toolName.includes('web')) {
+        samplePrompt = 'Search online for the official benchmark score of the Apple M3 Max chip.';
+      }
+
+      switchTab('overview-tab');
+      const input = document.getElementById('ov-chat-input');
+      if (input) {
+        input.value = samplePrompt;
+        handleOverviewChatSubmit(new Event('submit'));
+      }
+    }
+
+    // 5. Workflows
+    async function loadWorkflows() {}
+
+    // 6. Full History Loader
     async function loadHistory() {
       try {
         const res = await fetch('/api/history/full');
@@ -1690,17 +3237,12 @@
 
           globalHistory.forEach(item => {
             const tr = document.createElement('tr');
-            const channel = item.channel || (item.role === 'assistant' ? 'Odin Agent' : 'Customer Inbound');
-            const time = new Date(item.timestamp || Date.now()).toLocaleTimeString();
-            const input = item.input || (item.role === 'user' ? item.text : 'Customer Inquiry');
-            const output = item.output || (item.role === 'assistant' ? item.text : 'Processed');
-            const status = item.status || '200 OK';
             tr.innerHTML = `
-              <td class="p-2.5 font-mono text-slate-700 font-semibold">${channel}</td>
-              <td class="p-2.5 text-slate-500 text-[11px]">${time}</td>
-              <td class="p-2.5 text-slate-800 max-w-xs truncate" title="${input}">${input}</td>
-              <td class="p-2.5 text-slate-600 max-w-sm truncate" title="${output}">${output}</td>
-              <td class="p-2.5 text-emerald-700 font-medium">${status}</td>
+              <td class="p-2.5 font-mono text-slate-700 font-semibold">${item.channel}</td>
+              <td class="p-2.5 text-slate-500 text-[11px]">${new Date(item.timestamp).toLocaleTimeString()}</td>
+              <td class="p-2.5 text-slate-800 max-w-xs truncate" title="${item.input}">${item.input}</td>
+              <td class="p-2.5 text-slate-600 max-w-sm truncate" title="${item.output}">${item.output}</td>
+              <td class="p-2.5 text-emerald-700 font-medium">${item.status}</td>
             `;
             tbody.appendChild(tr);
           });
@@ -1720,7 +3262,7 @@
       } catch (e) {}
     }
 
-    // 6. Codebase Tests
+    // 7. Codebase Tests
     async function loadTests() {
       try {
         const res = await fetch('/api/platform/tests/list');
@@ -1809,7 +3351,7 @@
       btn.textContent = 'Run All Tests';
     }
 
-    // 7. WhatsApp Tab Refresh
+    // 8. WhatsApp Tab Refresh
     async function refreshWhatsappTab() {
       try {
         const res = await fetch('/api/waha/status');
@@ -1825,7 +3367,7 @@
       } catch (e) {}
     }
 
-    // 8. Commercial Portal: Businesses in Database & Onboarding QR
+    // 9. Existing Businesses
     async function loadExistingBusinesses() {
       try {
         const res = await fetch('/api/portal/businesses');
@@ -1843,7 +3385,7 @@
                   <span class="font-bold text-slate-900 text-sm">${b.name}</span>
                   <span class="ml-2 text-[10px] bg-slate-200 text-slate-700 px-1.5 py-0.5 rounded font-mono">${b.tier}</span>
                 </div>
-                <span class="text-emerald-700 font-medium">● ${b.database}</span>
+                <span class="text-emerald-700 font-medium">${b.database}</span>
               </div>
               <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-[11px] text-slate-600">
                 <div>Owner: <strong class="text-slate-800">${b.owner}</strong></div>
@@ -1852,13 +3394,13 @@
                 <div>Catalog: <strong class="text-slate-800">${b.productsCount} Hardware SKUs</strong></div>
               </div>
               <details class="text-[11px] pt-1 border-t border-slate-200">
-                <summary class="cursor-pointer text-blue-600 hover:underline font-medium">Inspect Database Catalog (${b.productsCount} items with verified KES prices)</summary>
+                <summary class="cursor-pointer text-blue-600 hover:underline font-medium">View Available Hardware Catalog (${b.productsCount} items with KES prices)</summary>
                 <div class="mt-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 max-h-48 overflow-y-auto p-2 bg-white rounded border border-slate-200">
-                  ${((b.catalog && b.catalog.length > 0) ? b.catalog : (b.products || [])).map(p => `
+                  ${(b.products || []).map(p => `
                     <div class="p-2 border rounded bg-slate-50/50">
                       <div class="font-semibold text-slate-800 truncate">${p.name}</div>
-                      <div class="text-emerald-700 font-mono font-medium">KES ${(Number(p.base_price_kes || p.priceKES || p.price || 0)).toLocaleString()}</div>
-                      <div class="text-[10px] text-slate-500 truncate">${p.category || p.item_type || ''} · ${p.stock_quantity ? p.stock_quantity + ' in stock' : 'Verified'}</div>
+                      <div class="text-emerald-700 font-mono font-medium">KES ${(p.priceKES || 0).toLocaleString()}</div>
+                      <div class="text-[10px] text-slate-500 truncate">${p.specs?.cpu || ''} · ${p.specs?.ram || ''}</div>
                     </div>
                   `).join('')}
                 </div>
@@ -1887,7 +3429,7 @@
           phoneEl.textContent = data.phone;
           phoneEl.className = 'font-mono text-emerald-700 font-semibold';
           if (statusEl) {
-            statusEl.textContent = '● Device Linked & Online';
+            statusEl.textContent = 'Device Linked & Online';
             statusEl.className = 'text-emerald-700 font-medium';
           }
           if (userEl) userEl.textContent = data.pushName || 'WhatsApp User';
@@ -1955,42 +3497,31 @@
     }
 
     async function saveOnboardingIdentity() {
-      const name = document.getElementById('ob-biz-name').value.trim();
-      const phone = document.getElementById('ob-biz-phone').value.trim();
-      const city = document.getElementById('ob-biz-city').value.trim();
+      const name = document.getElementById('ob-biz-name').value;
+      const phone = document.getElementById('ob-biz-phone').value;
+      const city = document.getElementById('ob-biz-city').value;
       const vertical = document.getElementById('ob-biz-vertical').value;
-      const template = document.getElementById('ob-biz-template')?.value || 'Bitreal';
       const statusEl = document.getElementById('ob-save-status');
 
-      if (!name) {
-        statusEl.textContent = 'Please enter a business name';
-        statusEl.className = 'text-xs text-red-600 ml-2 font-medium';
-        return;
-      }
-
-      statusEl.textContent = 'Creating client and provisioning agent in Supabase database...';
-      statusEl.className = 'text-xs text-slate-500 ml-2 font-medium';
-
+      statusEl.textContent = 'Saving business profile...';
       try {
-        const res = await fetch('/api/businesses/create', {
+        const res = await fetch('/api/portal/settings', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            business_name: name,
-            owner_name: name + ' Admin',
-            owner_phone: phone || '254700000000',
-            city: city || 'Nairobi',
-            industry: vertical,
-            template: template
+            businessName: name,
+            whatsappNumber: phone,
+            city: city,
+            activeVertical: vertical
           })
         });
         const data = await res.json();
-        if (data.success && data.tenant) {
-          statusEl.textContent = `✓ Created client '${data.tenant.business_name}' in Supabase database!`;
+        if (data.success) {
+          statusEl.textContent = 'Saved tenant profile & active vertical';
           statusEl.className = 'text-xs text-emerald-700 ml-2 font-medium';
           loadExistingBusinesses();
         } else {
-          statusEl.textContent = 'Error: ' + (data.error || 'Failed to save');
+          statusEl.textContent = 'Error saving profile';
           statusEl.className = 'text-xs text-red-600 ml-2 font-medium';
         }
       } catch (e) {
@@ -2000,28 +3531,19 @@
       setTimeout(() => statusEl.textContent = '', 4000);
     }
 
-    // 9. Shared Operator Inbox
+    // 10. Shared Operator Inbox
     let activeChatId = null;
     let cachedConversations = [];
 
-    async function loadInbox(tenantId = null) {
-      const targetTenant = tenantId || currentActiveTenantId || '11111111-1111-1111-1111-111111111111';
+    async function loadInbox() {
       try {
-        const res = await fetch(`/api/portal/inbox?tenantId=${targetTenant}`);
+        const res = await fetch('/api/portal/inbox');
         const data = await res.json();
         if (data.success) {
-          cachedConversations = data.conversations || [];
+          cachedConversations = data.conversations;
           renderInboxList();
-          if (cachedConversations.length > 0) {
+          if (cachedConversations.length > 0 && !activeChatId) {
             selectConversation(cachedConversations[0].chatId);
-          } else {
-            activeChatId = null;
-          }
-        }
-      } catch (e) {
-        console.error(e);
-      }
-    }
           }
         }
       } catch (e) {
@@ -2174,7 +3696,7 @@
       input.focus();
     }
 
-    // 10. Tiers & M-Pesa Subscription
+    // 11. Tiers & M-Pesa Subscription
     let currentSelectedPlanId = 'pro';
 
     function selectPlan(planId, name, price) {
@@ -2206,7 +3728,7 @@
         resultBox.classList.remove('hidden');
         if (data.success) {
           resultBox.innerHTML = `
-            <div class="text-emerald-700 font-semibold mb-1">✓ STK Push Dispatched Successfully!</div>
+            <div class="text-emerald-700 font-semibold mb-1">STK Push Dispatched Successfully</div>
             <div class="text-slate-700">${data.message}</div>
             <div class="text-[10px] font-mono text-slate-500 pt-1">CheckoutRequestID: ${data.checkoutId} · Plan: ${data.plan}</div>
           `;
@@ -2221,7 +3743,7 @@
       }
     }
 
-    // 11. Portal Settings & Verticals
+    // 12. Portal Settings & Verticals
     async function loadPortalSettings() {
       try {
         const res = await fetch('/api/portal/settings');
@@ -2242,14 +3764,13 @@
                 <div class="font-semibold text-xs text-slate-900 mb-1">${v.name}</div>
                 <p class="text-[11px] text-slate-500 mb-2 leading-relaxed">${v.description}</p>
                 <button onclick="applyVerticalTemplate('${v.id}')" class="w-full py-1.5 rounded text-xs font-medium transition ${isActive ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}">
-                  ${isActive ? '✓ Active Template' : 'Apply Template'}
+                  ${isActive ? 'Active Template' : 'Apply Template'}
                 </button>
               `;
               vContainer.appendChild(card);
             });
           }
 
-          // Business hours update
           if (data.settings.businessHours) {
             const bh = data.settings.businessHours;
             document.getElementById('bh-enable').checked = bh.enabled;
@@ -2260,7 +3781,6 @@
             document.getElementById('bh-msg').value = data.settings.outOfOfficeMessage;
           }
 
-          // Fetch Live ROI metrics from Supabase
           fetch('/api/portal/roi/report').then(r => r.json()).then(roi => {
             if (roi.success && roi.metrics) {
               const elInq = document.getElementById('roi-inquiries');
@@ -2320,6 +3840,7 @@
 
         if (file.name.endsWith('.csv')) {
           const lines = content.split('\n').filter(l => l.trim().length > 0).slice(0, 6);
+          const headers = lines[0].split(',');
           lines.slice(1).forEach(l => {
             const cols = l.split(',');
             const tr = document.createElement('tr');
@@ -2353,7 +3874,7 @@
         });
         const data = await res.json();
         if (data.success) {
-          alert(`Successfully deployed ${data.itemsCount} catalog items into Odin RAG memory!`);
+          alert(`Successfully deployed ${data.itemsCount} catalog items into Odin RAG memory.`);
         } else {
           alert('Upload failed: ' + data.error);
         }
@@ -2395,7 +3916,7 @@
         btn.innerHTML = '<i class="fa-solid fa-paper-plane mr-1"></i> Send Sample Weekly Report';
 
         if (data.success) {
-          statusEl.textContent = `✓ Weekly ROI Summary generated: ${data.metrics.totalInquiries} inquiries, ${data.metrics.hoursSaved} hours saved, ${data.metrics.conversionRate} conversion rate. Dispatched!`;
+          statusEl.textContent = `Weekly ROI Summary generated: ${data.metrics.totalInquiries} inquiries, ${data.metrics.hoursSaved} hours saved, ${data.metrics.conversionRate} conversion rate. Dispatched.`;
           setTimeout(() => statusEl.textContent = '', 6000);
         }
       } catch (err) {
@@ -2407,11 +3928,13 @@
 
     // Initialize
     window.addEventListener('DOMContentLoaded', () => {
-      switchBusinessTenant('11111111-1111-1111-1111-111111111111');
+      initializeOverviewChat();
       loadOverview();
+      loadAgentsList();
       loadHistoryCount();
       loadExistingBusinesses();
       loadChatSessions();
+      loadOwnerPowers();
     });
   </script>
 
